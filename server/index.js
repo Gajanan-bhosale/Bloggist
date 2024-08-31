@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cors(
     {
-        origin: ["https://deploy-mern-frontend.vercel.app"],
+        origin: ["https://bloggist-frontend.vercel.app/"],
         methods: ["POST", "GET"],
         credentials: true
     }
