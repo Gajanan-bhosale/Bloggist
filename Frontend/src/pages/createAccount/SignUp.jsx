@@ -14,7 +14,7 @@ const SignUp = () => {
     e.preventDefault();
     
     // Basic validation
-    axios.post('https://bloggist-yowm.vercel.app/register', {name, email, password})
+    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
       .then(result => {console.log(result)
         navigate('/SignIn')
       })

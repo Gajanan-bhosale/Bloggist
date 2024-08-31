@@ -5,9 +5,15 @@ const EmployeeModel = require('./modules/Employee')
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors(
+    {
+        origin: ["https://deploy-mern-frontend.vercel.app"],
+        methods: ["POST", "GET"],
+        credentials: true
+    }
+));
 
-mongoose.connect('mongodb+srv://gajananbhosaleofficial:QvbSm8hEY4VvGKJN@bloggist.pdygr.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist');
+mongoose.connect('mongodb+srv://yousaf:test123@cluster0.g4i5dey.mongodb.net/test?retryWrites=true&w=majority');
 
 app.get('/getUser', (req,res) => {
     EmployeeModel.find()
