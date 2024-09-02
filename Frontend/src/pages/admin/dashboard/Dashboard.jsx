@@ -7,7 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
 function Dashboard() {
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
-    const [user, setUser] = useState({ name: '', email: '' });
     const navigate = useNavigate();
 
     console.log(getAllBlog)
@@ -18,19 +17,8 @@ function Dashboard() {
     }
 
     useEffect(() => {
-        const userId = localStorage.getItem('userId');  // Assuming you store the userId in localStorage
-        if (userId) {
-            axios.get(`https://bloggist-api.vercel.app/getUser?id=${userId}`)
-                .then(response => {
-                    setUser(response.data);  // Set the user data from the response
-                })
-                .catch(error => {
-                    console.error('Error fetching user data:', error);
-                });
-        }
-        window.scrollTo(0, 0);  // Scroll to top when component mounts
-    }, []);
-
+        window.scrollTo(0, 0)
+ }, [])
     return (
         <Layout>
             <div className="py-10">
@@ -47,7 +35,7 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            {user.name}
+                            Gajanan Bhosale
                         </h1>
 
                         <h2
@@ -55,8 +43,7 @@ function Dashboard() {
                             Frontend Developer
                         </h2>
                         <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                                {user.email}
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">gajanan@gmail.com
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">

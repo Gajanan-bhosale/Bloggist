@@ -15,19 +15,11 @@ app.use(cors(
 
 mongoose.connect('mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist');
 
-app.get('/getUser', (req, res) => {
-    const userId = req.query.id;  // Get the user ID from the query
-
-    EmployeeModel.findById(userId, 'name email')  // Retrieve only the name and email fields
-        .then(user => {
-            if (user) {
-                res.json(user);  // Send back the user data
-            } else {
-                res.status(404).json({ message: "User not found" });
-            }
-        })
-        .catch(err => res.status(500).json({ error: err.message }));
-});
+app.get('/getUser', (req,res) => {
+    EmployeeModel.find()
+    .then(users => res.json(users))
+    .catch(err => res.json(err))
+})
 
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
