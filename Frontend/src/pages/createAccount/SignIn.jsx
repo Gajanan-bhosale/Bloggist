@@ -65,6 +65,15 @@ const SignIn = () => {
           >
             Sign In
           </button>
+          <p className="text-center text-sm text-gray-600">
+          If you are registered?{' '}
+          <button
+            onClick={() => navigate('/SignUp')}
+            className="text-blue-600 hover:underline"
+          >
+            Sign Up
+          </button>
+        </p>
         </form>
         {/* <p className="text-center text-sm text-gray-600">
           Not registered?{' '}
@@ -76,6 +85,7 @@ const SignIn = () => {
           </button>
         </p> */}
       </div>
+      
     </div>
   );
 };

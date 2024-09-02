@@ -74,7 +74,7 @@ const SignUp = () => {
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button
             type="submit"
-
+            onClick={() => navigate('/dashboard')}
             className="w-full px-4 py-2 text-white bg-orange-500 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Sign Up
