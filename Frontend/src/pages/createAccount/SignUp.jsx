@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
-const SignUp = ({ onSignUp }) => {
+const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,22 +10,17 @@ const SignUp = ({ onSignUp }) => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = (e) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    try {
-      await axios.post('https://bloggist-api.vercel.app/register', { name, email, password });
-      localStorage.setItem('hasVisitedBefore', 'true');
-      navigate('/SignIn');
-    } catch (err) {
-      setError('Registration failed. Please try again.');
-      console.error(err);
-    }
+    
+    // Basic validation
+    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
+      .then(result => {console.log(result)
+        navigate('/SignIn')
+      })
+      .catch(err=> console.log(err))
+      
+      
   };
 
   return (
@@ -79,7 +74,7 @@ const SignUp = ({ onSignUp }) => {
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button
             type="submit"
-            onClick={() => navigate('/SignIn')}
+            onClick={() => navigate('/dashboard')}
             className="w-full px-4 py-2 text-white bg-orange-500 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Sign Up

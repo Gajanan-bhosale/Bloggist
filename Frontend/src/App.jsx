@@ -18,15 +18,11 @@ import SignIn from "./pages/createAccount/SignIn";
 import SignUp from "./pages/createAccount/SignUp";
 
 function App() {
-  const hasVisitedBefore = localStorage.getItem('hasVisitedBefore') === 'true';
-
   return (
     <MyState>
       <Router>
         <Routes>
-          <Route path="/" element={hasVisitedBefore ? <SignIn /> : <SignUp onSignUp={() => window.location.reload()} />} />
-          <Route path="/sign-up" element={<SignUp onSignUp={() => window.location.reload()} />} />
-          <Route path="*" element={<Navigate to={hasVisitedBefore ? "/sign-in" : "/sign-up"} />} />
+          <Route path="/SignUp" element={<SignUp />} />
           <Route path="/SignIn" element={<SignIn />} />
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
