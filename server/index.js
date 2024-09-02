@@ -27,17 +27,16 @@ app.post("/login", (req, res) => {
         .then(user => {
             if (user) {
                 if (user.password === password) {
-                    res.json("Success")
+                    res.json({ status: "success", message: "Login successful" });
+                } else {
+                    res.json({ status: "incorrect_password", message: "The password is incorrect" });
                 }
-                else {
-                    res.json("the password is incorrect")
-                }
-            }
-            else {
-                res.json("the user is not register")
+            } else {
+                res.json({ status: "user_not_found", message: "The user is not registered" });
             }
         })
-})
+        .catch(err => res.json({ status: "error", message: "An error occurred during login", error: err }));
+});
 
 app.post('/register', (req, res) => {
     EmployeeModel.create(req.body)
