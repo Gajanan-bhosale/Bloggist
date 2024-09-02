@@ -10,19 +10,22 @@ const SignUp = ({ onSignUp }) => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    
 
-    // Basic validation
-    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
-      .then(result => {console.log(result)
-        navigate('/SignIn')
-      })
-      .catch(err=> console.log(err))
-      
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      await axios.post('https://bloggist-api.vercel.app/register', { name, email, password });
       localStorage.setItem('hasVisitedBefore', 'true');
-      onSignUp();  
+      navigate('/SignIn');
+    } catch (err) {
+      setError('Registration failed. Please try again.');
+      console.error(err);
+    }
   };
 
   return (
