@@ -61,15 +61,6 @@ const SignUp = () => {
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
-          <p className="text-center text-sm text-gray-600">
-          If you are registered?{' '}
-          <button
-            onClick={() => navigate('/SignIn')}
-            className="text-blue-600 hover:underline"
-          >
-            Sign In
-          </button>
-        </p>
           
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button

@@ -29,7 +29,7 @@ const SignIn = () => {
     }
   };
 
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-600">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
@@ -64,6 +64,15 @@ const SignIn = () => {
           >
             Sign In
           </button>
+          <p className="text-center text-sm text-gray-600">
+          If you are registered?{' '}
+          <button
+            onClick={() => navigate('/SignUp')}
+            className="text-blue-600 hover:underline"
+          >
+            Sign In
+          </button>
+        </p>
         </form>
         {/* <p className="text-center text-sm text-gray-600">
           Not registered?{' '}
