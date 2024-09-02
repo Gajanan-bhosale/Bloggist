@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
-const SignUp = () => {
+const SignUp = ({ onSignUp }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +12,9 @@ const SignUp = () => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    
+    localStorage.setItem('hasVisitedBefore', 'true');
+    onSignUp();
+
     // Basic validation
     axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
       .then(result => {console.log(result)
@@ -74,7 +76,7 @@ const SignUp = () => {
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button
             type="submit"
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/SignIn')}
             className="w-full px-4 py-2 text-white bg-orange-500 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Sign Up
