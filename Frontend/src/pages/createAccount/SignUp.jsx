@@ -12,8 +12,7 @@ const SignUp = ({ onSignUp }) => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    localStorage.setItem('hasVisitedBefore', 'true');
-    onSignUp();
+    
 
     // Basic validation
     axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
@@ -22,7 +21,8 @@ const SignUp = ({ onSignUp }) => {
       })
       .catch(err=> console.log(err))
       
-      
+      localStorage.setItem('hasVisitedBefore', 'true');
+      onSignUp();  
   };
 
   return (
