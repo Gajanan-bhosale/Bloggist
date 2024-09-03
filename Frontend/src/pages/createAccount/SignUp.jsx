@@ -6,17 +6,12 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
-        setError('Passwords do not match');
-        return;
-    }
 
     axios.post('https://bloggist-api.vercel.app/register', { name, email, password })
         .then(result => {
