@@ -53,11 +53,31 @@ app.post("/login", (req, res) => {
         .catch(err => res.json({ status: "error", message: "An error occurred during login", error: err }));
 });
 
-app.post('/register', (req, res) => {
-    EmployeeModel.create(req.body)
-        .then(employees => res.json(employees))
-        .catch(err => res.json(err))
-})
+app.post('/register', async (req, res) => {
+    const { name, email, password } = req.body;
+
+    try {
+        
+        const existingUser = await EmployeeModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+
+        
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        
+        const newUser = await EmployeeModel.create({ name, email, password: hashedPassword });
+
+        
+        const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, { expiresIn: '1h' });
+
+        
+        res.json({ token });
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+});
 
 app.listen(3001, () => {
     console.log("server is running")
