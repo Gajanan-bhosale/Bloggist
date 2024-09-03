@@ -53,11 +53,28 @@ app.post("/login", (req, res) => {
         .catch(err => res.json({ status: "error", message: "An error occurred during login", error: err }));
 });
 
-app.post('/register', (req, res) => {
-    EmployeeModel.create(req.body)
-        .then(employees => res.json(employees))
-        .catch(err => res.json(err))
-})
+app.post('/register', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const newEmployee = await EmployeeModel.create({
+            ...req.body,
+            password: hashedPassword,
+        });
+        const token = jwt.sign({ id: newEmployee._id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+        
+        res.json({
+            status: 'success',
+            data: newEmployee,
+            token,
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: 'error',
+            message: err.message,
+        });
+    }
+});
 
 app.listen(3001, () => {
     console.log("server is running")

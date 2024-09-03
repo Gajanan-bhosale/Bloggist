@@ -70,12 +70,12 @@ const SignIn = () => {
             Sign In
           </button>
           <p className="text-center text-sm text-gray-600">
-          If you are registered?{' '}
+          Have you registered?{' '}
           <button
             onClick={() => navigate('/SignUp')}
             className="text-blue-600 hover:underline"
           >
-            Sign In
+            Sign Up
           </button>
         </p>
         </form>
