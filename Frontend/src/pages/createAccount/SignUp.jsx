@@ -13,20 +13,19 @@ const SignUp = () => {
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    // Basic validation
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
 
-    // Make the API request to register the user
+
     axios.post('https://bloggist-api.vercel.app/register', { name, email, password })
       .then(result => {
-        // Store the JWT token in local storage
+        
         const token = result.data.token;
         localStorage.setItem('token', token);
 
-        // Navigate to the dashboard
+        
         navigate('/dashboard');
       })
       .catch(err => {
@@ -68,7 +67,7 @@ const SignUp = () => {
               id="password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
