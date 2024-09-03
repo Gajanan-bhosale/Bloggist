@@ -11,12 +11,24 @@ function Dashboard() {
 
     console.log(getAllBlog)
 
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get('https://bloggist-api.vercel.app/getUserData'); // Update with your backend URL
+            // Assuming you want the first user or adapt as needed
+            const user = response.data[0]; 
+            setUserData(user);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+
     const logout = () => {
         localStorage.clear('admin');
         navigate('/')
     }
 
     useEffect(() => {
+        fetchUserData();
         window.scrollTo(0, 0)
  }, [])
     return (
@@ -35,7 +47,7 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            Gajanan Bhosale
+                            {userData.name || 'Loading...'}
                         </h1>
 
                         <h2
@@ -43,7 +55,7 @@ function Dashboard() {
                             Frontend Developer
                         </h2>
                         <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">gajanan@gmail.com
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">{userData.email || 'Loading...'}
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
