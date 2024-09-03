@@ -22,7 +22,7 @@ function Dashboard() {
             .then(response => setUserData(response.data))
             .catch(error => console.error(error));
         } else {
-            navigate('/signin');
+            navigate('/SignUp');
         }
     }, [navigate]);
 
@@ -32,7 +32,6 @@ function Dashboard() {
     }
 
     useEffect(() => {
-        fetchUserData();
         window.scrollTo(0, 0)
  }, [])
     return (
