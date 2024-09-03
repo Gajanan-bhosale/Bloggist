@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../../components/layout/Layout'
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
     const context = useContext(myContext);
+    const [userData, setUserData] = useState();
     const { mode, getAllBlog, deleteBlogs } = context;
     const navigate = useNavigate();
 
