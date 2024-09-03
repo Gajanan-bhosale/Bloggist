@@ -41,7 +41,8 @@ app.post("/login", (req, res) => {
         .then(user => {
             if (user) {
                 if (user.password === password) {
-                    res.json({ status: "success", message: "Login successful" });
+                    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+                    res.json({ status: "success", token });
                 } else {
                     res.json({ status: "incorrect_password", message: "The password is incorrect" });
                 }
