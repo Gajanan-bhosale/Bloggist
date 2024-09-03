@@ -12,15 +12,31 @@ const SignUp = () => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    
-    // Basic validation
-    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
-      .then(result => {console.log(result)
-        navigate('/dashboard')
-      })
-      .catch(err=> console.log(err))
-      
-      
+
+    if (password !== confirmPassword) {
+        setError('Passwords do not match');
+        return;
+    }
+
+    axios.post('https://bloggist-api.vercel.app/register', { name, email, password })
+        .then(result => {
+            console.log(result);
+            const { token, user } = result.data;
+
+            // Store token and user info in local storage
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            navigate('/dashboard');
+        })
+        .catch(err => {
+            console.error(err);
+            if (err.response && err.response.data) {
+                setError(err.response.data.message || 'Registration failed. Please try again.');
+            } else {
+                setError('Registration failed. Please try again.');
+            }
+        });
   };
 
   return (

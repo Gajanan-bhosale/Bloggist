@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const cors = require("cors")
 const EmployeeModel = require('./modules/Employee')
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const app = express()
 app.use(express.json())
@@ -54,11 +55,34 @@ app.post("/login", (req, res) => {
 });
 
 
-app.post('/register', (req, res) => {
-    EmployeeModel.create(req.body)
-        .then(employees => res.json(employees))
-        .catch(err => res.json(err))
-})
+app.post('/register', async (req, res) => {
+    const { name, email, password } = req.body;
+    
+    try {
+        // Check if the user already exists
+        const existingUser = await EmployeeModel.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create the new user
+        const newUser = await EmployeeModel.create({
+            name,
+            email,
+            password: hashedPassword
+        });
+
+        // Generate JWT token
+        const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, { expiresIn: '1h' });
+
+        res.json({ status: "success", token, user: newUser });
+    } catch (error) {
+        res.status(500).json({ message: "An error occurred", error });
+    }
+});
 
 app.listen(3001, () => {
     console.log("server is running")
