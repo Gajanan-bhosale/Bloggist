@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import axios from 'axios';
 
 const SignUp = () => {
   const [name, setName] = useState('');
@@ -10,17 +10,29 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    
+
     // Basic validation
-    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
-      .then(result => {console.log(result)
-        navigate('/dashboard')
-      })
-      .catch(err=> console.log(err))
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await axios.post('https://bloggist-api.vercel.app/register', { name, email, password });
       
-      
+      if (response.data.token) {
+        // Save JWT token to local storage
+        localStorage.setItem('token', response.data.token);
+        navigate('/dashboard');
+      } else {
+        setError('Sign up failed. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error during sign up:', err);
+      setError('An error occurred during sign up');
+    }
   };
 
   return (
@@ -61,11 +73,20 @@ const SignUp = () => {
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
-          
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password:</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+          </div>
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button
             type="submit"
-            
             className="w-full px-4 py-2 text-white bg-orange-500 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Sign Up
