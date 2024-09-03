@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const cors = require("cors")
 const EmployeeModel = require('./modules/Employee')
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const app = express()
 app.use(express.json())
