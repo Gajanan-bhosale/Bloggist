@@ -42,25 +42,47 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            {users.name}
-                        </h1>
-
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            Frontend Developer
-                        </h2>
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                            <ul>
+                                {users.map((user, index) => (
+                                    <li key={index}>
+                                        {user.name} - {user.email}
+                                    </li>
+                                ))}
+                            </ul>
+                            </h1>
+                            <h2
+                                style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                                Frontend Developer
+                            </h2>
+                            <h2
+                                style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
                                 {users.email}
-                        </h2>
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            <span>Total Blog : </span>  15
-                        </h2>
-                        <div className=" flex gap-2 mt-2">
-                            <Link to={'/createblog'}>
-                                <div className=" mb-2">
+                            </h2>
+                            <h2
+                                style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                                <span>Total Blog : </span>  15
+                            </h2>
+                            <div className=" flex gap-2 mt-2">
+                                <Link to={'/createblog'}>
+                                    <div className=" mb-2">
+                                        <Button
+                                            style={{
+                                                background: mode === 'dark'
+                                                    ? 'rgb(226, 232, 240)'
+                                                    : 'rgb(30, 41, 59)',
+                                                color: mode === 'dark'
+                                                    ? 'black'
+                                                    : 'white'
+                                            }}
+                                            className='px-8 py-2'
+                                        >
+                                            Create Blog
+                                        </Button>
+                                    </div>
+                                </Link>
+                                <div className="mb-2">
                                     <Button
+                                        onClick={logout}
                                         style={{
                                             background: mode === 'dark'
                                                 ? 'rgb(226, 232, 240)'
@@ -71,27 +93,10 @@ function Dashboard() {
                                         }}
                                         className='px-8 py-2'
                                     >
-                                        Create Blog
+                                        Logout
                                     </Button>
                                 </div>
-                            </Link>
-                            <div className="mb-2">
-                                <Button
-                                    onClick={logout}
-                                    style={{
-                                        background: mode === 'dark'
-                                            ? 'rgb(226, 232, 240)'
-                                            : 'rgb(30, 41, 59)',
-                                        color: mode === 'dark'
-                                            ? 'black'
-                                            : 'white'
-                                    }}
-                                    className='px-8 py-2'
-                                >
-                                    Logout
-                                </Button>
                             </div>
-                        </div>
                     </div>
                 </div>
 
@@ -143,7 +148,7 @@ function Dashboard() {
                                 {getAllBlog.length > 0
                                     ? <> {getAllBlog.map((item, index) => {
                                         console.log(item);
-                                        const {thumbnail, date, id} = item;
+                                        const { thumbnail, date, id } = item;
                                         return (
                                             <tbody key={index}>
                                                 <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
@@ -175,8 +180,8 @@ function Dashboard() {
 
                                                     {/* Delete Blog  */}
                                                     <td
-                                                    onClick={()=> deleteBlogs(id)}
-                                                     style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                        onClick={() => deleteBlogs(id)}
+                                                        style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
                                                         <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>
                                                             Delete
                                                         </button>
