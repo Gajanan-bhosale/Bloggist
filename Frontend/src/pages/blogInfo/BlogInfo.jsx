@@ -38,7 +38,7 @@ function BlogInfo() {
   }, []);
 
 
-  //* Create markup function 
+  
   function createMarkup(c) {
     return { __html: c };
   }
@@ -110,11 +110,11 @@ function BlogInfo() {
             <Loader />
             :
             <div >
-              {/* Thumbnail  */}
+              
               <img alt="content" className="mb-3 rounded-lg h-full w-full"
                 src={getBlogs?.thumbnail}
               />
-              {/* title And date  */}
+              
               <div className="flex justify-between items-center mb-3">
                 <h1 style={{ color: mode === 'dark' ? 'white' : 'black' }}
                   className=' text-xl md:text-2xl lg:text-2xl font-semibold'>
@@ -129,7 +129,7 @@ function BlogInfo() {
                   'border-gray-600' : 'border-gray-400'}`}
               />
 
-              {/* blog Content  */}
+              
               <div className="content">
                 <div
                   className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5

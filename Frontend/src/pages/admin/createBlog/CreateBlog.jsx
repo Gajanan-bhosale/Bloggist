@@ -75,7 +75,7 @@ function CreateBlog() {
         window.scrollTo(0, 0)
  }, [])
 
-    // Create markup function 
+   
     function createMarkup(c) {
         return { __html: c };
     }
@@ -89,15 +89,15 @@ function CreateBlog() {
                     ? ' 4px solid rgb(226, 232, 240)'
                     : ' 4px solid rgb(30, 41, 59)'
             }}>
-                {/* Top Item  */}
+                
                 <div className="mb-2 flex justify-between">
                     <div className="flex gap-2 items-center">
-                        {/* Dashboard Link  */}
+                        
                         <Link to={'/dashboard'}>
                             <BsFillArrowLeftCircleFill size={25} />
                         </Link>
 
-                        {/* Text  */}
+                       
                         <Typography
                             variant="h4"
                             style={{
@@ -111,9 +111,9 @@ function CreateBlog() {
                     </div>
                 </div>
 
-                {/* main Content  */}
+                
                 <div className="mb-3">
-                    {/* Thumbnail  */}
+                    
                     {thumbnail && <img className=" w-full rounded-md mb-3 "
                         src={thumbnail
                             ? URL.createObjectURL(thumbnail)
@@ -121,7 +121,7 @@ function CreateBlog() {
                         alt="thumbnail"
                     />}
 
-                    {/* Text  */}
+                    
                     <Typography
                         variant="small"
                         color="blue-gray"
@@ -131,7 +131,7 @@ function CreateBlog() {
                         Upload Thumbnail
                     </Typography>
 
-                    {/* First Thumbnail Input  */}
+                    
                     <input
                         type="file"
                         label="Upload thumbnail"
@@ -145,7 +145,7 @@ function CreateBlog() {
                     />
                 </div>
 
-                {/* Second Title Input */}
+                
                 <div className="mb-3">
                     <input
                         label="Enter your Title"
@@ -165,7 +165,7 @@ function CreateBlog() {
                     />
                 </div>
 
-                {/* Third Category Input  */}
+                
                 <div className="mb-3">
                     <input
                         label="Enter your Category"
@@ -185,7 +185,7 @@ function CreateBlog() {
                     />
                 </div>
 
-                {/* Four Editor  */}
+                
                 <Editor
                     apiKey='9jo3lu73p1xbfqaw6jvgmsbrmy7qr907nqeafe1wbek6os9d'
                     onEditorChange={(newValue, editor) => {
@@ -200,7 +200,7 @@ function CreateBlog() {
                     }}
                 />
 
-                {/* Five Submit Button  */}
+                
                 <Button className=" w-full mt-5"
                 onClick={addPost}
                     style={{
@@ -215,7 +215,7 @@ function CreateBlog() {
                     Send
                 </Button>
 
-                {/* Six Preview Section  */}
+                
                 <div className="">
                     <h1 className=" text-center mb-3 text-2xl">Preview</h1>
                     <div className="content">

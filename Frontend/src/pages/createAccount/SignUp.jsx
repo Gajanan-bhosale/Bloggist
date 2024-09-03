@@ -12,26 +12,15 @@ const SignUp = () => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-
-    axios.post('https://bloggist-api.vercel.app/register', { name, email, password })
-      .then(result => {
-        
-        const token = result.data.token;
-        localStorage.setItem('token', token);
-
-        
-        navigate('/dashboard');
+    
+    // Basic validation
+    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
+      .then(result => {console.log(result)
+        navigate('/dashboard')
       })
-      .catch(err => {
-        console.error(err);
-        setError('Registration failed. Please try again.');
-      });
+      .catch(err=> console.log(err))
+      
+      
   };
 
   return (
@@ -72,17 +61,7 @@ const SignUp = () => {
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
-          <div>
-            <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">Confirm Password:</label>
-            <input
-              id="confirm-password"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
+          
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button
             type="submit"

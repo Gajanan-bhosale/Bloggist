@@ -47,7 +47,7 @@ export default function AdminLogin() {
     return (
         <div className="flex justify-center items-center h-screen">
 
-            {/* Card  */}
+           
             <Card
                 className="w-full max-w-[24rem]"
                 style={{
@@ -56,7 +56,7 @@ export default function AdminLogin() {
                         : 'rgb(226, 232, 240)'
                 }}
             >
-                {/* CardHeader */}
+                
                 <CardHeader
                     color="blue"
                     floated={false}
@@ -70,13 +70,13 @@ export default function AdminLogin() {
                 >
                     <div className="mb-4 rounded-full border border-white/10 bg-white/10 p-2 text-white">
                         <div className=" flex justify-center">
-                            {/* Image  */}
+                            
                             <img src="https://cdn-icons-png.flaticon.com/128/727/727399.png" className="h-20 w-20"
                             />
                         </div>
                     </div>
 
-                    {/* Top Haeding  */}
+                    
                     <Typography variant="h4" style={{
                         color: mode === 'dark'
                             ? 'rgb(30, 41, 59)'
@@ -86,10 +86,10 @@ export default function AdminLogin() {
                     </Typography>
                 </CardHeader>
 
-                {/* CardBody */}
+                
                 <CardBody>
                     <form className=" flex flex-col gap-4">
-                        {/* First Input  */}
+                        
                         <div>
                             <Input
                                 type="email"
@@ -99,7 +99,7 @@ export default function AdminLogin() {
                                 onChange={(e)=> setEmail(e.target.value)}
                             />
                         </div>
-                        {/* Second Input  */}
+                        
                         <div>
                             <Input
                                 type="password"
@@ -108,7 +108,7 @@ export default function AdminLogin() {
                                 onChange={(e)=> setPassword(e.target.value)}
                             />
                         </div>
-                        {/* Login Button  */}
+                        
                         <Button
                         onClick={login}
                             style={{

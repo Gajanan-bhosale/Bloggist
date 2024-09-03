@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const cors = require("cors")
 const EmployeeModel = require('./modules/Employee')
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 
 const app = express()
 app.use(express.json())
@@ -36,49 +35,38 @@ app.get('/getUser', (req, res) => {
     });
 });
 
-app.post("/login", (req, res) => {
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    EmployeeModel.findOne({ email: email })
-        .then(user => {
-            if (user) {
-                if (user.password === password) {
-                    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-                    res.json({ status: "success", token });
-                } else {
-                    res.json({ status: "incorrect_password", message: "The password is incorrect" });
-                }
-            } else {
-                res.json({ status: "user_not_found", message: "The user is not registered" });
-            }
-        })
-        .catch(err => res.json({ status: "error", message: "An error occurred during login", error: err }));
-});
-
-app.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
 
     try {
-        
-        const existingUser = await EmployeeModel.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+        // Find the user
+        const user = await EmployeeModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Check if the password is correct
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid password' });
+        }
 
-        
-        const newUser = await EmployeeModel.create({ name, email, password: hashedPassword });
+        // Create and sign a JWT token
+        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
 
-        
-        const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, { expiresIn: '1h' });
-
-        
+        // Send the response with the token
         res.json({ token });
     } catch (err) {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 });
+
+
+app.post('/register', (req, res) => {
+    EmployeeModel.create(req.body)
+        .then(employees => res.json(employees))
+        .catch(err => res.json(err))
+})
 
 app.listen(3001, () => {
     console.log("server is running")
