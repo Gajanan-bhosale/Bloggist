@@ -35,30 +35,22 @@ app.get('/getUser', (req, res) => {
     });
 });
 
-app.post('/login', async (req, res) => {
+app.post("/login", (req, res) => {
     const { email, password } = req.body;
-
-    try {
-        // Find the user
-        const user = await EmployeeModel.findOne({ email });
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Check if the password is correct
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid password' });
-        }
-
-        // Create and sign a JWT token
-        const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
-
-        // Send the response with the token
-        res.json({ token });
-    } catch (err) {
-        res.status(500).json({ message: 'Server error', error: err.message });
-    }
+    EmployeeModel.findOne({ email: email })
+        .then(user => {
+            if (user) {
+                if (user.password === password) {
+                    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+                    res.json({ status: "success", token });
+                } else {
+                    res.json({ status: "incorrect_password", message: "The password is incorrect" });
+                }
+            } else {
+                res.json({ status: "user_not_found", message: "The user is not registered" });
+            }
+        })
+        .catch(err => res.json({ status: "error", message: "An error occurred during login", error: err }));
 });
 
 
