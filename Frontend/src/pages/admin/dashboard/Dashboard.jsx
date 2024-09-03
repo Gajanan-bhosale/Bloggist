@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
     const context = useContext(myContext);
-    const [userData, setUserData] = useState();
+    const [userData, setUserData] = useState({ name: '', email: '' });
     const { mode, getAllBlog, deleteBlogs } = context;
     const navigate = useNavigate();
 
