@@ -12,15 +12,27 @@ const SignUp = () => {
 
   const handleSignUp = (e) => {
     e.preventDefault();
-    
+
     // Basic validation
-    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
-      .then(result => {console.log(result)
-        navigate('/dashboard')
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Make the API request to register the user
+    axios.post('https://bloggist-api.vercel.app/register', { name, email, password })
+      .then(result => {
+        // Store the JWT token in local storage
+        const token = result.data.token;
+        localStorage.setItem('token', token);
+
+        // Navigate to the dashboard
+        navigate('/dashboard');
       })
-      .catch(err=> console.log(err))
-      
-      
+      .catch(err => {
+        console.error(err);
+        setError('Registration failed. Please try again.');
+      });
   };
 
   return (

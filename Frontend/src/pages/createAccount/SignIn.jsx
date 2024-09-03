@@ -15,6 +15,11 @@ const SignIn = () => {
       const response = await axios.post('https://bloggist-api.vercel.app/login', { email, password });
 
       if (response.data.status === 'success') {
+        // Store the JWT token in local storage
+        const token = response.data.token;
+        localStorage.setItem('token', token);
+
+        // Navigate to the dashboard
         navigate('/dashboard');
       } else if (response.data.status === 'incorrect_password') {
         setError('The password is incorrect.');
