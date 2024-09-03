@@ -6,32 +6,21 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSignUp = (e) => {
     e.preventDefault();
-
-
-    axios.post('https://bloggist-api.vercel.app/register', { name, email, password })
-        .then(result => {
-            console.log(result);
-            const { token, user } = result.data;
-
-            // Store token and user info in local storage
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-
-            navigate('/dashboard');
-        })
-        .catch(err => {
-            console.error(err);
-            if (err.response && err.response.data) {
-                setError(err.response.data.message || 'Registration failed. Please try again.');
-            } else {
-                setError('Registration failed. Please try again.');
-            }
-        });
+    
+    // Basic validation
+    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
+      .then(result => {console.log(result)
+        navigate('/dashboard')
+      })
+      .catch(err=> console.log(err))
+      
+      
   };
 
   return (

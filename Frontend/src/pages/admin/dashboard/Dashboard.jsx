@@ -1,16 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Layout from '../../../components/layout/Layout'
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'
-
 
 function Dashboard() {
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
     const navigate = useNavigate();
-    const [userData, setUserData] = useState(null);
 
     console.log(getAllBlog)
 
@@ -20,19 +17,8 @@ function Dashboard() {
     }
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            axios.get('https://bloggist-api.vercel.app/getUser', {
-                headers: { 'Authorization': token }
-            })
-            .then(response => setUserData(response.data))
-            .catch(error => console.error(error));
-        } else {
-            navigate('/signin');
-        }
-    }, [navigate]);
-
-
+        window.scrollTo(0, 0)
+ }, [])
     return (
         <Layout>
             <div className="py-10">
@@ -49,7 +35,7 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            {userData?.name || 'Loading...'}
+                            Gajanan Bhosale
                         </h1>
 
                         <h2
@@ -57,8 +43,7 @@ function Dashboard() {
                             Frontend Developer
                         </h2>
                         <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                                {userData?.email || 'Loading...'}
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">gajanan@gmail.com
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
