@@ -15,11 +15,17 @@ app.use(cors(
 
 mongoose.connect('mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist');
 
-app.get('/getUser', (req,res) => {
+app.get('/getUserData', (req, res) => {
     EmployeeModel.find()
-    .then(users => res.json(users))
-    .catch(err => res.json(err))
-})
+        .then(users => {
+            const userData = users.map(user => ({
+                name: user.name,
+                email: user.email
+            }));
+            res.json(userData);
+        })
+        .catch(err => res.status(500).json({ error: err.message }));
+});
 
 app.post("/login", (req, res) => {
     const { email, password } = req.body;

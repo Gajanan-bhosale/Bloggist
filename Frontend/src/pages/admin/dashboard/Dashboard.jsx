@@ -8,6 +8,7 @@ function Dashboard() {
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
     const navigate = useNavigate();
+    const [users, setUsers] = useState([]);
 
     console.log(getAllBlog)
 
@@ -17,8 +18,13 @@ function Dashboard() {
     }
 
     useEffect(() => {
-        window.scrollTo(0, 0)
- }, [])
+        axios.get('https://bloggist-api.vercel.app/getUserData')
+            .then(response => {
+                setUsers(response.data);
+            })
+            .catch(err => console.error(err));
+    }, []);
+
     return (
         <Layout>
             <div className="py-10">
@@ -35,7 +41,7 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            Gajanan Bhosale
+                            {users.name}
                         </h1>
 
                         <h2
@@ -43,7 +49,8 @@ function Dashboard() {
                             Frontend Developer
                         </h2>
                         <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">gajanan@gmail.com
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                                {users.email}
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
