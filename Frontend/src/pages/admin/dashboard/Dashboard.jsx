@@ -6,25 +6,26 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Dashboard() {
-    const context = useContext(myContext);
-    const { mode, getAllBlog, deleteBlogs } = context;
+    const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
-    const [users, setUsers] = useState([]);
-
-    console.log(getAllBlog)
-
-    const logout = () => {
-        localStorage.clear('admin');
-        navigate('/')
-    }
 
     useEffect(() => {
-        axios.get('https://bloggist-api.vercel.app/getUserData')
-            .then(response => {
-                setUsers(response.data);
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.get('https://bloggist-api.vercel.app/getUser', {
+                headers: { 'Authorization': token }
             })
-            .catch(err => console.error(err));
-    }, []);
+            .then(response => setUserData(response.data))
+            .catch(error => console.error(error));
+        } else {
+            navigate('/signin');
+        }
+    }, [navigate]);
+
+    const logout = () => {
+        localStorage.clear();
+        navigate('/');
+    };
 
     return (
         <Layout>
@@ -42,13 +43,7 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            <ul>
-                                {users.map((user, index) => (
-                                    <li key={index}>
-                                        {user.name} - {user.email}
-                                    </li>
-                                ))}
-                            </ul>
+                            {userData?.name || 'Loading...'}
                             </h1>
                             <h2
                                 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
@@ -56,7 +51,7 @@ function Dashboard() {
                             </h2>
                             <h2
                                 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                                {users.email}
+                                {userData?.email || 'Loading...'}
                             </h2>
                             <h2
                                 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
