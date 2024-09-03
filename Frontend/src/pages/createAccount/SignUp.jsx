@@ -12,7 +12,7 @@ const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
+    
     // Basic validation
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -20,17 +20,17 @@ const SignUp = () => {
     }
 
     try {
+      // Send registration request to backend
       const response = await axios.post('https://bloggist-api.vercel.app/register', { name, email, password });
       
-      if (response.data.token) {
-        // Save JWT token to local storage
-        localStorage.setItem('token', response.data.token);
-        navigate('/dashboard');
+      if (response.data.success) {
+        // On successful registration, navigate to the login page or dashboard
+        navigate('/login');
       } else {
-        setError('Sign up failed. Please try again.');
+        setError('Sign up failed');
       }
     } catch (err) {
-      console.error('Error during sign up:', err);
+      console.error(err);
       setError('An error occurred during sign up');
     }
   };
