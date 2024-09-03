@@ -60,7 +60,7 @@ app.post('/register', async (req, res) => {
             ...req.body,
             password: hashedPassword,
         });
-        const token = jwt.sign({ id: newEmployee._id }, 'your_jwt_secret', { expiresIn: '1h' });
+        const token = jwt.sign({ id: newEmployee._id }, 'userData', { expiresIn: '1h' });
 
         
         res.json({
