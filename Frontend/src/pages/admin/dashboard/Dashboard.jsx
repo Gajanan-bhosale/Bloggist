@@ -1,15 +1,28 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../../components/layout/Layout'
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Dashboard() {
+    const [userData, setUserData] = useState({ name: '', email: '' });
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
     const navigate = useNavigate();
 
     console.log(getAllBlog)
+
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get('https://bloggist-api.vercel.app/getUserData'); // Update with your backend URL
+            // Assuming you want the first user or adapt as needed
+            const user = response.data[0]; 
+            setUserData(user);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
 
     const logout = () => {
         localStorage.clear('admin');
@@ -17,8 +30,10 @@ function Dashboard() {
     }
 
     useEffect(() => {
-        window.scrollTo(0, 0)
- }, [])
+        fetchUserData();
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <Layout>
             <div className="py-10">
@@ -35,7 +50,7 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            Gajanan Bhosale
+                            {userData.name || 'Loading...'}
                         </h1>
 
                         <h2
@@ -43,7 +58,8 @@ function Dashboard() {
                             Frontend Developer
                         </h2>
                         <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">gajanan@gmail.com
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                                {userData.email || 'Loading...'}
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
