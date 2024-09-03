@@ -12,16 +12,18 @@ function Dashboard() {
 
     console.log(getAllBlog)
 
-    const fetchUserData = async () => {
-        try {
-            const response = await axios.get('https://bloggist-api.vercel.app/getUserData'); // Update with your backend URL
-            // Assuming you want the first user or adapt as needed
-            const user = response.data[0]; 
-            setUserData(user);
-        } catch (error) {
-            console.error('Error fetching user data:', error);
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.get('https://bloggist-api.vercel.app/getUser', {
+                headers: { 'Authorization': token }
+            })
+            .then(response => setUserData(response.data))
+            .catch(error => console.error(error));
+        } else {
+            navigate('/signin');
         }
-    };
+    }, [navigate]);
 
     const logout = () => {
         localStorage.clear('admin');
