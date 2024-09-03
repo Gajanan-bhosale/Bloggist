@@ -3,11 +3,19 @@ import Layout from '../../../components/layout/Layout'
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 function Dashboard() {
-    const [userData, setUserData] = useState(null);
+    const context = useContext(myContext);
+    const { mode, getAllBlog, deleteBlogs } = context;
     const navigate = useNavigate();
+    const [userData, setUserData] = useState(null);
+
+    console.log(getAllBlog)
+
+    const logout = () => {
+        localStorage.clear('admin');
+        navigate('/')
+    }
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -22,10 +30,6 @@ function Dashboard() {
         }
     }, [navigate]);
 
-    const logout = () => {
-        localStorage.clear();
-        navigate('/');
-    };
 
     return (
         <Layout>
@@ -44,40 +48,24 @@ function Dashboard() {
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
                             {userData?.name || 'Loading...'}
-                            </h1>
-                            <h2
-                                style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                                Frontend Developer
-                            </h2>
-                            <h2
-                                style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                        </h1>
+
+                        <h2
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                            Frontend Developer
+                        </h2>
+                        <h2
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
                                 {userData?.email || 'Loading...'}
-                            </h2>
-                            <h2
-                                style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                                <span>Total Blog : </span>  15
-                            </h2>
-                            <div className=" flex gap-2 mt-2">
-                                <Link to={'/createblog'}>
-                                    <div className=" mb-2">
-                                        <Button
-                                            style={{
-                                                background: mode === 'dark'
-                                                    ? 'rgb(226, 232, 240)'
-                                                    : 'rgb(30, 41, 59)',
-                                                color: mode === 'dark'
-                                                    ? 'black'
-                                                    : 'white'
-                                            }}
-                                            className='px-8 py-2'
-                                        >
-                                            Create Blog
-                                        </Button>
-                                    </div>
-                                </Link>
-                                <div className="mb-2">
+                        </h2>
+                        <h2
+                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                            <span>Total Blog : </span>  15
+                        </h2>
+                        <div className=" flex gap-2 mt-2">
+                            <Link to={'/createblog'}>
+                                <div className=" mb-2">
                                     <Button
-                                        onClick={logout}
                                         style={{
                                             background: mode === 'dark'
                                                 ? 'rgb(226, 232, 240)'
@@ -88,10 +76,27 @@ function Dashboard() {
                                         }}
                                         className='px-8 py-2'
                                     >
-                                        Logout
+                                        Create Blog
                                     </Button>
                                 </div>
+                            </Link>
+                            <div className="mb-2">
+                                <Button
+                                    onClick={logout}
+                                    style={{
+                                        background: mode === 'dark'
+                                            ? 'rgb(226, 232, 240)'
+                                            : 'rgb(30, 41, 59)',
+                                        color: mode === 'dark'
+                                            ? 'black'
+                                            : 'white'
+                                    }}
+                                    className='px-8 py-2'
+                                >
+                                    Logout
+                                </Button>
                             </div>
+                        </div>
                     </div>
                 </div>
 
@@ -143,7 +148,7 @@ function Dashboard() {
                                 {getAllBlog.length > 0
                                     ? <> {getAllBlog.map((item, index) => {
                                         console.log(item);
-                                        const { thumbnail, date, id } = item;
+                                        const {thumbnail, date, id} = item;
                                         return (
                                             <tbody key={index}>
                                                 <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
@@ -175,8 +180,8 @@ function Dashboard() {
 
                                                     {/* Delete Blog  */}
                                                     <td
-                                                        onClick={() => deleteBlogs(id)}
-                                                        style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                    onClick={()=> deleteBlogs(id)}
+                                                     style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
                                                         <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>
                                                             Delete
                                                         </button>
