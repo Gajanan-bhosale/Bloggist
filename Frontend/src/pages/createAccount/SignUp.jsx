@@ -60,7 +60,7 @@ const SignUp = () => {
             <input
               id="name"
               type="text"
-              value={DataTransfer.name}
+              value={name}
               onChange={handleChange}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
