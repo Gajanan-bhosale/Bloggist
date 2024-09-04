@@ -19,7 +19,7 @@ const SignUp = () => {
     e.preventDefault();
     
     // Basic validation
-    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
+    axios.post('https://bloggist-frontend-0prv.onrender.com//register', {name, email, password})
       .then(result => {console.log(result)
         navigate('/dashboard')
       })
