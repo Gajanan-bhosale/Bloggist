@@ -19,7 +19,7 @@ function Dashboard() {
         // Fetch the user data when the component mounts
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('https://bloggist-api.vercel.app/getUserData');
+                const response = await axios.get('https://bloggist-api.vercel.app/getUserData',{ name, email });
                 const data = response.data;
                 setUserData(data[0]);  // Assuming the first user is the logged-in user
             } catch (error) {
@@ -53,6 +53,7 @@ function Dashboard() {
                     <div className="right">
                         <h1
                             className='text-center font-bold text-2xl mb-2'
+                            
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
                             {userData.name}
