@@ -7,49 +7,34 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const [data, setData] = useState({ email: "", password: "" });
-  // const handleSignIn = async (e) => {
-  //   e.preventDefault();
+  
+  
+  const handleSignIn = async (e) => {
+    e.preventDefault();
 
-  //   try {
-  //     const response = await axios.post('https://bloggist-api.vercel.app/login', { email, password });
+    try {
+      const response = await axios.post('https://bloggist-api.vercel.app/login', { email, password });
 
-  //     if (response.data.status === 'success') {
-  //       navigate('/dashboard');
-  //     } else if (response.data.status === 'incorrect_password') {
-  //       setError('The password is incorrect.');
-  //     } else if (response.data.status === 'user_not_found') {
-  //       setError('User not found. Please create an account.');
-  //     } else {
-  //       setError('An unexpected error occurred.');
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //     setError('An error occurred while trying to sign in.');
-  //   }
-  // };
+      if (response.data.status === 'success') {
+        navigate('/dashboard');
+      } else if (response.data.status === 'incorrect_password') {
+        setError('The password is incorrect.');
+      } else if (response.data.status === 'user_not_found') {
+        setError('User not found. Please create an account.');
+      } else {
+        setError('An unexpected error occurred.');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('An error occurred while trying to sign in.');
+    }
+  };
 
   // const handleChange = ({ currentTarget: input }) => {
 	// 	setData({ ...data, [input.name]: input.value });
 	// };
   
-  const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			const url = "https://bloggist-api.vercel.app/login";
-			const { data: res } = await axios.post(url, data);
-			localStorage.setItem("token", res.data);
-			window.location = "/";
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
-		}
-	};
+  
   
 
 
@@ -57,7 +42,7 @@ const SignIn = () => {
     <div className="flex items-center justify-center min-h-screen bg-orange-600">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-900">Sign In</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSignIn} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email:</label>
             <input
