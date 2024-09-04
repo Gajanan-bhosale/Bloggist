@@ -5,14 +5,11 @@ const EmployeeModel = require('./modules/Employee')
 
 const app = express()
 app.use(express.json())
-app.use(cors(
-    {
-        origin: ["https://majestic-marzipan-e50fd2.netlify.app"],
-        methods: ["POST", "GET"],
-        credentials: true
-    }
-));
-
+app.use(cors({
+    origin: 'https://majestic-marzipan-e50fd2.netlify.app', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 mongoose.connect('mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist');
 
 app.get('/getUserData', (req, res) => {
