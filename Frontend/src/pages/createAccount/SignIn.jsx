@@ -7,37 +7,27 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  
-  
+
   const handleSignIn = async (e) => {
     e.preventDefault();
 
     try {
-        const response = await axios.post('https://bloggist-api.vercel.app/login', { email, password });
+      const response = await axios.post('https://bloggist-api.vercel.app/login', { email, password });
 
-        if (response.data.status === 'success') {
-            // Store user data in localStorage or state
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-            navigate('/dashboard');
-        } else if (response.data.status === 'incorrect_password') {
-            setError('The password is incorrect.');
-        } else if (response.data.status === 'user_not_found') {
-            setError('User not found. Please create an account.');
-        } else {
-            setError('An unexpected error occurred.');
-        }
+      if (response.data.status === 'success') {
+        navigate('/dashboard');
+      } else if (response.data.status === 'incorrect_password') {
+        setError('The password is incorrect.');
+      } else if (response.data.status === 'user_not_found') {
+        setError('User not found. Please create an account.');
+      } else {
+        setError('An unexpected error occurred.');
+      }
     } catch (err) {
-        console.error(err);
-        setError('An error occurred while trying to sign in.');
+      console.error(err);
+      setError('An error occurred while trying to sign in.');
     }
-};
-
-  // const handleChange = ({ currentTarget: input }) => {
-	// 	setData({ ...data, [input.name]: input.value });
-	// };
-  
-  
-  
+  };
 
 
   return (

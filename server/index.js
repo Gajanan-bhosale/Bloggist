@@ -33,14 +33,7 @@ app.post("/login", (req, res) => {
         .then(user => {
             if (user) {
                 if (user.password === password) {
-                    res.json({
-                        status: "success",
-                        message: "Login successful",
-                        user: {
-                            name: user.name,
-                            email: user.email
-                        }
-                    });
+                    res.json({ status: "success", message: "Login successful" });
                 } else {
                     res.json({ status: "incorrect_password", message: "The password is incorrect" });
                 }
@@ -60,3 +53,4 @@ app.post('/register', (req, res) => {
 app.listen(3001, () => {
     console.log("server is running")
 })
+

@@ -11,6 +11,7 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -28,7 +29,6 @@ const SignUp = () => {
   };
 
   
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-500">
