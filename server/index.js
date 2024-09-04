@@ -33,7 +33,8 @@ app.post("/login", (req, res) => {
         .then(user => {
             if (user) {
                 if (user.password === password) {
-                    res.json({ status: "success", message: "Login successful" });
+                    // Return the user's name and email along with the success status
+                    res.json({ status: "success", message: "Login successful", user: { name: user.name, email: user.email } });
                 } else {
                     res.json({ status: "incorrect_password", message: "The password is incorrect" });
                 }

@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -15,7 +17,7 @@ const SignIn = () => {
       const response = await axios.post('https://bloggist-frontend-0prv.onrender.com/login', { email, password });
 
       if (response.data.status === 'success') {
-        navigate('/dashboard');
+        navigate('/dashboard', { state: { user: response.data.user } });
       } else if (response.data.status === 'incorrect_password') {
         setError('The password is incorrect.');
       } else if (response.data.status === 'user_not_found') {
