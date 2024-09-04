@@ -8,7 +8,7 @@ function Dashboard() {
     const navigate = useNavigate();
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
-    const navigate = useNavigate();
+    
 
     useEffect(() => {
         // Retrieve user data from localStorage
