@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 const SignUp = () => {
+  const [data, setData] = useState({
+    name : "",
+    email : "",
+    password : ""
+  })
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -10,31 +15,53 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
+  // const handleSignUp = (e) => {
+  //   e.preventDefault();
     
-    // Basic validation
-    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
-      .then(result => {console.log(result)
-        navigate('/dashboard')
-      })
-      .catch(err=> console.log(err))
+  //   // Basic validation
+  //   axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
+  //     .then(result => {console.log(result)
+  //       navigate('/dashboard')
+  //     })
+  //     .catch(err=> console.log(err))
       
       
-  };
+  // };
+
+  const handleChange = ({currentTarget: input }) =>{
+    setData({ ...data,[input.name]:input.value})
+  }
+
+  const handleSubmit = async (e) =>{
+    e.preventDefault();
+    try {
+      const url = "https://bloggist-api.vercel.app/register"
+      const {data:res } = await axios.post(url, data);
+      navigate("/SignIn")
+      console.log(res.message)
+    } catch {
+      if(error.response && 
+        error.response.status >= 400 &&
+        error.response.status <= 500
+      ){
+        setError(error.response.data.message)
+      }
+    }
+  }
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-500">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-900">Sign Up</h2>
-        <form onSubmit={handleSignUp} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name:</label>
             <input
               id="name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={DataTransfer.name}
+              onChange={handleChange}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
@@ -45,7 +72,7 @@ const SignUp = () => {
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleChange}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
@@ -56,7 +83,7 @@ const SignUp = () => {
               id="password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChange}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
