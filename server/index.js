@@ -7,7 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cors(
     {
-        origin: ["https://bloggist-frontend.vercel.app"],
+        origin: ["https://majestic-marzipan-e50fd2.netlify.app"],
         methods: ["POST", "GET"],
         credentials: true
     }
