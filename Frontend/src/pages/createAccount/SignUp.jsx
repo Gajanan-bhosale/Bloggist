@@ -15,17 +15,28 @@ const SignUp = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async(e) => {
     e.preventDefault();
     
     // Basic validation
-    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
-      .then(result => {console.log(result)
-        navigate('/SignIn', { state: { user: response.data.user } })
-      })
-      .catch(err=> console.log(err))
+    // axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
+    //   .then(result => {console.log(result)
+    //     navigate('/SignIn', { state: { user: response.data.user } })
+    //   })
+    //   .catch(err=> console.log(err))
       
-      
+    try {
+      const response = await axios.post('https://bloggist-api.vercel.app/register', { name, email, password });
+
+      if (response.data.status === 'success') {
+        navigate('/SignIn', { state: { user: response.data.user } });
+      } else {
+        setError('An unexpected error occurred.');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('An error occurred while trying to sign in.');
+    }
   };
 
   
