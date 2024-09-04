@@ -3,10 +3,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
-  const [data, setData] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
+  const [data, setData] = useState({ email: "", password: "" });
   // const handleSignIn = async (e) => {
   //   e.preventDefault();
 
@@ -27,11 +28,12 @@ const SignIn = () => {
   //     setError('An error occurred while trying to sign in.');
   //   }
   // };
+
   const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 	};
 
-	const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			const url = "https://bloggist-api.vercel.app/login";
@@ -48,7 +50,7 @@ const SignIn = () => {
 			}
 		}
 	};
-
+  
 
 
   return (
