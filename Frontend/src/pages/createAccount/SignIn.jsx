@@ -12,7 +12,7 @@ const SignIn = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://bloggist-frontend-0prv.onrender.com//login', { email, password });
+      const response = await axios.post('https://bloggist-frontend-0prv.onrender.com/login', { email, password });
 
       if (response.data.status === 'success') {
         navigate('/dashboard');
