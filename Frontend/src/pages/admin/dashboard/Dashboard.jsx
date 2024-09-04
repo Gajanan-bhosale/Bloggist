@@ -8,8 +8,8 @@ function Dashboard() {
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
     const navigate = useNavigate();
-    
     const [userData, setUserData] = useState(null);
+
     
     console.log(getAllBlog)
 
