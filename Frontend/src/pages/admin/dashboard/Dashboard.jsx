@@ -38,7 +38,7 @@ function Dashboard() {
                             className='text-center font-bold text-2xl mb-2'
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
-                            this is a new blog
+                            {user.name}
                         </h1>
 
                         <h2
