@@ -29,10 +29,10 @@ const SignIn = () => {
   //   }
   // };
 
-  const handleChange = ({ currentTarget: input }) => {
-		setData({ ...data, [input.name]: input.value });
-	};
-
+  // const handleChange = ({ currentTarget: input }) => {
+	// 	setData({ ...data, [input.name]: input.value });
+	// };
+  
   const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -64,7 +64,7 @@ const SignIn = () => {
               id="email"
               type="email"
               value={email}
-              onChange={handleChange}
+              onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
@@ -75,7 +75,7 @@ const SignIn = () => {
               id="password"
               type="password"
               value={password}
-              onChange={handleChange}
+              onChange={(e) => setPassword(e.target.value)}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
