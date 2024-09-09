@@ -16,6 +16,7 @@ import ShareDialogBox from "../shareDialogBox/ShareDialogBox";
 
 export default function Nav() {
     const [openNav, setOpenNav] = React.useState(false);
+    const user = location.state?.user || { id: '', name: '', email: '' };
 
     const context = useContext(myContext);
     const { mode, toggleMode } = context;
@@ -23,17 +24,17 @@ export default function Nav() {
     const navigate = useNavigate();
     const admin = localStorage.getItem('admin');
 
-    // Handle avatar click
+    
     const handleAvatarClick = () => {
         navigate('/dashboard');
     };
 
-    // Handle dashboard button click
+    
     const handleDashboardButtonClick = () => {
         navigate('/dashboard');
     };
 
-    // All NavList 
+    
     const navList = (
         <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             <Typography
