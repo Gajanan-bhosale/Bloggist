@@ -8,58 +8,56 @@ import { useLocation } from 'react-router-dom';
 function Dashboard() {
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
-    const [ blogCount, setBlogCount] = useState();
+    const [userBlogs, setUserBlogs] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
     const user = location.state?.user || { name: '', email: '' };
 
-    console.log(getAllBlog)
-
     useEffect(() => {
-        setBlogCount(getAllBlog.length);
-    }, [getAllBlog]);
+        // Filter blogs to only show those created by the logged-in user
+        const filteredBlogs = getAllBlog.filter(blog => blog.user.email === user.email);
+        setUserBlogs(filteredBlogs);
+    }, [getAllBlog, user.email]);
 
     const logout = () => {
         localStorage.clear('admin');
-        navigate('/')
-    }
+        navigate('/');
+    };
 
     useEffect(() => {
-        window.scrollTo(0, 0)
- }, [])
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <Layout>
             <div className="py-10">
-                <div
-                    className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
+                <div className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
                     <div className="left">
                         <img
-                            className=" w-40 h-40  object-cover rounded-full border-2 border-pink-600 p-1"
-                            src={'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'} alt="profile"
+                            className="w-40 h-40 object-cover rounded-full border-2 border-pink-600 p-1"
+                            src={'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'}
+                            alt="profile"
                         />
                     </div>
                     <div className="right">
                         <h1
-                            className='text-center font-bold text-2xl mb-2'
+                            className="text-center font-bold text-2xl mb-2"
                             style={{ color: mode === 'dark' ? 'white' : 'black' }}
                         >
                             {user.name}
                         </h1>
-
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
                             Frontend Developer
                         </h2>
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">{user.email}
+                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                            {user.email}
                         </h2>
-                        <h2
-                            style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            <span>Total Blog: </span> {blogCount}
+                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                            <span>Total Blogs: </span> {userBlogs.length}
                         </h2>
-                        <div className=" flex gap-2 mt-2">
+                        <div className="flex gap-2 mt-2">
                             <Link to={'/createblog'}>
-                                <div className=" mb-2">
+                                <div className="mb-2">
                                     <Button
                                         style={{
                                             background: mode === 'dark'
@@ -69,7 +67,7 @@ function Dashboard() {
                                                 ? 'black'
                                                 : 'white'
                                         }}
-                                        className='px-8 py-2'
+                                        className="px-8 py-2"
                                     >
                                         Create Blog
                                     </Button>
@@ -86,7 +84,7 @@ function Dashboard() {
                                             ? 'black'
                                             : 'white'
                                     }}
-                                    className='px-8 py-2'
+                                    className="px-8 py-2"
                                 >
                                     Logout
                                 </Button>
@@ -95,106 +93,85 @@ function Dashboard() {
                     </div>
                 </div>
 
-                {/* Line  */}
-                <hr className={`border-2
-                 ${mode === 'dark'
-                        ? 'border-gray-300'
-                        : 'border-gray-400'}`
-                }
-                />
+                {/* Line */}
+                <hr className={`border-2 ${mode === 'dark' ? 'border-gray-300' : 'border-gray-400'}`} />
 
-                {/* Table  */}
+                {/* Table */}
                 <div className="">
-                    <div className=' container mx-auto px-4 max-w-7xl my-5' >
+                    <div className="container mx-auto px-4 max-w-7xl my-5">
                         <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
-                            {/* table  */}
-                            <table className="w-full border-2 border-white shadow-md text-sm text-left text-gray-500 dark:text-gray-400" >
-                                {/* thead  */}
+                            <table className="w-full border-2 border-white shadow-md text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead
                                     style={{
-                                        background: mode === 'dark'
-                                            ? 'white'
-                                            : 'rgb(30, 41, 59)'
+                                        background: mode === 'dark' ? 'white' : 'rgb(30, 41, 59)'
                                     }}
-                                    className="text-xs ">
+                                    className="text-xs"
+                                >
                                     <tr>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
                                             S.No
                                         </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
                                             Thumbnail
                                         </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
                                             Title
                                         </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
                                             Category
                                         </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
                                             Date
                                         </th>
-                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} scope="col" className="px-6 py-3">
+                                        <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
                                             Action
                                         </th>
                                     </tr>
                                 </thead>
 
-                                {/* tbody  */}
-                                {getAllBlog.length > 0
-                                    ? <> {getAllBlog.map((item, index) => {
-                                        console.log(item);
-                                        const {thumbnail, date, id} = item;
-                                        return (
-                                            <tbody key={index}>
-                                                <tr className=" border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
-                                                    {/* S.No   */}
-                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        {index + 1}.
-                                                    </td>
-
-                                                    {/* Blog Thumbnail  */}
-                                                    <th style={{ color: mode === 'dark' ? 'white' : 'black' }} scope="row" className="px-6 py-4 font-medium ">
-                                                        {/* thumbnail  */}
-                                                        <img className='w-16 rounded-lg' src={thumbnail} alt="thumbnail" />
-                                                    </th>
-
-                                                    {/* Blog Title  */}
-                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        {item.blogs.title}
-                                                    </td>
-
-                                                    {/* Blog Category  */}
-                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        {item.blogs.category}
-                                                    </td>
-
-                                                    {/* Blog Date  */}
-                                                    <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        {date}
-                                                    </td>
-
-                                                    {/* Delete Blog  */}
-                                                    <td
-                                                    onClick={()=> deleteBlogs(id)}
-                                                     style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                        <button className=' px-4 py-1 rounded-lg text-white font-bold bg-red-500'>
-                                                            Delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        )
-                                    })}  </>
-                                    :
-                                    <>  <h1>Not Found</h1></>}
+                                {/* tbody */}
+                                {userBlogs.length > 0
+                                    ? userBlogs.map((item, index) => {
+                                          const { thumbnail, date, id, blogs } = item;
+                                          return (
+                                              <tbody key={index}>
+                                                  <tr className="border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
+                                                      <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                          {index + 1}.
+                                                      </td>
+                                                      <th style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4 font-medium">
+                                                          <img className="w-16 rounded-lg" src={thumbnail} alt="thumbnail" />
+                                                      </th>
+                                                      <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                          {blogs.title}
+                                                      </td>
+                                                      <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                          {blogs.category}
+                                                      </td>
+                                                      <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
+                                                          {date}
+                                                      </td>
+                                                      <td
+                                                          onClick={() => deleteBlogs(id)}
+                                                          style={{ color: mode === 'dark' ? 'white' : 'black' }}
+                                                          className="px-6 py-4"
+                                                      >
+                                                          <button className="px-4 py-1 rounded-lg text-white font-bold bg-red-500">
+                                                              Delete
+                                                          </button>
+                                                      </td>
+                                                  </tr>
+                                              </tbody>
+                                          );
+                                      })
+                                    : <tbody><tr><td colSpan="6">No blogs found.</td></tr></tbody>}
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </Layout>
-    )
+    );
 }
 
-export default Dashboard
+export default Dashboard;
