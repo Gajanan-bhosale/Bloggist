@@ -14,10 +14,14 @@ function Dashboard() {
     const user = location.state?.user || { name: '', email: '' };
 
     useEffect(() => {
-        // Filter blogs to only show those created by the logged-in user
-        const filteredBlogs = getAllBlog.filter(blog => blog.user.email === user.email);
-        setUserBlogs(filteredBlogs);
-    }, [getAllBlog, user.email]);
+        console.log("User: ", user); // Log the user
+        console.log("All Blogs: ", getAllBlog); // Log the blogs array
+      
+        if (getAllBlog && Array.isArray(getAllBlog)) {
+          const filteredBlogs = getAllBlog.filter(blog => blog?.user?.email === user.email);
+          setUserBlogs(filteredBlogs);
+        }
+      }, [getAllBlog, user.email]);
 
     const logout = () => {
         localStorage.clear('admin');
