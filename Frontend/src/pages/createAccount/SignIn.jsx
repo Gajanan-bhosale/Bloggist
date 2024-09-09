@@ -11,13 +11,12 @@ const SignIn = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post('https://bloggist-api.vercel.app/login', { email, password });
-  
+
       if (response.data.status === 'success') {
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        navigate('/dashboard');
+        navigate('/dashboard', { state: { user: response.data.user } });
       } else if (response.data.status === 'incorrect_password') {
         setError('The password is incorrect.');
       } else if (response.data.status === 'user_not_found') {
@@ -30,7 +29,6 @@ const SignIn = () => {
       setError('An error occurred while trying to sign in.');
     }
   };
-  
 
 
   return (
