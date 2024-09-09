@@ -58,6 +58,7 @@ const SignIn = () => {
             <input
               id="email"
               type="email"
+              name='email'
               value={user.email}
               onChange={handleInput}
               required
@@ -68,6 +69,7 @@ const SignIn = () => {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password:</label>
             <input
               id="password"
+              name= "password"
               type="password"
               value={user.password}
               onChange={handleInput}
