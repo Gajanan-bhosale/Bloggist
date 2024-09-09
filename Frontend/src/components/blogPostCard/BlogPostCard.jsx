@@ -16,9 +16,9 @@ function BlogPostCard() {
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-10 mx-auto max-w-7xl ">
 
-          {/* Main Content  */}
-          <div className="flex flex-wrap justify-center -m-4 mb-5">
-            {/* Card 1  */}
+          
+           <div className="flex flex-wrap justify-center -m-4 mb-5">
+            
             {getAllBlog.length > 0
               ? <> {getAllBlog.map((item, index) => {
                 console.log(item)

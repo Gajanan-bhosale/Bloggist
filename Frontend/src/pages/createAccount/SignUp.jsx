@@ -11,14 +11,12 @@ const SignUp = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSignUp = async(e) => {
     e.preventDefault();
     
-    // Basic validation
     axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
       .then(result => {console.log(result)
         navigate('/SignIn')
@@ -26,9 +24,6 @@ const SignUp = () => {
       .catch(err=> console.log(err))
 
     }
-      
-    
-
   
 
   return (

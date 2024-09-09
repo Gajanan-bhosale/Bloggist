@@ -13,9 +13,9 @@ function Comment({ addComment, commentText, setcommentText, allComment, fullName
             Make Comment
           </h2>
         </div>
-        {/* Comment Form  */}
+        
         <form className="mb-6">
-          {/* Full Name Input  */}
+          
           <div
             className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
             shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] border border-gray-200"
@@ -38,7 +38,7 @@ function Comment({ addComment, commentText, setcommentText, allComment, fullName
             />
           </div>
 
-          {/* Text Area  */}
+          
           <div
             className="py-2 px-4 mb-4 rounded-lg rounded-t-lg 
           shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] border border-gray-200 "
