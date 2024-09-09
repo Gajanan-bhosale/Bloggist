@@ -1,24 +1,81 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { BsFillArrowLeftCircleFill } from "react-icons/bs"
 import myContext from '../../../context/data/myContext';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Button,
     Typography,
 } from "@material-tailwind/react";
+import { Timestamp, addDoc, collection } from 'firebase/firestore';
+import toast from 'react-hot-toast';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { fireDb, storage } from '../../../firebase/FirebaseConfig';
 function CreateBlog() {
     const context = useContext(myContext);
     const { mode } = context;
 
-    const [blogs, setBlogs] = useState('');
+    const [blogs, setBlogs] = useState({
+        title : "",
+        category : "",
+        content : "",
+        time : Timestamp.now(),
+    });
     const [thumbnail, setthumbnail] = useState();
 
     const [text, settext] = useState('');
     console.log("Value: ",);
     console.log("text: ", text);
 
-    // Create markup function 
+    const navigate = useNavigate();
+    
+
+    // console.log(blogs)
+
+    const addPost = async () => {
+        if(blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail  === ""){
+            return toast.error("All fields are required")
+        }
+        uploadImage();
+    }
+
+    const uploadImage = () => {
+        if (!thumbnail) return;
+        const imageRef = ref(storage, `blogimage/${thumbnail.name}`);
+        uploadBytes(imageRef, thumbnail).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+                const productRef = collection(fireDb, "blogPost")
+                try {
+                    addDoc(productRef, {
+                        blogs,
+                        thumbnail: url,
+                        time: Timestamp.now(),
+                        date: new Date().toLocaleString(
+                            "en-US",
+                            {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                            }
+                        )
+                    })
+                    navigate('/dashboard')
+                    toast.success('Post Added Successfully');
+
+
+                } catch (error) {
+                    toast.error(error)
+                    console.log(error)
+                }
+            });
+        });
+    }
+    
+    useEffect(() => {
+        window.scrollTo(0, 0)
+ }, [])
+
+   
     function createMarkup(c) {
         return { __html: c };
     }
@@ -32,15 +89,15 @@ function CreateBlog() {
                     ? ' 4px solid rgb(226, 232, 240)'
                     : ' 4px solid rgb(30, 41, 59)'
             }}>
-                {/* Top Item  */}
+                
                 <div className="mb-2 flex justify-between">
                     <div className="flex gap-2 items-center">
-                        {/* Dashboard Link  */}
+                        
                         <Link to={'/dashboard'}>
                             <BsFillArrowLeftCircleFill size={25} />
                         </Link>
 
-                        {/* Text  */}
+                       
                         <Typography
                             variant="h4"
                             style={{
@@ -54,9 +111,9 @@ function CreateBlog() {
                     </div>
                 </div>
 
-                {/* main Content  */}
+                
                 <div className="mb-3">
-                    {/* Thumbnail  */}
+                    
                     {thumbnail && <img className=" w-full rounded-md mb-3 "
                         src={thumbnail
                             ? URL.createObjectURL(thumbnail)
@@ -64,7 +121,7 @@ function CreateBlog() {
                         alt="thumbnail"
                     />}
 
-                    {/* Text  */}
+                    
                     <Typography
                         variant="small"
                         color="blue-gray"
@@ -74,7 +131,7 @@ function CreateBlog() {
                         Upload Thumbnail
                     </Typography>
 
-                    {/* First Thumbnail Input  */}
+                    
                     <input
                         type="file"
                         label="Upload thumbnail"
@@ -88,7 +145,7 @@ function CreateBlog() {
                     />
                 </div>
 
-                {/* Second Title Input */}
+                
                 <div className="mb-3">
                     <input
                         label="Enter your Title"
@@ -103,10 +160,12 @@ function CreateBlog() {
                                 : 'rgb(226, 232, 240)'
                         }}
                         name="title"
+                        value={blogs.title}
+                        onChange={(e)=> setBlogs({...blogs, title : e.target.value})}
                     />
                 </div>
 
-                {/* Third Category Input  */}
+                
                 <div className="mb-3">
                     <input
                         label="Enter your Category"
@@ -121,14 +180,16 @@ function CreateBlog() {
                                 : 'rgb(226, 232, 240)'
                         }}
                         name="category"
+                        value={blogs.category}
+                        onChange={(e)=> setBlogs({...blogs, category : e.target.value})}
                     />
                 </div>
 
-                {/* Four Editor  */}
+                
                 <Editor
                     apiKey='wx2tma1e1vl0jghj9qceb1knwuwg4kcjgb0lloggc856oi7t'
                     onEditorChange={(newValue, editor) => {
-                        setBlogs({ blogs, content: newValue });
+                        setBlogs({ ...blogs, content: newValue });
                         settext(editor.getContent({ format: 'text' }));
                     }}
                     onInit={(evt, editor) => {
@@ -139,8 +200,9 @@ function CreateBlog() {
                     }}
                 />
 
-                {/* Five Submit Button  */}
+                
                 <Button className=" w-full mt-5"
+                onClick={addPost}
                     style={{
                         background: mode === 'dark'
                             ? 'rgb(226, 232, 240)'
@@ -153,12 +215,13 @@ function CreateBlog() {
                     Send
                 </Button>
 
-                {/* Six Preview Section  */}
+                
                 <div className="">
                     <h1 className=" text-center mb-3 text-2xl">Preview</h1>
                     <div className="content">
                     <div
-                        className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
+                        className={`
+                        [&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
                         ${mode === 'dark' ? '[&>h1]:text-[#ff4d4d]' : '[&>h1]:text-black'}
 
                         [&>h2]:text-[24px] [&>h2]:font-bold [&>h2]:mb-2.5
