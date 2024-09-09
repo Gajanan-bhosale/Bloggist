@@ -16,10 +16,10 @@ function CreateBlog() {
     const { mode } = context;
 
     const [blogs, setBlogs] = useState({
-        title : "",
-        category : "",
-        content : "",
-        time : Timestamp.now(),
+        title: "",
+        category: "",
+        content: "",
+        time: Timestamp.now(),
     });
     const [thumbnail, setthumbnail] = useState();
 
@@ -28,12 +28,12 @@ function CreateBlog() {
     console.log("text: ", text);
 
     const navigate = useNavigate();
-    
+
 
     // console.log(blogs)
 
     const addPost = async () => {
-        if(blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail  === ""){
+        if (blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail === "") {
             return toast.error("All fields are required")
         }
         uploadImage();
@@ -70,12 +70,12 @@ function CreateBlog() {
             });
         });
     }
-    
+
     useEffect(() => {
         window.scrollTo(0, 0)
- }, [])
+    }, [])
 
-   
+
     function createMarkup(c) {
         return { __html: c };
     }
@@ -89,15 +89,15 @@ function CreateBlog() {
                     ? ' 4px solid rgb(226, 232, 240)'
                     : ' 4px solid rgb(30, 41, 59)'
             }}>
-                
+
                 <div className="mb-2 flex justify-between">
                     <div className="flex gap-2 items-center">
-                        
+
                         <Link to={'/dashboard'}>
                             <BsFillArrowLeftCircleFill size={25} />
                         </Link>
 
-                       
+
                         <Typography
                             variant="h4"
                             style={{
@@ -111,9 +111,9 @@ function CreateBlog() {
                     </div>
                 </div>
 
-                
+
                 <div className="mb-3">
-                    
+
                     {thumbnail && <img className=" w-full rounded-md mb-3 "
                         src={thumbnail
                             ? URL.createObjectURL(thumbnail)
@@ -121,7 +121,7 @@ function CreateBlog() {
                         alt="thumbnail"
                     />}
 
-                    
+
                     <Typography
                         variant="small"
                         color="blue-gray"
@@ -131,7 +131,7 @@ function CreateBlog() {
                         Upload Thumbnail
                     </Typography>
 
-                    
+
                     <input
                         type="file"
                         label="Upload thumbnail"
@@ -145,14 +145,14 @@ function CreateBlog() {
                     />
                 </div>
 
-                
+
                 <div className="mb-3">
                     <input
                         label="Enter your Title"
-                       className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
+                        className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
                  outline-none ${mode === 'dark'
-                 ? 'placeholder-black'
-                 : 'placeholder-black'}`}
+                                ? 'placeholder-black'
+                                : 'placeholder-black'}`}
                         placeholder="Enter Your Title"
                         style={{
                             background: mode === 'dark'
@@ -161,18 +161,18 @@ function CreateBlog() {
                         }}
                         name="title"
                         value={blogs.title}
-                        onChange={(e)=> setBlogs({...blogs, title : e.target.value})}
+                        onChange={(e) => setBlogs({ ...blogs, title: e.target.value })}
                     />
                 </div>
 
-                
+
                 <div className="mb-3">
                     <input
                         label="Enter your Category"
                         className={`shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5 
                  outline-none ${mode === 'dark'
-                 ? 'placeholder-black'
-                 : 'placeholder-black'}`}
+                                ? 'placeholder-black'
+                                : 'placeholder-black'}`}
                         placeholder="Enter Your Category"
                         style={{
                             background: mode === 'dark'
@@ -181,28 +181,30 @@ function CreateBlog() {
                         }}
                         name="category"
                         value={blogs.category}
-                        onChange={(e)=> setBlogs({...blogs, category : e.target.value})}
+                        onChange={(e) => setBlogs({ ...blogs, category: e.target.value })}
                     />
                 </div>
 
-                
+
                 <Editor
                     apiKey='wx2tma1e1vl0jghj9qceb1knwuwg4kcjgb0lloggc856oi7t'
                     onEditorChange={(newValue, editor) => {
-                        setBlogs({ blogs, content: newValue });
-                        settext(editor.getContent({ format: 'text' }));
-                    }}
-                    onInit={(evt, editor) => {
+                        setBlogs((prevState) => ({
+                            ...prevState,
+                            content: newValue
+                        }));
                         settext(editor.getContent({ format: 'text' }));
                     }}
                     init={{
-                        plugins: 'a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents template  tinydrive tinymcespellchecker typography visualblocks visualchars wordcount'
+                        plugins: 'advlist autolink link lists media',
+                        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
+                        height: 500,
                     }}
                 />
 
-                
+
                 <Button className=" w-full mt-5"
-                onClick={addPost}
+                    onClick={addPost}
                     style={{
                         background: mode === 'dark'
                             ? 'rgb(226, 232, 240)'
@@ -215,12 +217,12 @@ function CreateBlog() {
                     Send
                 </Button>
 
-                
+
                 <div className="">
                     <h1 className=" text-center mb-3 text-2xl">Preview</h1>
                     <div className="content">
-                    <div
-                        className={`
+                        <div
+                            className={`
                         [&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
                         ${mode === 'dark' ? '[&>h1]:text-[#ff4d4d]' : '[&>h1]:text-black'}
 
@@ -253,10 +255,10 @@ function CreateBlog() {
 
                         [&>img]:rounded-lg
                         `}
-                         dangerouslySetInnerHTML={createMarkup(blogs.content)}>
+                            dangerouslySetInnerHTML={createMarkup(blogs.content)}>
+                        </div>
                     </div>
-            </div>
-        </div >
+                </div >
             </div >
         </div >
     )
