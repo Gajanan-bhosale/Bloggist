@@ -187,7 +187,7 @@ function CreateBlog() {
 
 
                 <Editor
-                    apiKey='wx2tma1e1vl0jghj9qceb1knwuwg4kcjgb0lloggc856oi7t'
+                    apiKey='dq49855cfnu4cla2zjia6z9503k3udcjgqtcumibpwfs720y'
                     onEditorChange={(newValue, editor) => {
                         setBlogs((prevState) => ({
                             ...prevState,
