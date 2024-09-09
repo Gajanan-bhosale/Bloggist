@@ -14,13 +14,15 @@ function Dashboard() {
     const user = location.state?.user || { id: '', name: '', email: '' }; 
 
     useEffect(() => {
-        if (getAllBlog && Array.isArray(getAllBlog)) {
-            const filteredBlogs = getAllBlog.filter(blog => blog?.user?.id === user.id); 
-            setUserBlogs(filteredBlogs);
-            console.log("User Blogs: ", filteredBlogs); 
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        if (storedUser) {
+          setUser(storedUser);
+        } else {
+          navigate('/SignIn'); // Redirect to SignIn if no user data is found
         }
-    }, [getAllBlog, user.id]);
-
+      }, [navigate]);
+    
+      if (!user) return null;
     const logout = () => {
         localStorage.clear('admin');
         navigate('/');

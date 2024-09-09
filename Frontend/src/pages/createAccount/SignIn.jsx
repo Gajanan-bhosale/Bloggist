@@ -7,7 +7,6 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -16,6 +15,8 @@ const SignIn = () => {
       const response = await axios.post('https://bloggist-api.vercel.app/login', { email, password });
 
       if (response.data.status === 'success') {
+        // Save user data in local storage or context
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         navigate('/dashboard', { state: { user: response.data.user } });
       } else if (response.data.status === 'incorrect_password') {
         setError('The password is incorrect.');
@@ -29,7 +30,6 @@ const SignIn = () => {
       setError('An error occurred while trying to sign in.');
     }
   };
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-600">
@@ -66,24 +66,15 @@ const SignIn = () => {
             Sign In
           </button>
           <p className="text-center text-sm text-gray-600">
-          Not registered?{' '}
-          <button
-            onClick={() => navigate('/SignUp')}
-            className="text-blue-600 hover:underline"
-          >
-            Sign Up
-          </button>
-        </p>
+            Not registered?{' '}
+            <button
+              onClick={() => navigate('/SignUp')}
+              className="text-blue-600 hover:underline"
+            >
+              Sign Up
+            </button>
+          </p>
         </form>
-        {/* <p className="text-center text-sm text-gray-600">
-          Not registered?{' '}
-          <button
-            onClick={() => navigate('/signup')}
-            className="text-blue-600 hover:underline"
-          >
-            Sign Up
-          </button>
-        </p> */}
       </div>
     </div>
   );
