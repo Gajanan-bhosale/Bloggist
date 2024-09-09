@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Layout from '../../../components/layout/Layout'
+import React, { useContext, useEffect, useState } from 'react';
+import Layout from '../../../components/layout/Layout';
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,15 +11,15 @@ function Dashboard() {
     const [userBlogs, setUserBlogs] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
-    const user = location.state?.user || { name: '', email: '' };
+    const user = location.state?.user || { id: '', name: '', email: '' }; // include user ID
 
     useEffect(() => {
         if (getAllBlog && Array.isArray(getAllBlog)) {
-            const filteredBlogs = getAllBlog.filter(blog => blog?.user?.email === user.email);
+            const filteredBlogs = getAllBlog.filter(blog => blog?.user?.id === user.id); // filter by user ID
             setUserBlogs(filteredBlogs);
             console.log("User Blogs: ", filteredBlogs); // Log filtered blogs to see if they're correct
         }
-    }, [getAllBlog, user.email]);
+    }, [getAllBlog, user.id]);
 
     const logout = () => {
         localStorage.clear('admin');

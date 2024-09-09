@@ -33,24 +33,26 @@ function CreateBlog() {
     // console.log(blogs)
 
     const addPost = async () => {
-        if(blogs.title === "" || blogs.category === "" || blogs.content === "" || blogs.thumbnail  === ""){
-            return toast.error("All fields are required")
+        if (blogs.title === "" || blogs.category === "" || blogs.content === "" || !thumbnail) {
+            return toast.error("All fields are required");
         }
         uploadImage();
-    }
-
+    };
+    
     const uploadImage = () => {
         if (!thumbnail) return;
         const imageRef = ref(storage, `blogimage/${thumbnail.name}`);
         uploadBytes(imageRef, thumbnail).then((snapshot) => {
             getDownloadURL(snapshot.ref).then((url) => {
-                const productRef = collection(fireDb, "blogPost")
+                const productRef = collection(fireDb, "blogPost");
                 try {
                     addDoc(productRef, {
                         blogs,
                         thumbnail: url,
                         time: Timestamp.now(),
-                        date: new Date().toLocaleString(
+                        userId: user.id, // save the logged-in user's ID with the blog
+                        date: new Date().toLocale
+    (
                             "en-US",
                             {
                                 month: "short",
