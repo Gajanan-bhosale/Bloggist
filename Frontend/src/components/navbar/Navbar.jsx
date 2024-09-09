@@ -4,6 +4,7 @@ import {
     Typography,
     IconButton,
     Avatar,
+    Button,
     Collapse,
 } from "@material-tailwind/react";
 import { useContext } from "react";
@@ -24,6 +25,11 @@ export default function Nav() {
 
     // Handle avatar click
     const handleAvatarClick = () => {
+        navigate('/dashboard');
+    };
+
+    // Handle dashboard button click
+    const handleDashboardButtonClick = () => {
         navigate('/dashboard');
     };
 
@@ -106,6 +112,17 @@ export default function Nav() {
                         {/* Share Icon */}
                         <div className="hidden lg:block">
                             <ShareDialogBox />
+                        </div>
+
+                        {/* Dashboard Button */}
+                        <div>
+                            <Button
+                                onClick={handleDashboardButtonClick}
+                                className="hidden lg:inline-block"
+                                style={{ background: mode === 'dark' ? '#57606f' : '#fca61f', color: 'white' }}
+                            >
+                                Dashboard
+                            </Button>
                         </div>
 
                         {/* Admin Profile Pic */}
