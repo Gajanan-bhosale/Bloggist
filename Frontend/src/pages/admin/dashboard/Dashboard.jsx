@@ -11,13 +11,13 @@ function Dashboard() {
     const [userBlogs, setUserBlogs] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
-    const user = location.state?.user || { id: '', name: '', email: '' }; // include user ID
+    const user = location.state?.user || { id: '', name: '', email: '' }; 
 
     useEffect(() => {
         if (getAllBlog && Array.isArray(getAllBlog)) {
-            const filteredBlogs = getAllBlog.filter(blog => blog?.user?.id === user.id); // filter by user ID
+            const filteredBlogs = getAllBlog.filter(blog => blog?.user?.id === user.id); 
             setUserBlogs(filteredBlogs);
-            console.log("User Blogs: ", filteredBlogs); // Log filtered blogs to see if they're correct
+            console.log("User Blogs: ", filteredBlogs); 
         }
     }, [getAllBlog, user.id]);
 
