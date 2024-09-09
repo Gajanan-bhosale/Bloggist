@@ -94,11 +94,11 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-
-                {/* Line */}
+                                    
+                
                 <hr className={`border-2 ${mode === 'dark' ? 'border-gray-300' : 'border-gray-400'}`} />
 
-                {/* Table */}
+                
                 <div className="">
                     <div className="container mx-auto px-4 max-w-7xl my-5">
                         <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
@@ -131,7 +131,7 @@ function Dashboard() {
                                     </tr>
                                 </thead>
 
-                                {/* tbody */}
+                                
                                 {userBlogs.length > 0
                                     ? userBlogs.map((item, index) => {
                                           const { thumbnail, date, id, blogs } = item;
