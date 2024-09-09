@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../../components/layout/Layout'
 import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
@@ -8,11 +8,16 @@ import { useLocation } from 'react-router-dom';
 function Dashboard() {
     const context = useContext(myContext);
     const { mode, getAllBlog, deleteBlogs } = context;
+    const [ blogCount, setBlogCount] = useState();
     const navigate = useNavigate();
     const location = useLocation();
     const user = location.state?.user || { name: '', email: '' };
 
     console.log(getAllBlog)
+
+    useEffect(() => {
+        setBlogCount(getAllBlog.length);
+    }, [getAllBlog]);
 
     const logout = () => {
         localStorage.clear('admin');
@@ -50,7 +55,7 @@ function Dashboard() {
                         </h2>
                         <h2
                             style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            <span>Total Blog : </span>  15
+                            <span>Total Blog: </span> {blogCount}
                         </h2>
                         <div className=" flex gap-2 mt-2">
                             <Link to={'/createblog'}>
