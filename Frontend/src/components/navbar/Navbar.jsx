@@ -1,6 +1,7 @@
 import React from "react";
-import { Navbar, Typography, Avatar, Collapse } from "@material-tailwind/react";
+import { Navbar, Typography, IconButton, Avatar, Collapse } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { AiOutlineShareAlt, AiOutlineSearch } from 'react-icons/ai'
 import SearchDialog from "../searchDialog/SearchDialog";
 import ShareDialogBox from "../shareDialogBox/ShareDialogBox";
 
@@ -78,16 +79,13 @@ export default function Nav() {
                         {isAuthenticated && (
                             <div>
                                 <Link to={'/dashboard'}>
-                                    <div className="flex items-center gap-2">
+                                    <div className="">
                                         <Avatar
-                                            src={user?.avatar || 'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'}
-                                            alt={user?.name || 'avatar'}
+                                            src={'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'}
+                                            alt="avatar"
                                             withBorder={true}
-                                            className="p-0.5 text-red-500 w-10 h-10 cursor-pointer"
+                                            className="p-0.5 text-red-500 w-10 h-10"
                                         />
-                                        <Typography className="hidden lg:block">
-                                            {user?.name || 'User'}
-                                        </Typography>
                                     </div>
                                 </Link>
                             </div>
