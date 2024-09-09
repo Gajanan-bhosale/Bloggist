@@ -1,40 +1,52 @@
 import axios from 'axios';
+import { JsonWebTokenError } from 'jsonwebtoken';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+const URL = 'https://bloggist-api.vercel.app/login'
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    email: "",
+    password: ""
+  })
+
+  handleInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value
+
+    setUser({
+      ...user,
+      [name]: value,
+    })
+  }
   
   const handleSignIn = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://bloggist-api.vercel.app/login', { email, password });
+      const response = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      console.log("login Form", response);
 
-      if (response.data.status === 'success') {
-        // Assume the response includes a JWT token
-        const token = response.data.token;
-        const expiresIn = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+      if (response.ok) {
+        alert("Login Successful")
+        setUser({ email: "", password: ""});
+      }else{
+        alert("invalid credential")
+        console.log("invalid credentials");
 
-        // Store token and expiration time in localStorage
-        localStorage.setItem('authToken', token);
-        localStorage.setItem('tokenExpiration', Date.now() + expiresIn);
-
-        navigate('/dashboard', { state: { user: response.data.user } });
-      } else if (response.data.status === 'incorrect_password') {
-        setError('The password is incorrect.');
-      } else if (response.data.status === 'user_not_found') {
-        setError('User not found. Please create an account.');
-      } else {
-        setError('An unexpected error occurred.');
       }
-    } catch (err) {
-      console.error(err);
-      setError('An error occurred while trying to sign in.');
+    } catch (error) {
+      console.log(error);
     }
+      
   };
 
   return (
@@ -47,8 +59,8 @@ const SignIn = () => {
             <input
               id="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={user.email}
+              onChange={handleInput}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
@@ -58,8 +70,8 @@ const SignIn = () => {
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={user.password}
+              onChange={handleInput}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
