@@ -11,7 +11,7 @@ function Dashboard() {
     const [userBlogs, setUserBlogs] = useState([]);
     const navigate = useNavigate();
     const location = useLocation();
-    const user = location.state?.user || { id: '', name: '', email: '' }; 
+    const user = location.state?.user || { id: '', name: '', email: '' }; // include user ID
 
     useEffect(() => {
         if (getAllBlog && Array.isArray(getAllBlog)) {
