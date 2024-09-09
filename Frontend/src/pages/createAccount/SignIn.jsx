@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const URL = 'https://bloggist-api.vercel.app/login'
+const URL = 'https://bloggist-api.vercel.app/login';
 
 const SignIn = () => {
   const [error, setError] = useState('');
@@ -13,10 +13,10 @@ const SignIn = () => {
 
   const handleInput = (e) => {
     let name = e.target.name;
-    let value = e.target.value
+    let value = e.target.value;
 
     setUser({
-      ...user,
+      ... user,
       [name]: value,
     })
   }

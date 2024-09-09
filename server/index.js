@@ -3,14 +3,17 @@ const mongoose = require('mongoose')
 const cors = require("cors")
 const EmployeeModel = require('./modules/Employee')
 
-const app = express()
-app.use(express.json())
-app.use(cors({
+const corsOptions = {
     origin: 'https://bloggist-frontend.vercel.app', 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
-    
-}));
+}
+app.use(cors(corsOptions));
+
+
+const app = express()
+app.use(express.json())
+
 mongoose.connect('mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist');
 
 app.get('/getUserData', (req, res) => {
