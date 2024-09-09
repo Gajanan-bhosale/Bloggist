@@ -14,14 +14,12 @@ function Dashboard() {
     const user = location.state?.user || { name: '', email: '' };
 
     useEffect(() => {
-        console.log("User: ", user); // Log the user
-        console.log("All Blogs: ", getAllBlog); // Log the blogs array
-      
         if (getAllBlog && Array.isArray(getAllBlog)) {
-          const filteredBlogs = getAllBlog.filter(blog => blog?.user?.email === user.email);
-          setUserBlogs(filteredBlogs);
+            const filteredBlogs = getAllBlog.filter(blog => blog?.user?.email === user.email);
+            setUserBlogs(filteredBlogs);
+            console.log("User Blogs: ", filteredBlogs); // Log filtered blogs to see if they're correct
         }
-      }, [getAllBlog, user.email]);
+    }, [getAllBlog, user.email]);
 
     const logout = () => {
         localStorage.clear('admin');
