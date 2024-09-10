@@ -10,11 +10,8 @@ const corsOptions = {
     origin: 'https://bloggist-frontend.vercel.app', 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 
 app.use("/api/auth",router)
 
