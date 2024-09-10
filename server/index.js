@@ -2,18 +2,60 @@ require("dotenv").config();
 const express = require("express")
 const cors = require("cors")
 const router = require("./router/auth-router")
-const connectDb = require('./utils/db')
+const connectDb = require('./utils/db');
+const errorMiddleware = require("./middlewares/error-middleware");
 
 const app = express()
 app.use(express.json())
 const corsOptions = {
     origin: 'https://bloggist-frontend.vercel.app', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
 }
 app.use(cors(corsOptions));
 
 app.use("/api/auth",router)
+
+app.use(errorMiddleware);
+
+connectDb().then(() =>{
+app.listen(3001, () => {
+    console.log("server is running")
+})
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -57,10 +99,3 @@ app.use("/api/auth",router)
 //         .then(employees => res.json(employees))
 //         .catch(err => res.json(err))
 // })
-connectDb().then(() =>{
-app.listen(3001, () => {
-    console.log("server is running")
-})
-})
-
-

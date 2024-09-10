@@ -25,7 +25,8 @@ const login = async(req,res) =>{
             res.status(401).json({message: "Invalid email or Password"})
         }
     } catch (error) {
-        res.status(500).json("Internal server error") 
+        // res.status(500).json("Internal server error")
+        next(error) 
     }
 }
 
@@ -40,16 +41,12 @@ const register = async(req, res) => {
         if (userExit) {
             return res.status(400).json({ msg : "email already exist"})
         }
-
-        const saltRound = 10;
-        const hash_password = await bcrypt.hash(password, saltRound)
-         
-        const userCreated = await EmployeeModel.create({name, email, password: hash_password});
+        const userCreated = await EmployeeModel.create({name, email, password });
 
         res.status(201).json({msg : userCreated, token: await userCreated.generateToken(), userId: userCreated._id > this.toString(),});
     } catch(error) {
-        res.status(500).json("internal server error")
+        next(error)
     }
 }
 
-module.exports = {login, register}
+module.exports = {login, register};

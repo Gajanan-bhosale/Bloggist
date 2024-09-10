@@ -29,7 +29,7 @@ const SignUp = () => {
     //   })
     //   .catch(err=> console.log(err))
     try {
-      const response = await fetch('https://bloggist-api.vercel.app/register', {
+      const response = await fetch(`https://bloggist-api.vercel.app/register`, {
         method: 'POST',
         headers : {
           'Content-Type' : 'application/json',

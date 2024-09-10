@@ -24,7 +24,7 @@ const SignIn = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch('https://bloggist-api.vercel.app/api/auth/login', {
+      const response = await fetch(`https://bloggist-api.vercel.app/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
