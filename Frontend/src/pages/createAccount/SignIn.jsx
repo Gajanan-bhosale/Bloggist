@@ -23,33 +23,28 @@ const SignIn = () => {
   
   const handleSignIn = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch(URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: 'include',  // Ensure that credentials (cookies, etc.) are sent along with the request
         body: JSON.stringify(user),
       });
-      console.log("login Form", response);
-
+  
       if (response.ok) {
-        alert("Login Successful")
-        setUser({ email: "", password: ""});
-        navigate('/dashboard')
-      }else{
-        alert("invalid credential")
-        console.log("invalid credentials");
-
+        alert("Login Successful");
+        setUser({ email: "", password: "" });
+        navigate('/dashboard');
+      } else {
+        alert("Invalid credentials");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Failed to login:", error);
     }
-      
   };
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-600">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
