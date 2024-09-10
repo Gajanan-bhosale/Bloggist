@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const URL = 'https://bloggist-api.vercel.app/api/auth/login';
 
 const SignIn = () => {
   const [error, setError] = useState('');
@@ -25,12 +24,11 @@ const SignIn = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch(URL, {
+      const response = await fetch('https://bloggist-api.vercel.app/api/auth/login', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        },
-        credentials: 'include',  // Ensure that credentials (cookies, etc.) are sent along with the request
+        },  
         body: JSON.stringify(user),
       });
   
