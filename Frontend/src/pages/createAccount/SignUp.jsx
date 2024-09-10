@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'
 
 const SignUp = () => {
   const [error, setError] = useState('');
@@ -30,7 +29,7 @@ const SignUp = () => {
     //   })
     //   .catch(err=> console.log(err))
     try {
-      const response = await fetch('https://bloggist-api.vercel.app/register', {
+      const response = await fetch('https://bloggist-api.vercel.app/api/auth/register', {
         method: 'POST',
         headers : {
           'Content-Type' : 'application/json',

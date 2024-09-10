@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const URL = 'https://bloggist-api.vercel.app/login';
+const URL = 'https://bloggist-api.vercel.app/api/auth/login';
 
 const SignIn = () => {
   const [error, setError] = useState('');

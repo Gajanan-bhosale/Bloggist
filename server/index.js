@@ -13,7 +13,7 @@ const corsOptions = {
 }
 app.use(cors(corsOptions));
 
-app.use("/",router)
+app.use("/api/auth",router)
 
 
 
