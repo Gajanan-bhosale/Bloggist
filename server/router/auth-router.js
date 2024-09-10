@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router();
 const EmployeeModel = require('../modules/Employee')
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 
 router.get('/getUserData', (req, res) => {
     EmployeeModel.find()
