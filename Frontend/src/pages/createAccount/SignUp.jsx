@@ -3,27 +3,52 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 const SignUp = () => {
-  const [data, setData] = useState({
-    name : "",
-    email : "",
-    password : ""
-  })
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    name : "",
+    email: "",
+    password: ""
+  })
+
+  const handleInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    setUser({
+      ... user,
+      [name]: value,
+    })
+  }
 
   const handleSignUp = async(e) => {
     e.preventDefault();
     
-    axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
-      .then(result => {console.log(result)
-        navigate('/SignIn')
+    // axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
+    //   .then(result => {console.log(result)
+    //     navigate('/SignIn')
+    //   })
+    //   .catch(err=> console.log(err))
+    try {
+      const response = fetch('https://bloggist-api.vercel.app/api/auth/register', {
+        method: 'POST',
+        headers : {
+          'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify(user),
       })
-      .catch(err=> console.log(err))
 
+      if(response.ok) {
+        setUser({ name: "", email: "", password: ""});
+        navigate("/SignIn")
+      }
+      console.log("Registration", response);
+    
+    } catch (error) {
+      console.log("register", error)
     }
+  }
+  
   
 
   return (
@@ -36,8 +61,9 @@ const SignUp = () => {
             <input
               id="name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              name= "name"
+              value={user.name}
+              onChange={handleInput}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
@@ -47,8 +73,9 @@ const SignUp = () => {
             <input
               id="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name= "email"
+              value={user.email}
+              onChange={handleInput}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
@@ -58,8 +85,9 @@ const SignUp = () => {
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name= "password"
+              value={user.password}
+              onChange={handleInput}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
