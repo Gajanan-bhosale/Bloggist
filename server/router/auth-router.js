@@ -1,4 +1,4 @@
-const express =require("express")
+const express = require("express")
 const router = express.Router();
 const EmployeeModel = require('../modules/Employee')
 const bcrypt = require("bcrypt")
