@@ -30,7 +30,6 @@ const SignIn = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        mode: 'no-cors',
         credentials: 'include',  // Ensure that credentials (cookies, etc.) are sent along with the request
         body: JSON.stringify(user),
       });
