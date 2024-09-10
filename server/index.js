@@ -19,7 +19,7 @@ app.use("/api/auth",router)
 
 
 
-// mongoose.connect('mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist');
+mongoose.connect('mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist');
 
 
 
@@ -58,10 +58,10 @@ app.use("/api/auth",router)
 //         .then(employees => res.json(employees))
 //         .catch(err => res.json(err))
 // })
-connectDb().then(() =>{
+
 app.listen(3001, () => {
     console.log("server is running")
 })
-})
+
 
 
