@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../store/auth';
+
 
 const SignUp = () => {
   const [error, setError] = useState('');
@@ -9,6 +11,9 @@ const SignUp = () => {
     email: "",
     password: ""
   })
+
+  const {storeTokenInLS} = useAuth();
+
 
   const handleInput = (e) => {
     let name = e.target.name;
@@ -29,7 +34,7 @@ const SignUp = () => {
     //   })
     //   .catch(err=> console.log(err))
     try {
-      const response = await fetch(`https://bloggist-api.vercel.app/api/auth/register`, {
+      const response = await fetch(`http://localhost:5000/api/auth/register`, {
         method: 'POST',
         headers : {
           'Content-Type' : 'application/json',
@@ -38,6 +43,11 @@ const SignUp = () => {
       })
 
       if(response.ok) {
+        const res_data = await response.json();
+        console.log("res from server", res_data)
+        // localStorage.setItem("token", res_data.token)
+        console.log('res from server')
+        storeTokenInLS(res_data.token)
         setUser({ name: "", email: "", password: ""});
         navigate("/SignIn")
       }

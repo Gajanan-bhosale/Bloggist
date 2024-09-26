@@ -1,25 +1,42 @@
 require("dotenv").config();
 const express = require("express")
 const cors = require("cors")
-const router = require("./router/auth-router")
-const connectDb = require('./utils/db');
-const errorMiddleware = require("./middlewares/error-middleware");
+const authrouter = require("./src/router/auth-router")
+const postrouter = require("./src/router/post-route")
+const connectDb = require('./src/utils/db');
+const path = require('path')
+// const multer = require('multer')
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, 'uploads')
+//     },
+//     filename: function (req, file, cb) {
+//       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+//       cb(null, file.fieldname + '-' + uniqueSuffix)
+//     }
+//   })
+
+//   const upload = multer({ storage: storage })
+
 
 const app = express()
 app.use(express.json())
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 const corsOptions = {
-    origin: 'https://bloggist-frontend.vercel.app', 
+    origin: 'http://localhost:5173', 
     methods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
 }
 app.use(cors(corsOptions));
 
-app.use("/api/auth",router)
+app.use("/api/auth",authrouter)
+app.use("/api/post",postrouter)
 
-app.use(errorMiddleware);
+
 
 connectDb().then(() =>{
-app.listen(3001, () => {
+app.listen(5000, () => {
     console.log("server is running")
 })
 })
@@ -62,7 +79,7 @@ app.listen(3001, () => {
 
 // mongoose.connect('mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist');
 
-
+// origin: 'https://bloggist-frontend.vercel.app',
 
 // app.get('/getUserData', (req, res) => {
 //     EmployeeModel.find()

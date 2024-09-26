@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../store/auth';
 
 const SignIn = () => {
   const [error, setError] = useState('');
@@ -9,6 +10,8 @@ const SignIn = () => {
     email: "",
     password: ""
   })
+
+  const {storeTokenInLS} = useAuth();
 
   const handleInput = (e) => {
     let name = e.target.name;
@@ -22,27 +25,27 @@ const SignIn = () => {
   
   const handleSignIn = async (e) => {
     e.preventDefault();
-  
     try {
-      const response = await fetch(`https://bloggist-api.vercel.app/api/auth/login`, {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        },  
+        },
         body: JSON.stringify(user),
       });
-  
+
       if (response.ok) {
-        alert("Login Successful");
-        setUser({ email: "", password: "" });
-        navigate('/dashboard');
-      } else {
-        alert("Invalid credentials");
+        const responseData = await response.json();
+        console.log("after login: ", responseData);
+        storeTokenInLS(responseData.token)
+        setUser({email: "", password: ""});
+        navigate("/dashboard");
       }
     } catch (error) {
-      console.error("Failed to login:", error);
+      console.log(error);
     }
   };
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-600">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">

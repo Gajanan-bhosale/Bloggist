@@ -1,82 +1,51 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import MyContext from './myContext';
-import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { fireDb } from '../../firebase/FirebaseConfig';
-import toast from 'react-hot-toast';
+import axios from 'axios';
 
 function MyState(props) {
-    const [mode, setMode] = useState('light'); // Whether dark mode is enabled or not
-    const toggleMode = () => {
-        if (mode === 'light') {
-            setMode('dark');
-            document.body.style.backgroundColor = 'rgb(17, 24, 39)';
-        }
-        else {
-            setMode('light');
-            document.body.style.backgroundColor = 'white';
-        }
-    }
-
-    const [searchkey, setSearchkey] = useState('')
-    const [loading, setloading] = useState(false);
-
+    const [mode, setMode] = useState('light');
     const [getAllBlog, setGetAllBlog] = useState([]);
+    const [singlePost, setSinglePost] = useState(null);
 
+    const toggleMode = () => {
+        setMode((prevMode) => prevMode === 'light' ? 'dark' : 'light');
+        document.body.style.backgroundColor = mode === 'light' ? 'rgb(17, 24, 39)' : 'white';
+    };
 
-    function getAllBlogs() {
-        setloading(true);
+    const getAllBlogs = async () => {
         try {
-            const q = query(
-                collection(fireDb, "blogPost"),
-                orderBy('time')
-            );
-            const data = onSnapshot(q, (QuerySnapshot) => {
-                let blogArray = [];
-                QuerySnapshot.forEach((doc) => {
-                    blogArray.push({ ...doc.data(), id: doc.id });
-                });
-                
-                setGetAllBlog(blogArray)
-                // console.log(productsArray)   
-                         setloading(false)
-    
-            });
-            return () => data;
+            const response = await axios.get('http://localhost:5000/api/post/get_all_posts');
+            setGetAllBlog(response.data);
         } catch (error) {
-            console.log(error)
-            setloading(false)
+            console.error('Error fetching posts:', error);
         }
-    }
+    };
+
+    const getPostById = async (postId) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/post/get_post/${postId}`);
+            setSinglePost(response.data);
+        } catch (error) {
+            console.error('Error fetching post:', error);
+        }
+    };
 
     useEffect(() => {
-        getAllBlogs()
+        getAllBlogs();
     }, []);
 
-    // Blog Delete Function 
-    const deleteBlogs = async (id) => {
-        try {
-            await deleteDoc(doc(fireDb, "blogPost", id));
-            getAllBlogs()
-            toast.success("Blogs deleted successfully")
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    
     return (
-        <MyContext.Provider value={{ 
-            mode, 
+        <MyContext.Provider value={{
+            mode,
             toggleMode,
-            searchkey,
-            setSearchkey,
-            loading,
-            setloading,
-            getAllBlog ,
-            deleteBlogs
-            }}>
+            getAllBlog,
+            setGetAllBlog,
+            singlePost,
+            getPostById,
+        }}>
             {props.children}
         </MyContext.Provider>
-    )
+    );
 }
 
-export default MyState
+export default MyState;
