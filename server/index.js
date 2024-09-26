@@ -1,38 +1,32 @@
-// api/server.js
 require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const authrouter = require("./src/router/auth-router");
-const postrouter = require("./src/router/post-route");
+const express = require("express")
+const cors = require("cors")
+const authrouter = require("./src/router/auth-router")
+const postrouter = require("./src/router/post-route")
 const connectDb = require('./src/utils/db');
-const path = require('path');
+const path = require('path')
 
-const app = express();
-app.use(express.json());
+const app = express()
+app.use(express.json())
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 const corsOptions = {
-    origin: 'https://bloggist-frontend.vercel.app',
+    origin: 'https://bloggist-frontend.vercel.app', 
     methods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
-};
+}
 app.use(cors(corsOptions));
 
-app.use("/api/auth", authrouter);
-app.use("/api/post", postrouter);
+app.use("/api/auth",authrouter)
+app.use("/api/post",postrouter)
 
-// Connect to the database and start the server
-connectDb().then(() => {
-    app.listen(5000, () => {
-        console.log("Server is running");
-    });
-}).catch(err => {
-    console.error("Database connection failed:", err);
-    process.exit(1);
-});
 
-// Export the Express app as a Vercel Serverless function
-module.exports = app;
+connectDb().then(() =>{
+app.listen(5000, () => {
+    console.log("server is running")
+})
+})
+
 
 
 
