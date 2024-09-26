@@ -1,10 +1,7 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "index.js",
-      "use": "@vercel/node"
-    }
+    { "src": "./index.js", "use": "@vercel/node" }
   ],
   "routes": [
     {
@@ -12,16 +9,8 @@
       "dest": "/api/$1"
     },
     {
-      "src": "/uploads/(.*)",
-      "dest": "/uploads/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "/"
     }
-  ],
-  "env": {
-    "MONGODB_URI": "mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist",
-    "JWT_SECURITY_KEY": "BLOGGISTWEBAPPLICATION"
-  }
+  ]
 }
