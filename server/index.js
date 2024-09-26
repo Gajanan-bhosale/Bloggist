@@ -14,19 +14,19 @@ const corsOptions = {
     origin: 'https://bloggist-frontend.vercel.app',
     methods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
-  };
-  app.use(cors(corsOptions));
+};
+app.use(cors(corsOptions));
 
 app.use("/api/auth",authrouter)
 app.use("/api/post",postrouter)
 
 
-const port = process.env.PORT || 5000;
-connectDb().then(() => {
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
-});
+connectDb().then(() =>{
+app.listen(5000, () => {
+    console.log("server is running")
+})
+})
+
 
 
 
