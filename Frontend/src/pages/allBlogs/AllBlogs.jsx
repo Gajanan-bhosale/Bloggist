@@ -15,7 +15,7 @@ function AllBlogs() {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/post/get_posts/${user._id}`, {
+      const response = await axios.get(`https://bloggist-api.vercel.app/api/post/get_posts/${user._id}`, {
         params: { userId: user._id },
       });
       setUserBlogs(response.data);

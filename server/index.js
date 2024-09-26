@@ -24,7 +24,8 @@ app.use(express.json())
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 const corsOptions = {
-    origin: 'http://localhost:5173', 
+    // origin: 'http://localhost:5173',
+    origin: 'https://bloggist-frontend.vercel.app/', 
     methods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
 }

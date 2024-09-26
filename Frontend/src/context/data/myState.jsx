@@ -14,7 +14,7 @@ function MyState(props) {
 
     const getAllBlogs = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/post/get_all_posts');
+            const response = await axios.get('https://bloggist-api.vercel.app/api/post/get_all_posts');
             setGetAllBlog(response.data);
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -23,7 +23,7 @@ function MyState(props) {
 
     const getPostById = async (postId) => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/post/get_post/${postId}`);
+            const response = await axios.get(`https://bloggist-api.vercel.app/api/post/get_post/${postId}`);
             setSinglePost(response.data);
         } catch (error) {
             console.error('Error fetching post:', error);
