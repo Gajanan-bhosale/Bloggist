@@ -13,32 +13,36 @@ const get_all_posts = async (req, res) => {
     }
 };
 
-const add_post = function (req, res) {
-    const thumbnail = req.file.path;
-    const title = req.body.title;
-    const category = req.body.category;
-    const content = req.body.content;
-
-    // Ensure userId is a valid ObjectId
-    let userId;
+const add_post = async (req, res) => {
     try {
-        userId = new mongoose.Types.ObjectId(req.body.userId); // Use 'new' keyword here
+        // Check for required fields
+        if (!req.file || !req.body.title || !req.body.category || !req.body.content) {
+            return res.status(400).send({ message: 'All fields are required' });
+        }
+
+        const thumbnail = req.file.path; // Ensure this is defined
+        const title = req.body.title;
+        const category = req.body.category;
+        const content = req.body.content;
+
+        let userId;
+        try {
+            userId = new mongoose.Types.ObjectId(req.body.userId);
+        } catch (error) {
+            return res.status(400).send({ message: 'Invalid User ID' });
+        }
+
+        const product = new Products({ thumbnail, title, category, content, userId });
+
+        const savedPost = await product.save();
+        console.log('Post saved with ID:', savedPost._id);
+        res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
     } catch (error) {
-        return res.status(400).send({ message: 'Invalid User ID' }); // Handle invalid userId format
+        console.error('Error saving post:', error);
+        res.status(500).send({ message: 'Server error', error: error.message });
     }
-
-    const product = new Products({ thumbnail, title, category, content, userId });
-
-    product.save()
-        .then((savedPost) => {
-            console.log('Post saved with ID:', savedPost._id); // Debugging log to confirm save
-            res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
-        })
-        .catch((error) => {
-            console.error('Error saving post:', error);
-            res.status(500).send({ message: 'Server error' });
-        });
 };
+
 
 
 // Add a new post
