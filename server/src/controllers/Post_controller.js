@@ -14,26 +14,24 @@ const get_all_posts = async (req, res) => {
 };
 
 const add_post = function (req, res) {
-    if (!req.file) {
-        return res.status(400).send({ message: 'Thumbnail file is required' });
-    }
-
     const thumbnail = req.file.path;
     const title = req.body.title;
     const category = req.body.category;
     const content = req.body.content;
 
+    // Ensure userId is a valid ObjectId
     let userId;
     try {
-        userId = new mongoose.Types.ObjectId(req.body.userId);
+        userId = new mongoose.Types.ObjectId(req.body.userId); // Use 'new' keyword here
     } catch (error) {
-        return res.status(400).send({ message: 'Invalid User ID' });
+        return res.status(400).send({ message: 'Invalid User ID' }); // Handle invalid userId format
     }
 
     const product = new Products({ thumbnail, title, category, content, userId });
 
     product.save()
         .then((savedPost) => {
+            console.log('Post saved with ID:', savedPost._id); // Debugging log to confirm save
             res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
         })
         .catch((error) => {
