@@ -14,11 +14,16 @@ const get_all_posts = async (req, res) => {
 };
 
 const add_post = function (req, res) {
-    console.log(req.body);
-    const thumbnail = req.file.path;
+    const thumbnail = req.file ? req.file.path : null; // Ensure req.file exists
     const title = req.body.title;
     const category = req.body.category;
     const content = req.body.content;
+
+    console.log("Thumbnail:", thumbnail);
+    console.log("Title:", title);
+    console.log("Category:", category);
+    console.log("Content:", content);
+    console.log("User ID:", req.body.userId);
 
     // Ensure userId is a valid ObjectId
     let userId;
