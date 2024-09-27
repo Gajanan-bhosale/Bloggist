@@ -66,6 +66,7 @@ function AdminBlog() {
     try {
       await axios.put(`https://bloggist-backend.onrender.com/api/post/update_post/${postId}`, getBlogs);
       alert('Blog updated successfully');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error updating post:', error);
     }
