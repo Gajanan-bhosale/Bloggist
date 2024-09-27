@@ -23,17 +23,16 @@ function CreateBlog() {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        if (!user._id) {
-            alert("User ID is missing.");
-            return;
-        }
+        console.log("Form Data:", blog); // Log current state of blog object
     
         const formData = new FormData();
         formData.append('thumbnail', blog.thumbnail);
         formData.append('title', blog.title);
         formData.append('category', blog.category);
         formData.append('content', blog.content);
-        formData.append('userId', user._id);  // Check if user ID is correctly assigned
+        formData.append('userId', user._id);
+    
+        console.log("Sending FormData:", formData); // Check if all fields are appended correctly
     
         axios.post('https://bloggist-api.vercel.app/api/post/add_post', formData)
             .then((res) => {
@@ -44,6 +43,7 @@ function CreateBlog() {
                 console.error('Error during blog post submission:', err.response.data);
             });
     };
+    
     
 
     useEffect(() => {

@@ -14,11 +14,8 @@ const get_all_posts = async (req, res) => {
 };
 
 const add_post = (req, res) => {
-    console.log("File:", req.file); // Debug the uploaded file
-    console.log("Body:", req.body); // Debug the form data
-
     const { title, category, content, userId } = req.body;
-    const thumbnail = req.file ? req.file.path : null; // Ensure thumbnail is being uploaded
+    const thumbnail = req.file ? req.file.path : null;
 
     if (!title || !category || !content || !userId || !thumbnail) {
         return res.status(400).send({ message: 'All fields are required' });
@@ -33,6 +30,7 @@ const add_post = (req, res) => {
             res.status(500).send({ message: 'Server error' });
         });
 };
+
 
 
 
