@@ -15,7 +15,7 @@ function AllBlogs() {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_posts/${user._id}`, {
+      const response = await axios.get(`https://bloggist-api.vercel.app/api/post/get_posts/${user._id}`, {
         params: { userId: user._id },
       });
       setUserBlogs(response.data);
@@ -53,7 +53,7 @@ function AllBlogs() {
                       border rounded-lg overflow-hidden`}
                       onClick={() => navigate(`/adminblog/${_id}`)}
                     >
-                      <img className="w-full h-48 object-cover" src={`https://bloggist-backend.onrender.com/${thumbnail}`} alt="blog" />
+                      <img className="w-full h-48 object-cover" src={`https://bloggist-api.vercel.app/${thumbnail}`} alt="blog" />
                       <div className="p-6">
                         <p className="tracking-widest text-sm font-medium mb-1 text-gray-500"
                           style={{ color: mode === 'dark' ? '#E2E8F0' : '#1E293B' }}>
