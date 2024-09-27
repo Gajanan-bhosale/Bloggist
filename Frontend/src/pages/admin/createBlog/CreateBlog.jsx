@@ -23,16 +23,14 @@ function CreateBlog() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(user);
-    
+
         const formData = new FormData();
         formData.append('thumbnail', blog.thumbnail);
         formData.append('title', blog.title);
         formData.append('category', blog.category);
         formData.append('content', blog.content);
         formData.append('userId', user._id); // Send the logged-in user's ID
-    
-        console.log(Array.from(formData)); // Log the contents of formData for debugging
-    
+
         axios.post('https://bloggist-api.vercel.app/api/post/add_post', formData)
             .then((res) => {
                 console.log(res);
@@ -42,7 +40,6 @@ function CreateBlog() {
                 console.log(err);
             });
     };
-    
 
     useEffect(() => {
         window.scrollTo(0, 0);

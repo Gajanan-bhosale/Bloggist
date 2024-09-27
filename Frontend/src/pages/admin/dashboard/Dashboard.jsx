@@ -14,7 +14,7 @@ function Dashboard() {
     const { user } = useAuth();
 
     const fetchPosts = async () => {
-        try {z
+        try {
             const response = await axios.get(`https://bloggist-api.vercel.app/api/post/get_posts/${user._id}`, {
                 params: { userId: user._id },
             });
