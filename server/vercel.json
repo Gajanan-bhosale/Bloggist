@@ -6,8 +6,7 @@
     "routes": [
         {
           "src": "/(.*)",
-          "dest": "/",
-          "methods": ["GET", "POST", "PUT", "DELETE","PTCH"]
+          "dest": "/"
         }
     ]
   }
