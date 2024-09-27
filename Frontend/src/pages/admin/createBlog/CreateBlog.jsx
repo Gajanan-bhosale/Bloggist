@@ -31,7 +31,7 @@ function CreateBlog() {
         formData.append('content', blog.content);
         formData.append('userId', user._id); // Send the logged-in user's ID
 
-        axios.post('https://bloggist-api.vercel.app/api/post/add_post', formData)
+        axios.post('https://bloggist-backend.onrender.com/api/post/add_post', formData)
             .then((res) => {
                 console.log(res);
                 navigate("/dashboard");

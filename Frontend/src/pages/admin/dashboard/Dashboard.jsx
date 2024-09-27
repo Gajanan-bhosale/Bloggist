@@ -15,7 +15,7 @@ function Dashboard() {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get(`https://bloggist-api.vercel.app/api/post/get_posts/${user._id}`, {
+            const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_posts/${user._id}`, {
                 params: { userId: user._id },
             });
             setUserBlogs(response.data);
@@ -134,7 +134,7 @@ function Dashboard() {
                                                     {index + 1}.
                                                 </td>
                                                 <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    <img className='w-16 rounded-lg' src={'https://bloggist-api.vercel.app/' + thumbnail} alt="thumbnail" />
+                                                    <img className='w-16 rounded-lg' src={'https://bloggist-backend.onrender.com/' + thumbnail} alt="thumbnail" />
                                                 </td>
                                                 <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
                                                     {title}

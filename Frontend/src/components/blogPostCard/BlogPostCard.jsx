@@ -28,7 +28,7 @@ function BlogPostCard() {
                       >
                         <img
                           className="w-full h-48 object-cover"
-                          src={`https://bloggist-api.vercel.app/${thumbnail}`}
+                          src={`https://bloggist-backend.onrender.com/${thumbnail}`}
                           alt="blog"
                         />
                         <div className="p-6">

@@ -216,7 +216,7 @@ function AdminBlog() {
   const handleUpdate = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/post/update_post/${postId}`, 
+        `https://bloggist-backend.onrender.com/api/post/update_post/${postId}`, 
         getBlogs
       );
       alert('Blog updated successfully');
@@ -228,7 +228,7 @@ function AdminBlog() {
   // Handle Delete
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/post/delete_post/${postId}`);
+      await axios.delete(`https://bloggist-backend.onrender.com/api/post/delete_post/${postId}`);
       alert('Blog deleted successfully');
       navigate('/dashboard');  // Redirect to admin page after deletion
     } catch (error) {
@@ -247,7 +247,7 @@ function AdminBlog() {
                 <img
                   alt="content"
                   className="mb-3 rounded-lg h-full w-full"
-                  src={'http://localhost:5000/' + getBlogs.thumbnail}
+                  src={'https://bloggist-backend.onrender.com/' + getBlogs.thumbnail}
                 />
               )}
 

@@ -20,7 +20,7 @@ function BlogInfo() {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await axios.get(`https://bloggist-api.vercel.app/api/post/get_blog_post/${postId}`);
+        const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_blog_post/${postId}`);
         setGetBlogs(response.data);
       } catch (error) {
         console.error('Error fetching post data:', error);
@@ -63,7 +63,7 @@ function BlogInfo() {
               <img
                 alt="content"
                 className="mb-3 rounded-lg h-auto w-full object-cover shadow-md"
-                src={'https://bloggist-api.vercel.app/' + getBlogs.thumbnail}
+                src={'https://bloggist-backend.onrender.com/' + getBlogs.thumbnail}
               />
               <div className="flex justify-between items-center mb-3">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold"
