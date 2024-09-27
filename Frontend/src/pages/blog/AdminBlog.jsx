@@ -190,7 +190,7 @@ function AdminBlog() {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await axios.get(`https://bloggist-api.vercel.app/api/post/get_blog_post/${postId}`);
+        const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_blog_post/${postId}`);
         const blogData = response.data;
 
         // Strip HTML tags from content and update state
