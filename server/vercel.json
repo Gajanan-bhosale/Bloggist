@@ -19,5 +19,9 @@
       "src": "/(.*)",
       "dest": "/"
     }
-  ]
+  ],
+  "env": {
+    "MONGODB_URI": "mongodb+srv://gajananbhosale902152:wTn5MO29AiEJq9ne@bloggist.t5qjx.mongodb.net/?retryWrites=true&w=majority&appName=Bloggist",
+    "JWT_SECURITY_KEY": "BLOGGISTWEBAPPLICATION"
+  }
 }
