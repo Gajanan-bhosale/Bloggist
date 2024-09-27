@@ -7,6 +7,10 @@
         {
           "src": "/(.*)",
           "dest": "/"
+        },
+        {
+          "src": "/uploads/(.*)",
+          "dest": "/uploads/$1"
         }
     ]
   }

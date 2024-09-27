@@ -12,7 +12,7 @@ app.use(express.json())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 const corsOptions = {
     origin: 'https://bloggist-frontend.vercel.app',
-    methods: ["GET, POST, PUT, DELETE, OPTIONS"],
+    methods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
 };
 app.use(cors(corsOptions));
