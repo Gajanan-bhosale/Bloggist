@@ -29,7 +29,6 @@ function Dashboard() {
         navigate('/');
     };
 
-
     useEffect(() => {
         if (user) {
             fetchPosts();
@@ -78,16 +77,6 @@ function Dashboard() {
                                     Create Blog
                                 </Button>
                             </Link>
-                            {/* <Button
-                                onClick={logout}
-                                style={{
-                                    background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
-                                    color: mode === 'dark' ? 'black' : 'white'
-                                }}
-                                className="px-8 py-2"
-                            >
-                                Logout
-                            </Button> */}
                         </div>
                     </div>
                 </div>
@@ -143,7 +132,7 @@ function Dashboard() {
                                                     {category}
                                                 </td>
                                                 <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {date}
+                                                    {new Date(date).toLocaleDateString()}
                                                 </td>
                                                 <td className="px-6 py-4 flex gap-2">
                                                     <button
