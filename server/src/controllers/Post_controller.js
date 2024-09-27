@@ -13,58 +13,58 @@ const get_all_posts = async (req, res) => {
     }
 };
 
-const add_post = function (req, res) {
-    const thumbnail = req.file.path;
-    const title = req.body.title;
-    const category = req.body.category;
-    const content = req.body.content;
+// const add_post = function (req, res) {
+//     const thumbnail = req.file.path;
+//     const title = req.body.title;
+//     const category = req.body.category;
+//     const content = req.body.content;
 
-    // Ensure userId is a valid ObjectId
-    let userId;
-    try {
-        userId = new mongoose.Types.ObjectId(req.body.userId); // Use 'new' keyword here
-    } catch (error) {
-        return res.status(400).send({ message: 'Invalid User ID' }); // Handle invalid userId format
-    }
+//     // Ensure userId is a valid ObjectId
+//     let userId;
+//     try {
+//         userId = new mongoose.Types.ObjectId(req.body.userId); // Use 'new' keyword here
+//     } catch (error) {
+//         return res.status(400).send({ message: 'Invalid User ID' }); // Handle invalid userId format
+//     }
 
-    const product = new Products({ thumbnail, title, category, content, userId });
+//     const product = new Products({ thumbnail, title, category, content, userId });
 
-    product.save()
-        .then((savedPost) => {
-            console.log('Post saved with ID:', savedPost._id); // Debugging log to confirm save
-            res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
-        })
-        .catch((error) => {
-            console.error('Error saving post:', error);
-            res.status(500).send({ message: 'Server error' });
-        });
-};
+//     product.save()
+//         .then((savedPost) => {
+//             console.log('Post saved with ID:', savedPost._id); // Debugging log to confirm save
+//             res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
+//         })
+//         .catch((error) => {
+//             console.error('Error saving post:', error);
+//             res.status(500).send({ message: 'Server error' });
+//         });
+// };
 
 
 // Add a new post
-// const add_post = async (req, res) => {
-//     try {
-//         // Validate if userId is a valid ObjectId
-//         if (!mongoose.Types.ObjectId.isValid(req.body.userId)) {
-//             return res.status(400).json({ message: 'Invalid User ID' });
-//         }
+const add_post = async (req, res) => {
+    try {
+        // Validate if userId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(req.body.userId)) {
+            return res.status(400).json({ message: 'Invalid User ID' });
+        }
 
-//         const thumbnail = req.file.path;
-//         const title = req.body.title;
-//         const category = req.body.category;
-//         const content = req.body.content;
-//         const userId = mongoose.Types.ObjectId(req.body.userId); // Cast to ObjectId
+        const thumbnail = req.file.path;
+        const title = req.body.title;
+        const category = req.body.category;
+        const content = req.body.content;
+        const userId = mongoose.Types.ObjectId(req.body.userId); // Cast to ObjectId
 
-//         const product = new Products({ thumbnail, title, category, content, userId });
+        const product = new Products({ thumbnail, title, category, content, userId });
 
-//         const savedPost = await product.save();
-//         console.log('Post saved with ID:', savedPost._id);
-//         res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
-//     } catch (error) {
-//         console.error('Error saving post:', error);
-//         res.status(500).send({ message: 'Server error' });
-//     }
-// };
+        const savedPost = await product.save();
+        console.log('Post saved with ID:', savedPost._id);
+        res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
+    } catch (error) {
+        console.error('Error saving post:', error);
+        res.status(500).send({ message: 'Server error' });
+    }
+};
 
 
 const get_blog_post = async (req, res) => {
