@@ -14,12 +14,7 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage })
 
-  router.route("/add_post").post(upload.single('thumbnail'), (err, req, res, next) => {
-    if (err instanceof multer.MulterError) {
-        return res.status(500).json({ message: err.message });
-    }
-    next();
-}, Post_controller.add_post);
+router.route("/add_post").post(upload.single('thumbnail'), Post_controller.add_post)
 router.route("/get_posts/:id").get(Post_controller.get_user_posts);
 router.route("/get_blog_post/:id").get(Post_controller.get_blog_post);
 router.route("/get_all_posts").get(Post_controller.get_all_posts);
