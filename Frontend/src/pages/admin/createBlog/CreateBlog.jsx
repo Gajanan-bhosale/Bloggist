@@ -22,24 +22,29 @@ function CreateBlog() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(user);
-
+        
+        if (!user._id) {
+            alert("User ID is missing.");
+            return;
+        }
+    
         const formData = new FormData();
         formData.append('thumbnail', blog.thumbnail);
         formData.append('title', blog.title);
         formData.append('category', blog.category);
         formData.append('content', blog.content);
-        formData.append('userId', user._id); // Send the logged-in user's ID
-
+        formData.append('userId', user._id);  // Check if user ID is correctly assigned
+    
         axios.post('https://bloggist-api.vercel.app/api/post/add_post', formData)
             .then((res) => {
                 console.log(res);
                 navigate("/dashboard");
             })
             .catch((err) => {
-                console.log(err);
+                console.error('Error during blog post submission:', err.response.data);
             });
     };
+    
 
     useEffect(() => {
         window.scrollTo(0, 0);

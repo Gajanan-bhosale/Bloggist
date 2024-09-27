@@ -14,31 +14,26 @@ const get_all_posts = async (req, res) => {
 };
 
 const add_post = (req, res) => {
-    if (!req.file) {
-        return res.status(400).send({ message: 'Thumbnail upload failed' });
-    }
-    
-    const thumbnail = req.file.path;
-    const { title, category, content } = req.body;
-    let userId;
+    console.log("File:", req.file); // Debug the uploaded file
+    console.log("Body:", req.body); // Debug the form data
 
-    try {
-        userId = new mongoose.Types.ObjectId(req.body.userId);
-    } catch (error) {
-        return res.status(400).send({ message: 'Invalid User ID' });
+    const { title, category, content, userId } = req.body;
+    const thumbnail = req.file ? req.file.path : null; // Ensure thumbnail is being uploaded
+
+    if (!title || !category || !content || !userId || !thumbnail) {
+        return res.status(400).send({ message: 'All fields are required' });
     }
 
-    const product = new Products({ thumbnail, title, category, content, userId });
+    const post = new Products({ thumbnail, title, category, content, userId });
 
-    product.save()
-        .then((savedPost) => {
-            res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
-        })
-        .catch((error) => {
-            console.error('Error saving post:', error);
+    post.save()
+        .then(savedPost => res.status(201).send({ message: 'Post created', postId: savedPost._id }))
+        .catch(err => {
+            console.error('Error saving post:', err);
             res.status(500).send({ message: 'Server error' });
         });
 };
+
 
 
 
