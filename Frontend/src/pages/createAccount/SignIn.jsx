@@ -51,7 +51,7 @@ const SignIn = () => {
       console.log(error);
       setError('Something went wrong, please try again.');
     } finally {
-      setLoading(false);  // Set loading to false when the request finishes
+      setLoading(false);  
     }
   };
 

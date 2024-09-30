@@ -229,7 +229,7 @@ const SignUp = () => {
             className={`w-full px-4 py-2 text-white rounded-md 
               ${loading ? 'bg-gray-500' : 'bg-orange-500 hover:bg-orange-600'} 
               focus:outline-none focus:ring-2 focus:ring-orange-500`}
-            disabled={loading}  // Disable button during loading
+            disabled={loading}  
           >
             {loading ? (
               <div className="flex items-center justify-center">
@@ -240,7 +240,7 @@ const SignUp = () => {
                 Processing...
               </div>
             ) : (
-              'Sign Up'
+              'Sign'
             )}
           </button>
         </form>
