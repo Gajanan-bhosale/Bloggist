@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Layout from '../../../components/layout/Layout';
+import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../store/auth';
 import axios from 'axios';
 
 function Dashboard() {
+    const context = useContext(myContext);
+    const { mode } = context;
     const [userBlogs, setUserBlogs] = useState([]);
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -21,15 +24,23 @@ function Dashboard() {
         }
     };
 
+    const logout = () => {
+        localStorage.clear();
+        navigate('/');
+    };
+
     useEffect(() => {
         if (user) {
             fetchPosts();
         }
-    }, [user]); // Fetch posts when the user changes
+        window.scrollTo(0, 0);
+    }, [user]);
 
+    // If the user data is not available, show nothing (you can add a spinner or skeleton loader if needed).
     if (!user) {
-        return null; // Show loading or skeleton if needed
+        return null;
     }
+
     return (
         <Layout>
             <div className="py-10">
