@@ -36,8 +36,9 @@ function Dashboard() {
         window.scrollTo(0, 0);
     }, [user]);
 
+    // If the user data is not available, show nothing (you can add a spinner or skeleton loader if needed).
     if (!user) {
-        return <div>Loading...</div>;
+        return null;
     }
 
     return (
