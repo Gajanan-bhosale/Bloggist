@@ -38,7 +38,7 @@ function AllBlogs() {
           <div className="mb-10">
             <h1 className="text-center text-3xl md:text-4xl font-bold"
               style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-              All Blogs
+              Blogs
             </h1>
           </div>
           <div className="flex flex-wrap justify-center -m-4">
