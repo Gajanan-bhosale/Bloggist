@@ -1,12 +1,19 @@
 import { Button } from '@material-tailwind/react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import myContext from '../../context/data/myContext';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 
 function BlogPostCard() {
   const { mode, getAllBlog } = useContext(myContext);
   const navigate = useNavigate();
+  
+  // State to manage visible blogs
+  const [visibleBlogs, setVisibleBlogs] = useState(10);
+  
+  // Function to load more blogs
+  const loadMoreBlogs = () => {
+    setVisibleBlogs(getAllBlog.length); // Display all blogs after clicking "See More"
+  };
 
   return (
     <div>
@@ -14,8 +21,8 @@ function BlogPostCard() {
         <div className="container px-5 py-10 mx-auto max-w-7xl">
           <div className="flex flex-wrap justify-center -m-4 mb-5">
             {getAllBlog.length > 0
-              ? getAllBlog.map((item) => {
-                  const { thumbnail, date, _id, title } = item; 
+              ? getAllBlog.slice(0, visibleBlogs).map((item) => {
+                  const { thumbnail, date, _id, title } = item;
                   return (
                     <div className="p-4 md:w-1/3" key={_id}>
                       <div
@@ -49,18 +56,20 @@ function BlogPostCard() {
             }
           </div>
 
-          <Link to={'/allblogs'}>
+          {visibleBlogs < getAllBlog.length && (
             <div className="flex justify-center my-5">
               <Button
+                onClick={loadMoreBlogs} // Load more blogs when button is clicked
                 className="transition duration-300 ease-in-out transform hover:scale-105"
                 style={{
                   background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
                   color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'rgb(226, 232, 240)',
-                }}>
+                }}
+              >
                 See More
               </Button>
             </div>
-          </Link>
+          )}
         </div>
       </section>
     </div>
