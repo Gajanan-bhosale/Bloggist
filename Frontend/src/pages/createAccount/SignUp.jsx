@@ -127,6 +127,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const SignUp = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -174,6 +175,9 @@ const SignUp = () => {
     } catch (error) {
       console.log("register error", error);
       toast.error("An error occurred. Please try again.");
+    }
+    finally {
+      setLoading(false);  // Set loading to false when the request finishes
     }
   };
 
