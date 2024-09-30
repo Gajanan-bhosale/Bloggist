@@ -5,40 +5,39 @@ import { Button } from '@material-tailwind/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../store/auth';
 import axios from 'axios';
+import Spinner from '../../../components/Spinner'; // Import the Spinner component
 
 function Dashboard() {
     const context = useContext(myContext);
     const { mode } = context;
     const [userBlogs, setUserBlogs] = useState([]);
+    const [loading, setLoading] = useState(true); // Add loading state
     const navigate = useNavigate();
     const { user } = useAuth();
 
     const fetchPosts = async () => {
-        try {
-            const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_posts/${user._id}`, {
-                params: { userId: user._id },
-            });
-            setUserBlogs(response.data);
-        } catch (error) {
-            console.error('Error fetching posts:', error);
+        if (user && user._id) {
+            try {
+                const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_posts/${user._id}`);
+                setUserBlogs(response.data);
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            } finally {
+                setLoading(false); // Set loading to false once the data is fetched
+            }
         }
     };
 
-    const logout = () => {
-        localStorage.clear();
-        navigate('/');
-    };
-
     useEffect(() => {
-        if (user) {
+        if (user && user._id) {
             fetchPosts();
         }
         window.scrollTo(0, 0);
     }, [user]);
 
-    // if (!user) {
-    //     return <div>Loading...</div>;
-    // }
+    if (!user || loading) {
+        return <Spinner />;  // Replace loading text with Spinner
+    }
 
     return (
         <Layout>
@@ -116,7 +115,7 @@ function Dashboard() {
                             <tbody>
                                 {userBlogs.length > 0 ? (
                                     userBlogs.map((item, index) => {
-                                        const { thumbnail, title, category, date, _id } = item; // Ensure id is part of item
+                                        const { thumbnail, title, category, date, _id } = item;
                                         return (
                                             <tr key={index} className="border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
                                                 <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
@@ -137,17 +136,16 @@ function Dashboard() {
                                                 <td className="px-6 py-4 flex gap-2">
                                                     <button
                                                         className="px-4 py-1 rounded-lg text-white font-bold bg-blue-500"
-                                                        onClick={() => navigate(`/adminblog/${_id}`)} // Use _id here
+                                                        onClick={() => navigate(`/adminblog/${_id}`)}
                                                     >
                                                         View
                                                     </button>
-
                                                 </td>
                                             </tr>
                                         );
                                     })
                                 ) : (
-                                    <tr><td colSpan="6">No blogs found.</td></tr>
+                                    <tr><td colSpan="6">No blogs found</td></tr>
                                 )}
                             </tbody>
                         </table>
