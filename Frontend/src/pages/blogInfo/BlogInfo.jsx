@@ -22,33 +22,55 @@ function BlogInfo() {
       try {
         const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_blog_post/${postId}`);
         setGetBlogs(response.data);
+        setAllComment(response.data.comments); // Fetch comments from the post data
       } catch (error) {
         console.error('Error fetching post data:', error);
       }
     };
-
+  
     if (postId) {
       fetchPostData();
     }
   }, [postId]);
+  
 
-  // Comment submission
-  const addComment = (e) => {
+  const addComment = async (e) => {
     e.preventDefault(); // Prevent default form submission
     const newComment = {
       fullName,
       commentText,
-      date: new Date().toLocaleString(), // Format date as needed
     };
-
-    // Update the state to include the new comment
-    setAllComment((prevComments) => [...prevComments, newComment]);
-
-    // Clear the input fields after submitting
-    setCommentText('');
-    setFullName('');
+  
+    try {
+      // Send the comment to the backend
+      await axios.post(`https://bloggist-backend.onrender.com/api/post/${postId}/add_comment`, newComment);
+      // Update the state to include the new comment
+      setAllComment((prevComments) => [...prevComments, newComment]);
+  
+      // Clear the input fields after submitting
+      setCommentText('');
+      setFullName('');
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      toast.error('Failed to add comment.'); // Show error message
+    }
   };
 
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_comments/${postId}`);
+        setAllComment(response.data);  // Set the comments to state
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+  
+    if (postId) {
+      fetchComments();
+    }
+  }, [postId]);
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);

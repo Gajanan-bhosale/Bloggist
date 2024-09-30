@@ -147,18 +147,14 @@ const add_comment = async (req, res) => {
     const { fullName, commentText } = req.body;
 
     try {
-
         if (!mongoose.Types.ObjectId.isValid(postId)) {
             return res.status(400).json({ message: 'Invalid Post ID' });
         }
 
-
         const post = await Products.findById(postId).select('-userId');
-
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-
 
         const newComment = {
             fullName,
@@ -166,11 +162,12 @@ const add_comment = async (req, res) => {
             date: new Date()
         };
 
-
+        // Push comment to the post's comments array
         post.comments.push(newComment);
 
-
         await post.save();
+
+        console.log('Comment added:', newComment); // Debugging log
 
         res.status(201).json({ message: 'Comment added successfully', comment: newComment });
     } catch (error) {
@@ -178,6 +175,7 @@ const add_comment = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 const get_comments = async (req, res) => {
     const postId = req.params.id;
