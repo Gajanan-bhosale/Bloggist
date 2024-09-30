@@ -6,25 +6,19 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const [user, setUser] = useState("");
 
-  // Function to store the token in local storage
   const storeTokenInLS = (serverToken) => {
     setToken(serverToken);
-    return localStorage.setItem("token", serverToken);
+    localStorage.setItem("token", serverToken);
   };
 
-  // Check login state
-  let isLoggedIn = !!token;
-  console.log("token", token);
-  console.log("isLoggedin ", isLoggedIn);
-
-  //   to check whether is loggedIn or not
   const LogoutUser = () => {
     setToken("");
-    return localStorage.removeItem("token");
+    localStorage.removeItem("token");
   };
 
-  // Function to fetch user data using token
   const userAuthentication = async () => {
+    if (!token) return; // Check if token exists before fetching user data
+
     try {
       const response = await fetch("https://bloggist-backend.onrender.com/api/auth/user", {
         method: "GET",
@@ -35,23 +29,23 @@ export const AuthProvider = ({ children }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("user data" , data.userData)
-        setUser(data.userData); 
+        setUser(data.userData);
       } else {
         console.error("Error fetching user data");
       }
     } catch (error) {
-      console.log("Error during authentication:", error);
+      console.error("Error during authentication:", error);
     }
   };
 
-  
   useEffect(() => {
-    userAuthentication();
-  }, []);
+    if (token) {
+      userAuthentication();
+    }
+  }, [token]); // Trigger whenever token changes
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, LogoutUser, user }}>
+    <AuthContext.Provider value={{ isLoggedIn: !!token, storeTokenInLS, LogoutUser, user }}>
       {children}
     </AuthContext.Provider>
   );
