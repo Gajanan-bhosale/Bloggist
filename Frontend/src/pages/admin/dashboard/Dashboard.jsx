@@ -15,7 +15,9 @@ function Dashboard() {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_posts/${user._id}`);
+            const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_posts/${user._id}`, {
+                params: { userId: user._id },
+            });
             setUserBlogs(response.data);
         } catch (error) {
             console.error('Error fetching posts:', error);
@@ -27,13 +29,16 @@ function Dashboard() {
         navigate('/');
     };
 
-    // Fetch posts as soon as user is available
     useEffect(() => {
         if (user) {
             fetchPosts();
         }
-        window.scrollTo(0, 0); // Ensure page scrolls to top on load
+        window.scrollTo(0, 0);
     }, [user]);
+
+    // if (!user) {
+    //     return <div>Loading...</div>;
+    // }
 
     return (
         <Layout>
@@ -111,7 +116,7 @@ function Dashboard() {
                             <tbody>
                                 {userBlogs.length > 0 ? (
                                     userBlogs.map((item, index) => {
-                                        const { thumbnail, title, category, date, _id } = item;
+                                        const { thumbnail, title, category, date, _id } = item; // Ensure id is part of item
                                         return (
                                             <tr key={index} className="border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
                                                 <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
@@ -132,10 +137,11 @@ function Dashboard() {
                                                 <td className="px-6 py-4 flex gap-2">
                                                     <button
                                                         className="px-4 py-1 rounded-lg text-white font-bold bg-blue-500"
-                                                        onClick={() => navigate(`/adminblog/${_id}`)}
+                                                        onClick={() => navigate(`/adminblog/${_id}`)} // Use _id here
                                                     >
                                                         View
                                                     </button>
+
                                                 </td>
                                             </tr>
                                         );
