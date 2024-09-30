@@ -1,61 +1,64 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../store/auth';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 const SignUp = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    name: "",
+    name : "",
     email: "",
     password: ""
-  });
+  })
 
-  const { storeTokenInLS } = useAuth();
+  const {storeTokenInLS} = useAuth();
+
 
   const handleInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
 
     setUser({
-      ...user,
+      ... user,
       [name]: value,
-    });
-  };
+    })
+  }
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = async(e) => {
     e.preventDefault();
-
+    
+    // axios.post('https://bloggist-api.vercel.app/register', {name, email, password})
+    //   .then(result => {console.log(result)
+    //     navigate('/SignIn')
+    //   })
+    //   .catch(err=> console.log(err))
     try {
       const response = await fetch(`https://bloggist-backend.onrender.com/api/auth/register`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
+        headers : {
+          'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify(user),
+      })
 
-      if (response.ok) {
+      if(response.ok) {
         const res_data = await response.json();
-        console.log("res from server", res_data);
-        storeTokenInLS(res_data.token);
-        setUser({ name: "", email: "", password: "" });
-        navigate("/SignIn");
-      } else {
-        const errorData = await response.json();
-        if (errorData.msg === "Email already exists") {
-          toast.error("Email is already in use. Please use a different email.");
-        } else {
-          toast.error("Registration failed. Please try again.");
-        }
+        console.log("res from server", res_data)
+        // localStorage.setItem("token", res_data.token)
+        console.log('res from server')
+        storeTokenInLS(res_data.token)
+        setUser({ name: "", email: "", password: ""});
+        navigate("/SignIn")
       }
+      console.log("Registration", response);
+    
     } catch (error) {
-      console.log("register error", error);
-      toast.error("An error occurred. Please try again.");
+      console.log("register", error)
     }
-  };
+  }
+  
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-500">
@@ -67,7 +70,7 @@ const SignUp = () => {
             <input
               id="name"
               type="text"
-              name="name"
+              name= "name"
               value={user.name}
               onChange={handleInput}
               required
@@ -79,7 +82,7 @@ const SignUp = () => {
             <input
               id="email"
               type="email"
-              name="email"
+              name= "email"
               value={user.email}
               onChange={handleInput}
               required
@@ -91,23 +94,23 @@ const SignUp = () => {
             <input
               id="password"
               type="password"
-              name="password"
+              name= "password"
               value={user.password}
               onChange={handleInput}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
-
+          
           {error && <p className="text-sm text-red-500">{error}</p>}
           <button
             type="submit"
+            
             className="w-full px-4 py-2 text-white bg-orange-500 rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Sign Up
           </button>
         </form>
-        <ToastContainer />
       </div>
     </div>
   );

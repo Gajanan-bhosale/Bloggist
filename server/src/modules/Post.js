@@ -9,8 +9,8 @@ const PostSchema = new mongoose.Schema({
     date: { type: Date, default: Date.now }, // Assuming there's a User model
     comments: [
         {
-            fullName: { type: String, required: true },
-            commentText: { type: String, required: true },
+            fullName: String,
+            commentText: String,
             date: { type: Date, default: Date.now }
         }
     ]
