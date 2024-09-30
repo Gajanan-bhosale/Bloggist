@@ -36,9 +36,9 @@ function Dashboard() {
         window.scrollTo(0, 0);
     }, [user]);
 
-    if (!user) {
-        return <div>Loading...</div>;
-    }
+    // if (!user) {
+    //     return <div>Loading...</div>;
+    // }
 
     return (
         <Layout>
