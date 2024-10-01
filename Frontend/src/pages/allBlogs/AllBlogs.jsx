@@ -33,8 +33,14 @@ function AllBlogs() {
 
   return (
     <Layout>
-      <section className="relative bg-gradient-to-b"
-        style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#fca61f' }}>
+      <section
+        className="relative py-12"
+        style={{
+          background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#fca61f',
+        }}
+      >
+        <div className="absolute inset-0 bg-opacity-50 bg-cover bg-center"
+             style={{ backgroundImage: 'url(https://via.placeholder.com/1920x300?text=Your+Blog+Page)' }}></div>
         <div className="relative container mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             Welcome {user.name}
