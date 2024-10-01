@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../store/auth';
-import { toast } from 'react-toastify';  // Import toast from react-toastify
-import 'react-toastify/dist/ReactToastify.css';  // Import toast styles
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignIn = () => {
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);  // Loading state
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: ''
   });
 
   const { storeTokenInLS } = useAuth();
@@ -25,9 +25,9 @@ const SignIn = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    setLoading(true);  // Set loading to true when the request starts
-    setError('');  // Reset error before a new request
-  
+    setLoading(true);  
+    setError('');  
+
     try {
       const response = await fetch("https://bloggist-backend.onrender.com/api/auth/login", {
         method: "POST",
@@ -36,31 +36,33 @@ const SignIn = () => {
         },
         body: JSON.stringify(user),
       });
-  
+
       if (response.ok) {
         const responseData = await response.json();
         storeTokenInLS(responseData.token);
-        setUser({ email: "", password: "" });
-        navigate("/dashboard");
+        setUser({ email: '', password: '' });
+        navigate('/dashboard');
       } else {
         const errorData = await response.json();
         if (errorData.message === 'User not found') {
-          setError('Email is wrong');  
-          // toast.error('Email is wrong!');  
+          setError('User not found');
+          toast.error('User not found!');  // Show toast for user not found
         } else if (errorData.message === 'Invalid password') {
-          setError('Wrong password');  
-          // toast.error('Wrong password!');  
-          setError('Something went wrong, please try again.');  
+          setError('Wrong password');
+          toast.error('Wrong password!');  // Show toast for wrong password
+        } else {
+          setError('Something went wrong, please try again.');
+          toast.error('Something went wrong, please try again.');
         }
       }
     } catch (error) {
       console.log(error);
       setError('Something went wrong, please try again.');
+      toast.error('Something went wrong, please try again.');
     } finally {
       setLoading(false);  
     }
   };
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-600">
@@ -93,13 +95,12 @@ const SignIn = () => {
           </div>
           {error && <p className="text-sm text-red-500">{error}</p>}
           
-          {/* Button with loading state */}
           <button
             type="submit"
             className={`w-full px-4 py-2 text-white rounded-md 
               ${loading ? 'bg-gray-500' : 'bg-orange-500 hover:bg-orange-600'} 
               focus:outline-none focus:ring-2 focus:ring-orange-500`}
-            disabled={loading}  // Disable button during loading
+            disabled={loading}
           >
             {loading ? (
               <div className="flex items-center justify-center">
