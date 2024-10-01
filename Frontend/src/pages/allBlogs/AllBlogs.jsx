@@ -33,7 +33,8 @@ function AllBlogs() {
 
   return (
     <Layout>
-      <section className="relative bg-gradient-to-b from-indigo-500 to-purple-500 py-12">
+      <section className="relative bg-gradient-to-b"
+        style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#fca61f' }}>
         <div className="relative container mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             Welcome {user.name}
