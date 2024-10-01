@@ -27,7 +27,7 @@ const SignIn = () => {
     e.preventDefault();
     setLoading(true);  // Set loading to true when the request starts
     setError('');  // Reset error before a new request
-
+  
     try {
       const response = await fetch("https://bloggist-backend.onrender.com/api/auth/login", {
         method: "POST",
@@ -36,7 +36,7 @@ const SignIn = () => {
         },
         body: JSON.stringify(user),
       });
-
+  
       if (response.ok) {
         const responseData = await response.json();
         storeTokenInLS(responseData.token);
@@ -44,16 +44,24 @@ const SignIn = () => {
         navigate("/dashboard");
       } else {
         const errorData = await response.json();
-        setError('Wrong password');  // Set error state
-        toast.error('Wrong password!');  // Show toast notification
+        if (errorData.message === 'User not found') {
+          setError('Email is wrong');  // Set error for wrong email
+          // toast.error('Email is wrong!');  // Display toast notification for wrong email
+        } else if (errorData.message === 'Invalid password') {
+          setError('Wrong password');  // Set error for wrong password
+          // toast.error('Wrong password!');  // Display toast notification for wrong password
+        } else {
+          setError('Something went wrong, please try again.');  // Generic error
+        }
       }
     } catch (error) {
       console.log(error);
       setError('Something went wrong, please try again.');
     } finally {
-      setLoading(false);  
+      setLoading(false);  // Stop loading after the request is complete
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-600">
