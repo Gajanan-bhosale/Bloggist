@@ -147,11 +147,9 @@ const add_comment = async (req, res) => {
     const { fullName, commentText } = req.body;
 
     try {
-
         if (!mongoose.Types.ObjectId.isValid(postId)) {
             return res.status(400).json({ message: 'Invalid Post ID' });
         }
-
 
         const post = await Products.findById(postId).select('-userId');
 
@@ -159,18 +157,16 @@ const add_comment = async (req, res) => {
             return res.status(404).json({ message: 'Post not found' });
         }
 
-
         const newComment = {
             fullName,
             commentText,
             date: new Date()
         };
 
-
         post.comments.push(newComment);
-
-
         await post.save();
+
+        console.log(post.comments); // Log comments to verify they are saved
 
         res.status(201).json({ message: 'Comment added successfully', comment: newComment });
     } catch (error) {
@@ -179,26 +175,26 @@ const add_comment = async (req, res) => {
     }
 };
 
+
 const get_comments = async (req, res) => {
     const postId = req.params.id;
-
 
     if (!mongoose.Types.ObjectId.isValid(postId)) {
         return res.status(400).json({ message: 'Invalid Post ID' });
     }
 
     try {
-
         const post = await Products.findById(postId).select('comments');
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        res.json(post.comments);
+        res.json(post.comments);  // Return the comments array
     } catch (error) {
         console.error('Error fetching comments:', error);
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 
 module.exports = { add_post, get_user_posts, get_all_posts, update_post, delete_post, get_blog_post, add_comment, get_comments };
