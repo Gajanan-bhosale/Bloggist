@@ -63,7 +63,7 @@ export default function Nav() {
                 color="gray-400" // Or whatever color indicates disabled
                 className="p-1 font-normal cursor-not-allowed"
             >
-                Blogs (Login to view)
+                
             </Typography>
         )}
             {isLoggedIn ? (
