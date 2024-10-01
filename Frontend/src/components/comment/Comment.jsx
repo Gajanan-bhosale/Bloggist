@@ -69,7 +69,7 @@ function Comment({ addComment, commentText, setCommentText, allComment, fullName
                 <div className="flex items-center space-x-4 mb-2">
                   <img
                     className="w-10 h-10 rounded-full object-cover"
-                    src={`https://i.pravatar.cc/150?u=${index}`} // Avatar placeholder
+                    src={`https://i.pravatar.cc/150?u=${index}`} 
                     alt="Avatar"
                   />
                   <div>
