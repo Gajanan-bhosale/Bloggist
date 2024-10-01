@@ -45,20 +45,19 @@ const SignIn = () => {
       } else {
         const errorData = await response.json();
         if (errorData.message === 'User not found') {
-          setError('Email is wrong');  // Set error for wrong email
-          // toast.error('Email is wrong!');  // Display toast notification for wrong email
+          setError('Email is wrong');  
+          // toast.error('Email is wrong!');  
         } else if (errorData.message === 'Invalid password') {
-          setError('Wrong password');  // Set error for wrong password
-          // toast.error('Wrong password!');  // Display toast notification for wrong password
-        } else {
-          setError('Something went wrong, please try again.');  // Generic error
+          setError('Wrong password');  
+          // toast.error('Wrong password!');  
+          setError('Something went wrong, please try again.');  
         }
       }
     } catch (error) {
       console.log(error);
       setError('Something went wrong, please try again.');
     } finally {
-      setLoading(false);  // Stop loading after the request is complete
+      setLoading(false);  
     }
   };
   

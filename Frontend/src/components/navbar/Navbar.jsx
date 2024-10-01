@@ -23,7 +23,6 @@ export default function Nav() {
     const navigate = useNavigate();
     const admin = localStorage.getItem('admin');
 
-    // Avatar navigation to dashboard
     const handleAvatarClick = () => {
         navigate('/dashboard');
     };
