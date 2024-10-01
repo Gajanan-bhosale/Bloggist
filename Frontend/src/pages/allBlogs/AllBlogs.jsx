@@ -38,7 +38,7 @@ function AllBlogs() {
           <div className="mb-10">
             <h1 className="text-center text-3xl md:text-5xl font-extrabold tracking-tight"
               style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-              Welcome {user.name}, these are your blogs.
+              Welcome {user.name}, These are your blogs
             </h1>
             <p className="text-center text-lg mt-4 text-gray-500">
               Manage your content easily and check out your latest blog posts below.
@@ -85,7 +85,7 @@ function AllBlogs() {
             ) : (
               <h1 className="text-2xl text-center font-semibold mt-10"
                 style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-                No blogs found.
+                Create your first Blog
               </h1>
             )}
           </div>

@@ -6,20 +6,17 @@ import { useNavigate } from 'react-router-dom';
 function BlogPostCard() {
   const { mode, getAllBlog } = useContext(myContext);
   const navigate = useNavigate();
-
-  // State to manage visible blogs and loading state
   const [visibleBlogs, setVisibleBlogs] = useState(10);
   const [loading, setLoading] = useState(true);
 
-  // Function to load more blogs
+
   const loadMoreBlogs = () => {
-    setVisibleBlogs(prevVisibleBlogs => Math.min(prevVisibleBlogs + 10, getAllBlog.length)); // Load 10 more blogs
+    setVisibleBlogs(prevVisibleBlogs => Math.min(prevVisibleBlogs + 10, getAllBlog.length)); 
   };
 
-  // Simulate fetching blogs
   useEffect(() => {
     if (getAllBlog.length > 0) {
-      setLoading(false); // Set loading to false once blogs are fetched
+      setLoading(false); 
     }
   }, [getAllBlog]);
 
@@ -29,7 +26,7 @@ function BlogPostCard() {
         <div className="container px-5 py-10 mx-auto max-w-7xl">
           {loading ? (
             <div className="flex justify-center py-10">
-              <div className="loader">Loading...</div> {/* You can replace this with a skeleton loader */}
+              <div className="loader">Loading...</div> 
             </div>
           ) : (
             <>
@@ -73,7 +70,7 @@ function BlogPostCard() {
               {visibleBlogs < getAllBlog.length && (
                 <div className="flex justify-center my-5">
                   <Button
-                    onClick={loadMoreBlogs} // Load more blogs when button is clicked
+                    onClick={loadMoreBlogs} 
                     className="transition duration-300 ease-in-out transform hover:scale-105"
                     style={{
                       background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
