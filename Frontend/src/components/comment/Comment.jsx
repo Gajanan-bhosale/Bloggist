@@ -9,7 +9,7 @@ function Comment({ addComment, commentText, setCommentText, allComment, fullName
   return (
     <section className="py-8 lg:py-16">
       <div className="max-w-2xl mx-auto px-4">
-        {/* Comment Form Section */}
+        
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg lg:text-2xl font-bold" style={{ color: mode === 'dark' ? 'white' : 'black' }}>
             Leave a Comment
@@ -67,11 +67,11 @@ function Comment({ addComment, commentText, setCommentText, allComment, fullName
               <div key={index} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md"
               style={{ background: mode === 'dark' ? '#353b48' : 'rgb(226, 232, 240)' }}>
                 <div className="flex items-center space-x-4 mb-2">
-                  {/* <img
+                  <img
                     className="w-10 h-10 rounded-full object-cover"
                     src={`https://i.pravatar.cc/150?u=${index}`} // Avatar placeholder
                     alt="Avatar"
-                  /> */}
+                  />
                   <div>
                     <p className="font-semibold" style={{ color: mode === 'dark' ? 'white' : 'black' }}>
                       {item.fullName}
