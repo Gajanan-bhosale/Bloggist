@@ -16,7 +16,7 @@ function BlogInfo() {
   const [commentText, setCommentText] = useState('');
   const [allComment, setAllComment] = useState([]);
 
-  // Fetch specific blog post data
+  
   useEffect(() => {
     const fetchPostData = async () => {
       try {
@@ -32,48 +32,43 @@ function BlogInfo() {
     }
   }, [postId]);
 
-  // Comment submission
-  // Comment submission
-const addComment = async (e) => {
-  e.preventDefault(); // Prevent default form submission
   
-  const newComment = {
-    fullName,
-    commentText,
+  const addComment = async (e) => {
+    e.preventDefault(); 
+
+    const newComment = {
+      fullName,
+      commentText,
+    };
+
+    try {
+
+      await axios.post(`https://bloggist-backend.onrender.com/api/post/add_comment/${postId}`, newComment);
+      fetchComments();
+      setCommentText('');
+      setFullName('');
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      toast.error('Failed to add comment');
+    }
   };
 
-  try {
-    // Send comment to backend
-    await axios.post(`https://bloggist-backend.onrender.com/api/post/add_comment/${postId}`, newComment);
 
-    // Fetch updated comments from backend
-    fetchComments();  // Function to fetch comments after submission
-
-    
-    setCommentText('');
-    setFullName('');
-  } catch (error) {
-    console.error('Error adding comment:', error);
-    toast.error('Failed to add comment');
-  }
-};
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_comments/${postId}`);
+      setAllComment(response.data);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
 
 
-const fetchComments = async () => {
-  try {
-    const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_comments/${postId}`);
-    setAllComment(response.data);  
-  } catch (error) {
-    console.error('Error fetching comments:', error);
-  }
-};
-
-
-useEffect(() => {
-  if (postId) {
-    fetchComments();
-  }
-}, [postId]);
+  useEffect(() => {
+    if (postId) {
+      fetchComments();
+    }
+  }, [postId]);
 
 
   return (
@@ -89,23 +84,23 @@ useEffect(() => {
               />
               <div className="flex justify-between items-center mb-3">
                 <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold"
-                    style={{ color: mode === 'dark' ? 'white' : 'black' }}>
+                  style={{ color: mode === 'dark' ? 'white' : 'black' }}>
                   {getBlogs.title}
                 </h1>
                 <p className="text-sm md:text-base lg:text-lg"
-                   style={{ color: mode === 'dark' ? 'gray-300' : 'gray-600' }}>
+                  style={{ color: mode === 'dark' ? 'gray-300' : 'gray-600' }}>
                   {new Date(getBlogs.date).toLocaleDateString()}
                 </p>
               </div>
               <div className={`border-b mb-5 ${mode === 'dark' ? 'border-gray-600' : 'border-gray-400'}`} />
               <div className="prose lg:prose-lg max-w-none text-justify"
-                   style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}
-                   dangerouslySetInnerHTML={{ __html: getBlogs.content }} />
+                style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}
+                dangerouslySetInnerHTML={{ __html: getBlogs.content }} />
             </div>
           ) : (
             <p className="text-xl text-center" style={{ color: mode === 'dark' ? 'white' : 'black' }}>No post found.</p>
           )}
-          
+
           {/* Comment Section */}
           <div className="mt-10">
             <Comment

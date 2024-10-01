@@ -166,7 +166,7 @@ const add_comment = async (req, res) => {
         post.comments.push(newComment);
         await post.save();
 
-        console.log(post.comments); // Log comments to verify they are saved
+        console.log(post.comments); 
 
         res.status(201).json({ message: 'Comment added successfully', comment: newComment });
     } catch (error) {
@@ -188,7 +188,7 @@ const get_comments = async (req, res) => {
         if (!post) {
             return res.status(404).json({ message: 'Post not found' });
         }
-        res.json(post.comments);  // Return the comments array
+        res.json(post.comments);  
     } catch (error) {
         console.error('Error fetching comments:', error);
         res.status(500).json({ message: 'Server error' });
