@@ -44,7 +44,7 @@ export default function Nav() {
                     Home
                 </Link>
             </Typography>
-            {isLoggedIn ? (
+            {isLoggedIn && (
             <Typography
                 as="li"
                 variant="small"
@@ -55,15 +55,6 @@ export default function Nav() {
                 <Link to={'/allblogs'} className="flex items-center">
                     Blogs
                 </Link>
-            </Typography>
-        ) : (
-            <Typography
-                as="li"
-                variant="small"
-                color="gray-400" // Or whatever color indicates disabled
-                className="p-1 font-normal cursor-not-allowed"
-            >
-                
             </Typography>
         )}
             {isLoggedIn ? (
