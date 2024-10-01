@@ -33,17 +33,21 @@ function AllBlogs() {
 
   return (
     <Layout>
+      <section className="relative bg-gradient-to-b from-indigo-500 to-purple-500 py-12">
+        <div className="absolute inset-0 bg-opacity-50 bg-cover bg-center" 
+             style={{ backgroundImage: 'url(https://via.placeholder.com/1920x300?text=Your+Blog+Page)' }}></div>
+        <div className="relative container mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+            Welcome {user.name}
+          </h1>
+          <p className="text-lg text-gray-200">
+            Manage your content easily and check out your latest blog posts below.
+          </p>
+        </div>
+      </section>
+
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-10 mx-auto max-w-7xl">
-          <div className="mb-10">
-            <h1 className="text-center text-3xl md:text-5xl font-extrabold tracking-tight"
-              style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-              Welcome {user.name}, These are your blogs
-            </h1>
-            <p className="text-center text-lg mt-4 text-gray-500">
-              Manage your content easily and check out your latest blog posts below.
-            </p>
-          </div>
           <div className="flex flex-wrap justify-center -m-4">
             {userBlogs.length > 0 ? (
               userBlogs.map((item, index) => {
