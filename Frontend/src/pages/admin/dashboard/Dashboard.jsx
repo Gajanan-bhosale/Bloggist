@@ -36,7 +36,6 @@ function Dashboard() {
         window.scrollTo(0, 0);
     }, [user]);
 
-    // If the user data is not available, show nothing (you can add a spinner or skeleton loader if needed).
     if (!user) {
         return null;
     }
@@ -45,113 +44,81 @@ function Dashboard() {
         <Layout>
             <div className="py-10">
                 {/* User Profile Section */}
-                <div className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
-                    <div className="left">
-                        <img
-                            className="w-40 h-40 object-cover rounded-full border-2 border-pink-600 p-1"
-                            src={'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'}
-                            alt="profile"
-                        />
-                    </div>
-                    <div className="right">
-                        <h1 className="text-center font-bold text-2xl mb-2" style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-                            {user.name}
-                        </h1>
-                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            Frontend Developer
-                        </h2>
-                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            {user.email}
-                        </h2>
-                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            <span>Total Blogs: </span> {userBlogs.length}
-                        </h2>
-                        <div className="flex gap-2 mt-2">
-                            <Link to={'/createblog'}>
-                                <Button
-                                    style={{
-                                        background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
-                                        color: mode === 'dark' ? 'black' : 'white'
-                                    }}
-                                    className="px-8 py-2"
-                                >
-                                    Create Blog
-                                </Button>
-                            </Link>
-                        </div>
+                <div className="flex flex-col items-center gap-4 mb-10">
+                    <img
+                        className="w-40 h-40 object-cover rounded-full border-4 border-blue-600 p-1"
+                        src={'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'}
+                        alt="profile"
+                    />
+                    <h1 className="text-center text-4xl font-bold" style={{ color: mode === 'dark' ? 'white' : 'black' }}>
+                        {user.name}
+                    </h1>
+                    <h2 className="text-lg font-medium" style={{ color: mode === 'dark' ? '#e2e8f0' : 'gray' }}>
+                        Frontend Developer
+                    </h2>
+                    <h2 className="text-lg font-medium" style={{ color: mode === 'dark' ? '#e2e8f0' : 'gray' }}>
+                        {user.email}
+                    </h2>
+                    <h2 className="text-lg font-medium" style={{ color: mode === 'dark' ? '#e2e8f0' : 'gray' }}>
+                        <span>Total Blogs: </span> {userBlogs.length}
+                    </h2>
+                    <div className="mt-5">
+                        <Link to={'/createblog'}>
+                            <Button
+                                style={{
+                                    background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
+                                    color: mode === 'dark' ? 'black' : 'white',
+                                }}
+                                className="px-8 py-2 hover:bg-blue-500 transition-all duration-300 ease-in-out"
+                            >
+                                Create Blog
+                            </Button>
+                        </Link>
                     </div>
                 </div>
 
-                <hr className={`border-2 ${mode === 'dark' ? 'border-gray-300' : 'border-gray-400'}`} />
+                <hr className={`border-2 ${mode === 'dark' ? 'border-gray-300' : 'border-gray-400'} mb-8`} />
 
-                <div className="container mx-auto px-4 max-w-7xl my-5">
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
-                        <table className="w-full border-2 border-white shadow-md text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead
-                                style={{
-                                    background: mode === 'dark' ? 'white' : 'rgb(30, 41, 59)'
-                                }}
-                                className="text-xs"
-                            >
-                                <tr>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        S.No
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Thumbnail
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Title
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Category
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Date
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {userBlogs.length > 0 ? (
-                                    userBlogs.map((item, index) => {
-                                        const { thumbnail, title, category, date, _id } = item; // Ensure id is part of item
-                                        return (
-                                            <tr key={index} className="border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {index + 1}.
-                                                </td>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    <img className='w-16 rounded-lg' src={'https://bloggist-backend.onrender.com/' + thumbnail} alt="thumbnail" />
-                                                </td>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {title}
-                                                </td>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {category}
-                                                </td>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {new Date(date).toLocaleDateString()}
-                                                </td>
-                                                <td className="px-6 py-4 flex gap-2">
-                                                    <button
-                                                        className="px-4 py-1 rounded-lg text-white font-bold bg-blue-500"
-                                                        onClick={() => navigate(`/adminblog/${_id}`)} // Use _id here
-                                                    >
-                                                        View
-                                                    </button>
-
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                ) : (
-                                    <tr><td colSpan="6">No blogs found.</td></tr>
-                                )}
-                            </tbody>
-                        </table>
+                {/* Blog Posts Section */}
+                <div className="container mx-auto px-4 max-w-7xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {userBlogs.length > 0 ? (
+                            userBlogs.map((item, index) => {
+                                const { thumbnail, title, category, date, _id } = item;
+                                return (
+                                    <div
+                                        key={index}
+                                        className="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 p-4"
+                                    >
+                                        <img
+                                            className="w-full h-40 object-cover rounded-lg mb-4"
+                                            src={'https://bloggist-backend.onrender.com/' + thumbnail}
+                                            alt="thumbnail"
+                                        />
+                                        <h3
+                                            className="text-xl font-bold mb-2"
+                                            style={{ color: mode === 'dark' ? 'white' : 'black' }}
+                                        >
+                                            {title}
+                                        </h3>
+                                        <p className="text-gray-500 dark:text-gray-300 mb-2">
+                                            {category}
+                                        </p>
+                                        <p className="text-sm text-gray-400 dark:text-gray-500 mb-4">
+                                            {new Date(date).toLocaleDateString()}
+                                        </p>
+                                        <button
+                                            className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition-all"
+                                            onClick={() => navigate(`/adminblog/${_id}`)}
+                                        >
+                                            View Blog
+                                        </button>
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <p className="text-center text-gray-500 dark:text-gray-400">No blogs found.</p>
+                        )}
                     </div>
                 </div>
             </div>
