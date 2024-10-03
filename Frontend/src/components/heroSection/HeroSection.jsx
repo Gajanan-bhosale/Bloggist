@@ -17,7 +17,11 @@ function HeroSection() {
                         <div className="mb-2">
                             
                             <div className="flex justify-center">
-                                <img src="https://cdn-icons-png.flaticon.com/128/3685/3685253.png" alt="" />
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/128/3685/3685253.png"
+                                alt="Bloggist Logo"
+                                className="w-32 h-32 object-contain transform hover:rotate-12 transition-transform duration-300"
+                            />
                             </div>
 
                             
