@@ -8,42 +8,54 @@ function HeroSection() {
 
     return (
         <section
-            className="relative py-24"
             style={{
-                background: mode === 'dark' 
-                    ? 'linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(30, 41, 59, 0.7))' 
-                    : 'linear-gradient(135deg, #fca61f, #ff7b0d)',
-            }}>
-            <div className="container mx-auto flex px-5 items-center justify-center flex-col text-center">
-                
-                <div className="mb-6">
-                    <div className="flex justify-center mb-4">
-                        <img 
-                            src="https://cdn-icons-png.flaticon.com/128/3685/3685253.png" 
-                            alt="Logo"
-                            className="w-20 h-20 transition-transform transform hover:scale-110" 
-                        />
+                background: mode === 'dark'
+                    ? 'linear-gradient(135deg, #1e293b, #334155)'
+                    : 'linear-gradient(135deg, #fca61f, #f87171)',
+                padding: '6rem 0',
+            }}
+            className="relative"
+        >
+            <div className="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
+                <main className="text-center">
+                    <div className="mb-8">
+                        <div className="flex justify-center mb-4">
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/128/3685/3685253.png"
+                                alt="Bloggist Logo"
+                                className="w-32 h-32 object-contain transform hover:rotate-12 transition-transform duration-300"
+                            />
+                        </div>
+
+                        <h1 className="text-5xl font-extrabold text-white tracking-wide drop-shadow-lg mb-4 animate-fade-in">
+                            Bloggist
+                        </h1>
+
+                        <p
+                            className="sm:text-2xl text-lg text-white opacity-90 leading-relaxed animate-fade-in"
+                            style={{ color: mode === 'dark' ? '#cbd5e1' : '#ffffff' }}
+                        >
+                            Discover insightful blogs and tutorials contributed by Bloggist.
+                        </p>
+
+                        <div className="mt-8">
+                            <button className="bg-white text-black font-semibold px-6 py-3 rounded-full shadow-md hover:bg-gray-200 transition-all">
+                                Explore Blogs
+                            </button>
+                        </div>
                     </div>
-                    
-                    <h1 className="text-5xl font-bold text-white mb-4">
-                        Bloggist
-                    </h1>
-
-                    <p 
-                        style={{ color: 'white' }}
-                        className="sm:text-3xl text-lg font-light mb-6">
-                        Discover insightful blogs and tutorials contributed by the Bloggist community.
-                    </p>
-                </div>
-
-                <button className="bg-white text-black py-3 px-6 rounded-full font-semibold shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out">
-                    Explore Blogs
-                </button>
+                </main>
             </div>
 
-            {/* Decorative element */}
-            <div className="absolute top-0 left-0 w-32 h-32 bg-yellow-500 opacity-50 rounded-full blur-xl"></div>
-            <div className="absolute bottom-0 right-0 w-32 h-32 bg-orange-600 opacity-50 rounded-full blur-xl"></div>
+            <style jsx>{`
+                @keyframes fade-in {
+                    0% { opacity: 0; }
+                    100% { opacity: 1; }
+                }
+                .animate-fade-in {
+                    animation: fade-in 1s ease-in-out;
+                }
+            `}</style>
         </section>
     );
 }
