@@ -13,7 +13,7 @@ const login = async (req, res) => {
 
     const isPasswordValid = await bcrypt.compare(password, userExist.password);
     if (isPasswordValid) {
-      // Create the token with the correct userId
+      
       const token = jwt.sign({ userId: userExist._id }, process.env.JWT_SECURITY_KEY, {
         expiresIn: "10d",
       });
@@ -27,7 +27,7 @@ const login = async (req, res) => {
       res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
-    console.error("Login Error: ", error); // Log the error for debugging
+    console.error("Login Error: ", error); 
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -37,37 +37,34 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-      const { name, email, password } = req.body;
+      const { name, email, password, position, organization } = req.body;
   
-      // Check if the user already exists
+      
       const userExists = await EmployeeModel.findOne({ email });
   
       if (userExists) {
         return res.status(400).json({ msg: "Email already exists" });
       }
   
-      // Create a new user
-      const userCreated = await EmployeeModel.create({ name, email, password });
+    
+      const userCreated = await EmployeeModel.create({ name, email, password, position, organization});
   
-      // Generate a token
       const token = await userCreated.generateToken();
-  
-      // Send a successful response with the created user, token, and userId
       res.status(201).json({
         msg: "User created successfully",
         user: userCreated,
         token: token,
-        userId: userCreated._id.toString(), // Ensure _id is converted to string
+        userId: userCreated._id.toString(), 
       });
     } catch (error) {
-      console.error(error); // Log the error for debugging
+      console.error(error); 
       res.status(500).json({ msg: "Server error" });
     }
   };
 
   const user = async (req, res) => {
     try {
-      const userData = req.user; // `req.user` is set by `authMiddleware`
+      const userData = req.user; 
       console.log("User Data:", userData);
       return res.status(200).json({ userData });
     } catch (error) {

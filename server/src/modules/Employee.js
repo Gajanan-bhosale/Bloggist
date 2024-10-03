@@ -5,7 +5,9 @@ const bcrypt = require('bcryptjs/dist/bcrypt');
 const EmployeeSchema = new mongoose.Schema({
     name:{type :String, require:true},
     email: {type: String, require:true},
-    password: {type:String, require:true}
+    password: {type:String, require:true},
+    position: {type:String, require:true},
+    organization: {type:String, require:true}
 })
 
 EmployeeSchema.pre("save", async function(next){

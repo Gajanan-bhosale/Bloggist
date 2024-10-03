@@ -57,9 +57,9 @@ function Dashboard() {
                         <h1 className="text-center font-bold text-2xl mb-2" style={{ color: mode === 'dark' ? 'white' : 'black' }}>
                             {user.name}
                         </h1>
-                        {/* <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            Frontend Developer
-                        </h2> */}
+                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
+                            {user.position}
+                        </h2>
                         <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
                             {user.email}
                         </h2>
