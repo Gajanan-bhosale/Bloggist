@@ -38,8 +38,7 @@ function AllBlogs() {
         style={{
           background: mode === 'dark' ? 'rgb(30, 41, 59)' : '#fca61f',
         }}
-      >
-        
+      > 
         <div className="relative container mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             Welcome {user.name}
