@@ -15,40 +15,34 @@ const get_all_posts = async (req, res) => {
 
 const add_post = async (req, res) => {
     try {
-        // Check if a file was uploaded; if not, set thumbnail to null
         const thumbnail = req.file ? req.file.path : null;
-
-        // Use default values if fields are not provided
         const title = req.body.title || null;
         const category = req.body.category || null;
         const content = req.body.content || null;
 
-        // Initialize userId
+        
         let userId = null;
 
-        // Validate userId if it's provided
+        
         if (req.body.userId) {
             try {
                 userId = new mongoose.Types.ObjectId(req.body.userId);
             } catch (error) {
                 return res.status(400).send({ message: 'Invalid User ID' });
             }
-        }
-
-        // Create a new product post
+        }  
         const product = new Products({ thumbnail, title, category, content, userId });
 
-        // Save the post
         const savedPost = await product.save();
 
         res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
     } catch (error) {
         console.error('Error saving post:', error);
-        // Return a 400 error if the request is malformed
+        
         if (error.name === 'ValidationError') {
             return res.status(400).send({ message: 'Bad Request', error: error.message });
         }
-        res.status(500).send({ message: 'Server error', error: error.message }); // Include error message
+        res.status(500).send({ message: 'Server error', error: error.message }); 
     }
 };
 

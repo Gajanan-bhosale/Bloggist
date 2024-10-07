@@ -96,7 +96,7 @@ function AllBlogs() {
               })
             ) : (
               <div className="text-center">
-                <h1 className="text-2xl font-semibold mt-10"
+                <h1 className="text-2xl font-semibold mt-15"
                   style={{ color: mode === 'dark' ? 'white' : 'black' }}>
                   Create your first Blog
                 </h1>
