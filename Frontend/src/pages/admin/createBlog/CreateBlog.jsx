@@ -102,9 +102,8 @@ function CreateBlog() {
                         />
                     </div>
 
-                    {/* Text Editor for Content */}
                     <Editor
-                        apiKey='wx2tma1e1vl0jghj9qceb1knwuwg4kcjgb0lloggc856oi7t' // Replace with your API key
+                        apiKey='wx2tma1e1vl0jghj9qceb1knwuwg4kcjgb0lloggc856oi7t' 
                         value={blog.content}
                         onEditorChange={(newValue) => {
                             setBlog({ ...blog, content: newValue });
@@ -113,14 +112,11 @@ function CreateBlog() {
                             plugins: 'autoresize lists link image preview',
                         }}
                     />
-
-                    {/* Submit Button */}
                     <Button type="submit" className="w-full mt-5">
                         Submit
                     </Button>
                 </form>
 
-                {/* Blog Preview */}
                 <div className="mt-8">
                     <h1 className="text-center mb-3 text-2xl">Preview</h1>
                     <div dangerouslySetInnerHTML={createMarkup(blog.content)}></div>

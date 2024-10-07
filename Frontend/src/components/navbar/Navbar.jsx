@@ -39,9 +39,9 @@ export default function Nav() {
                 className="p-1 font-normal"
                 style={{ color: mode === 'dark' ? 'white' : 'white' }}
             >
-                <Link to={'/'} className="flex items-center">
-                    Home
-                </Link>
+                <Link to={'/'} className="flex items-center" onClick={() => window.location.reload()}>
+                Home
+            </Link>
             </Typography>
             {isLoggedIn && (
             <Typography
