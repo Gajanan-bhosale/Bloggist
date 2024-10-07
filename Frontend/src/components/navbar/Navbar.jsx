@@ -36,12 +36,13 @@ export default function Nav() {
                 as="li"
                 variant="small"
                 color="blue-gray"
+                onClick={() => window.location.reload()}
                 className="p-1 font-normal"
                 style={{ color: mode === 'dark' ? 'white' : 'white' }}
             >
-                <Link to={'/'} className="flex items-center" onClick={() => window.location.reload()}>
-                Home
-            </Link>
+                <Link to={'/'} className="flex items-center" >
+                    Home
+                </Link>
             </Typography>
             {isLoggedIn && (
             <Typography
@@ -90,6 +91,7 @@ export default function Nav() {
             )}
         </ul>
     );
+    
 
     return (
         <>
