@@ -3,14 +3,15 @@ import React, { createContext, useState } from 'react';
 const MyContext = createContext();
 
 export const MyProvider = ({ children }) => {
-    const [getAllBlog, setBlogs] = useState([]);
+    const [blogs, setBlogs] = useState([]);
+    const [userId, setUserId] = useState('default-user-id');
 
     const addBlog = (newBlog) => {
-        setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
+        setBlogs([...blogs, newBlog]);
     };
 
     return (
-        <MyContext.Provider value={{ getAllBlog, addBlog }}>
+        <MyContext.Provider value={{ blogs, addBlog }}>
             {children}
         </MyContext.Provider>
     );
