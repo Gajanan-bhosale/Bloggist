@@ -71,12 +71,12 @@ function BlogInfo() {
     <Layout>
       <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4">
         <div className="py-6 lg:py-10">
-          {/* Back Button */}
+          
           <button 
-            onClick={() => navigate('/')} // Navigate to home page
-            className="text-lg font-bold flex items-center space-x-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300 shadow-lg"
+            onClick={() => navigate('/')} 
+            className="text-lg font-bold flex items-center space-x-2 mb-4 px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-800 transition-colors duration-300 shadow-lg"
           >
-            <FaArrowLeft className="mr-2" /> {/* Icon from react-icons */}
+            <FaArrowLeft className="mr-2" /> 
             <span>Back to Home</span>
           </button>
 
