@@ -6,13 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function BlogPostCard() {
   const { mode, getAllBlog } = useContext(myContext);
   const navigate = useNavigate();
-  const [visibleBlogs, setVisibleBlogs] = useState(10);
   const [loading, setLoading] = useState(true);
-
-
-  const loadMoreBlogs = () => {
-    setVisibleBlogs(prevVisibleBlogs => Math.min(prevVisibleBlogs + 10, getAllBlog.length)); 
-  };
 
   useEffect(() => {
     if (getAllBlog.length > 0) {
@@ -32,7 +26,7 @@ function BlogPostCard() {
             <>
               <div className="flex flex-wrap justify-center -m-4 mb-5">
                 {getAllBlog.length > 0
-                  ? getAllBlog.slice(0, visibleBlogs).map((item) => {
+                  ? getAllBlog.map((item) => {
                       const { thumbnail, date, _id, title } = item;
                       return (
                         <div className="p-4 md:w-1/3" key={_id}>
@@ -66,21 +60,6 @@ function BlogPostCard() {
                   : <h1 className="text-xl text-center text-gray-500">No Blogs Found</h1>
                 }
               </div>
-
-              {visibleBlogs < getAllBlog.length && (
-                <div className="flex justify-center my-5">
-                  <Button
-                    onClick={loadMoreBlogs} 
-                    className="transition duration-300 ease-in-out transform hover:scale-105"
-                    style={{
-                      background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
-                      color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'rgb(226, 232, 240)',
-                    }}
-                  >
-                    See More
-                  </Button>
-                </div>
-              )}
             </>
           )}
         </div>
