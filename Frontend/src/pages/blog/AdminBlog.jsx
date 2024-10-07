@@ -84,7 +84,7 @@ function AdminBlog() {
 
   return (
     <Layout>
-      <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4">
+      <section className={`rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4 bg-${mode === 'dark' ? 'gray-800' : 'white'} shadow-lg`}>
         <div className="py-4 lg:py-8">
           {/* Back Button */}
           <button 
@@ -101,13 +101,13 @@ function AdminBlog() {
               {getBlogs.thumbnail && (
                 <img
                   alt="content"
-                  className="mb-6 rounded-lg h-full w-full shadow-md hover:shadow-lg transition-all duration-300"
+                  className="mb-6 rounded-lg h-64 w-full object-cover shadow-md hover:shadow-lg transition-all duration-300"
                   src={'https://bloggist-backend.onrender.com/' + getBlogs.thumbnail}
                 />
               )}
 
               {/* Title */}
-              <label className="block text-gray-700 text-lg font-bold mb-2">
+              <label className="block text-gray-700 text-xl font-bold mb-2">
                 Title
               </label>
               <input
@@ -115,7 +115,7 @@ function AdminBlog() {
                 name="title"
                 value={getBlogs.title}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+                className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-400 transition-all duration-300"
                 placeholder="Blog Title"
               />
 
@@ -128,7 +128,7 @@ function AdminBlog() {
                 name="category"
                 value={getBlogs.category}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+                className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-400 transition-all duration-300"
                 placeholder="Blog Category"
               />
 
@@ -140,7 +140,7 @@ function AdminBlog() {
                 name="content"
                 value={getBlogs.content}
                 onChange={handleChange}
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-400 transition-all duration-300"
+                className="shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-blue-400 transition-all duration-300"
                 placeholder="Blog Content"
                 rows="10"
               />
@@ -162,7 +162,7 @@ function AdminBlog() {
               </div>
             </div>
           ) : (
-            <p style={{ color: mode === 'dark' ? 'white' : 'black' }}>No post found.</p>
+            <p className={`text-lg text-center ${mode === 'dark' ? 'text-white' : 'text-black'}`}>No post found.</p>
           )}
         </div>
       </section>
