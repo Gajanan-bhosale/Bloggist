@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import axios from 'axios';
 import { FiEdit3, FiTrash2 } from 'react-icons/fi'; // Icons
+import { FaArrowLeft } from 'react-icons/fa'; // Import an arrow icon for the back button
 
 // Utility function to strip HTML tags
 const stripHTML = (html) => {
@@ -17,10 +18,8 @@ function AdminBlog() {
   const params = useParams();
   const navigate = useNavigate();  
 
-  
   const { id: postId } = params;
 
- 
   const [getBlogs, setGetBlogs] = useState({
     thumbnail: '',
     title: '',
@@ -86,14 +85,16 @@ function AdminBlog() {
   return (
     <Layout>
       <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4">
-      <button 
-            onClick={() => navigate('/')} 
-            className="text-lg font-bold flex items-center space-x-2 mb-4 px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-800 transition-colors duration-300 shadow-lg"
-          >
-            <FaArrowLeft className="mr-2" /> 
-            <span>Back to Home</span>
-          </button>
         <div className="py-4 lg:py-8">
+          {/* Back Button */}
+          <button 
+            onClick={() => navigate('/dashboard')} // Navigate to the dashboard
+            className="text-lg font-bold flex items-center space-x-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300 shadow-lg"
+          >
+            <FaArrowLeft className="mr-2" /> {/* Back arrow icon */}
+            <span>Back to Dashboard</span>
+          </button>
+
           {getBlogs ? (
             <div className="space-y-6">
               {/* Thumbnail - Display as image */}
