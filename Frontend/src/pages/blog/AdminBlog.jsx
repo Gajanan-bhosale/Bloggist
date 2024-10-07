@@ -15,12 +15,12 @@ function AdminBlog() {
   const context = useContext(myContext);
   const { mode } = context;
   const params = useParams();
-  const navigate = useNavigate();  // Use navigate for redirection after delete
+  const navigate = useNavigate();  
 
-  // Extract postId from params
+  
   const { id: postId } = params;
 
-  // State management
+ 
   const [getBlogs, setGetBlogs] = useState({
     thumbnail: '',
     title: '',

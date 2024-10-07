@@ -9,16 +9,18 @@ function BlogPostCard() {
   const [visibleBlogs, setVisibleBlogs] = useState(10);
   const [loading, setLoading] = useState(true);
 
-
   const loadMoreBlogs = () => {
-    setVisibleBlogs(prevVisibleBlogs => Math.min(prevVisibleBlogs + 10, getAllBlog.length)); 
+    setVisibleBlogs(prevVisibleBlogs => Math.min(prevVisibleBlogs + 10, getAllBlog.length));
   };
 
   useEffect(() => {
     if (getAllBlog.length > 0) {
-      setLoading(false); 
+      setLoading(false);
     }
   }, [getAllBlog]);
+
+  // Sort blogs by date in descending order (latest first)
+  const sortedBlogs = [...getAllBlog].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
     <div>
@@ -26,13 +28,13 @@ function BlogPostCard() {
         <div className="container px-5 py-10 mx-auto max-w-7xl">
           {loading ? (
             <div className="flex justify-center py-10">
-              <div className="loader">Loading...</div> 
+              <div className="loader">Loading...</div>
             </div>
           ) : (
             <>
               <div className="flex flex-wrap justify-center -m-4 mb-5">
-                {getAllBlog.length > 0
-                  ? getAllBlog.slice(0, visibleBlogs).map((item) => {
+                {sortedBlogs.length > 0
+                  ? sortedBlogs.slice(0, visibleBlogs).map((item) => {
                       const { thumbnail, date, _id, title } = item;
                       return (
                         <div className="p-4 md:w-1/3" key={_id}>
@@ -70,7 +72,7 @@ function BlogPostCard() {
               {visibleBlogs < getAllBlog.length && (
                 <div className="flex justify-center my-5">
                   <Button
-                    onClick={loadMoreBlogs} 
+                    onClick={loadMoreBlogs}
                     className="transition duration-300 ease-in-out transform hover:scale-105"
                     style={{
                       background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
