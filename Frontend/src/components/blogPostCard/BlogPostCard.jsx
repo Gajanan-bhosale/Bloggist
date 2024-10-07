@@ -19,8 +19,10 @@ function BlogPostCard() {
     }
   }, [getAllBlog]);
 
-  // Sort blogs by date in descending order (latest first)
-  const sortedBlogs = [...getAllBlog].sort((a, b) => new Date(b.date) - new Date(a.date));
+  // Ensure sorting by the date field in descending order (most recent first)
+  const sortedBlogs = [...getAllBlog].sort((a, b) => {
+    return new Date(b.date) - new Date(a.date); // Sort blogs by most recent date
+  });
 
   return (
     <div>
@@ -69,7 +71,7 @@ function BlogPostCard() {
                 }
               </div>
 
-              {visibleBlogs < getAllBlog.length && (
+              {visibleBlogs < sortedBlogs.length && (
                 <div className="flex justify-center my-5">
                   <Button
                     onClick={loadMoreBlogs}
