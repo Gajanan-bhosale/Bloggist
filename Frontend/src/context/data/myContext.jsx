@@ -4,10 +4,9 @@ const MyContext = createContext();
 
 export const MyProvider = ({ children }) => {
     const [blogs, setBlogs] = useState([]);
-    const [userId, setUserId] = useState('default-user-id');
 
     const addBlog = (newBlog) => {
-        setBlogs([...blogs, newBlog]);
+        setBlogs((prevBlogs) => [...prevBlogs, newBlog]);
     };
 
     return (
