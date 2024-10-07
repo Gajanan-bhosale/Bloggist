@@ -5,6 +5,7 @@ import Layout from '../../components/layout/Layout';
 import Comment from '../../components/comment/Comment';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { FaArrowLeft } from 'react-icons/fa'; // Import an arrow icon from react-icons
 
 function BlogInfo() {
   const context = useContext(myContext);
@@ -70,13 +71,15 @@ function BlogInfo() {
     <Layout>
       <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4">
         <div className="py-6 lg:py-10">
+          {/* Back Button */}
           <button 
             onClick={() => navigate('/')} // Navigate to home page
-            className="text-lg font-bold flex items-center space-x-2 mb-4"
-            style={{ color: mode === 'dark' ? 'white' : 'black' }}
+            className="text-lg font-bold flex items-center space-x-2 mb-4 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300 shadow-lg"
           >
-            ← Back
+            <FaArrowLeft className="mr-2" /> {/* Icon from react-icons */}
+            <span>Back to Home</span>
           </button>
+
           {getBlogs ? (
             <div className="space-y-6">
               <img
