@@ -86,6 +86,13 @@ function AdminBlog() {
   return (
     <Layout>
       <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4">
+      <button 
+            onClick={() => navigate('/')} 
+            className="text-lg font-bold flex items-center space-x-2 mb-4 px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-800 transition-colors duration-300 shadow-lg"
+          >
+            <FaArrowLeft className="mr-2" /> 
+            <span>Back to Home</span>
+          </button>
         <div className="py-4 lg:py-8">
           {getBlogs ? (
             <div className="space-y-6">
