@@ -109,8 +109,10 @@ function CreateBlog() {
                             setBlog({ ...blog, content: newValue });
                         }}
                         init={{
-                            plugins: 'autoresize lists link image preview',
-                        }}
+                            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                          }}
+                          initialValue="Welcome to TinyMCE!"
                     />
                     <Button type="submit" className="w-full mt-5">
                         Submit
