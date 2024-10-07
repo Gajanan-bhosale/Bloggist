@@ -1,130 +1,92 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
-import { BsFillArrowLeftCircleFill } from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Typography } from "@material-tailwind/react";
-import MyContext from '../../../context/data/myContext';
-import { useAuth } from '../../../../store/auth'; // import useAuth to get the user
+import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@material-tailwind/react';
 
 function CreateBlog() {
-    const { addBlog } = useContext(MyContext);
-    const { user } = useAuth(); // Get the user from the auth context
-    const [blog, setBlog] = useState({
-        thumbnail: "",
-        title: "",
-        category: "",
-        content: "",   
+    const [formData, setFormData] = useState({
+        title: '',
+        category: '',
+        description: '',
+        thumbnail: '',
     });
 
-    const [thumbnailPreview, setThumbnailPreview] = useState();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData();
-        if (blog.thumbnail) formData.append('thumbnail', blog.thumbnail);
-        if (blog.title) formData.append('title', blog.title);
-        if (blog.category) formData.append('category', blog.category);
-        if (blog.content) formData.append('content', blog.content);
-        formData.append('userId', user._id); // Send the logged-in user's ID
-
-        axios.post('https://bloggist-backend.onrender.com/api/post/add_post', formData)
-            .then((res) => {
-                console.log(res);
-                navigate("/dashboard");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
     };
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
-    const createMarkup = (content) => {
-        return { __html: content };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            // Send a POST request to your API
+            const response = await axios.post('https://bloggist-backend.onrender.com/api/post/add_post', formData);
+            console.log('Blog created:', response.data);
+            navigate('/dashboard'); // Navigate to the dashboard after successful submission
+        } catch (error) {
+            console.error('Error creating blog:', error.response?.data || error.message);
+            // Optional: Handle error display to the user
+        }
     };
 
     return (
-        <div className='container mx-auto max-w-5xl py-6'>
-            <div className="p-5">
-                <div className="mb-2 flex justify-between">
-                    <div className="flex gap-2 items-center">
-                        <Link to={'/dashboard'}>
-                            <BsFillArrowLeftCircleFill size={25} />
-                        </Link>
-                        <Typography variant="h4">Create Blog</Typography>
-                    </div>
-                </div>
-
-                {/* Blog Creation Form */}
-                <form onSubmit={handleSubmit}>
-                    {/* Thumbnail Input */}
-                    <div className="mb-3">
-                        {thumbnailPreview && (
-                            <img className="w-full rounded-md mb-3" src={thumbnailPreview} alt="thumbnail" />
-                        )}
-                        <Typography variant="small" color="blue-gray" className="mb-2 font-semibold">
-                            Upload Thumbnail (optional)
-                        </Typography>
-                        <input
-                            type="file"
-                            className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1"
-                            onChange={(e) => {
-                                const file = e.target.files[0];
-                                setBlog({ ...blog, thumbnail: file });
-                                setThumbnailPreview(URL.createObjectURL(file)); // Preview thumbnail
-                            }}
-                        />
-                    </div>
-
-                    {/* Title Input */}
-                    <div className="mb-3">
-                        <input
-                            className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5"
-                            placeholder="Enter Your Title (optional)"
-                            value={blog.title}
-                            onChange={(e) => setBlog({ ...blog, title: e.target.value })}
-                        />
-                    </div>
-
-                    {/* Category Input */}
-                    <div className="mb-3">
-                        <input
-                            className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5"
-                            placeholder="Enter Your Category (optional)"
-                            value={blog.category}
-                            onChange={(e) => setBlog({ ...blog, category: e.target.value })}
-                        />
-                    </div>
-
-                    {/* Text Editor for Content */}
-                    <Editor
-                        apiKey='wx2tma1e1vl0jghj9qceb1knwuwg4kcjgb0lloggc856oi7t' // Replace with your API key
-                        value={blog.content}
-                        onEditorChange={(newValue) => {
-                            setBlog({ ...blog, content: newValue });
-                        }}
-                        init={{
-                            plugins: 'autoresize lists link image preview',
-                        }}
+        <div className="container mx-auto px-4">
+            <h2 className="text-center text-2xl font-bold mb-4">Create a New Blog</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+                    <input
+                        type="text"
+                        name="title"
+                        id="title"
+                        value={formData.title}
+                        onChange={handleChange}
+                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                     />
-
-                    {/* Submit Button */}
-                    <Button type="submit" className="w-full mt-5">
-                        Submit
-                    </Button>
-                </form>
-
-                {/* Blog Preview */}
-                <div className="mt-8">
-                    <h1 className="text-center mb-3 text-2xl">Preview</h1>
-                    <div dangerouslySetInnerHTML={createMarkup(blog.content)}></div>
                 </div>
-            </div>
+                <div className="mb-4">
+                    <label htmlFor="category" className="block text-sm font-medium text-gray-700">Category</label>
+                    <input
+                        type="text"
+                        name="category"
+                        id="category"
+                        value={formData.category}
+                        onChange={handleChange}
+                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea
+                        name="description"
+                        id="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700">Thumbnail URL</label>
+                    <input
+                        type="text"
+                        name="thumbnail"
+                        id="thumbnail"
+                        value={formData.thumbnail}
+                        onChange={handleChange}
+                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    />
+                </div>
+                <div className="flex justify-center">
+                    <Button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                        Submit Blog
+                    </Button>
+                </div>
+            </form>
         </div>
     );
 }
