@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link for the button
 import myContext from '../../context/data/myContext';
 import Layout from '../../components/layout/Layout';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../store/auth';
 import axios from 'axios';
+import Button from '../../components/Button'; // Import your Button component
 
 function AllBlogs() {
   const context = useContext(myContext);
@@ -15,7 +17,6 @@ function AllBlogs() {
 
   const fetchPosts = async () => {
     try {
-      // Fixing the URL with backticks for template literal
       const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_posts/${user._id}`, {
         params: { userId: user._id },
       });
@@ -66,7 +67,6 @@ function AllBlogs() {
                     >
                       <img
                         className="w-full h-48 object-cover rounded-t-lg"
-                        // Fixing the image URL with curly braces and template literal
                         src={thumbnail ? `https://bloggist-backend.onrender.com/${thumbnail}` : 'https://via.placeholder.com/300?text=No+Image'}
                         alt="blog"
                       />
@@ -82,7 +82,6 @@ function AllBlogs() {
                         <div className="flex items-center">
                           <button
                             className="text-sm font-semibold text-indigo-500 hover:underline"
-                            // Fixing navigate onClick with correct backticks and string interpolation
                             onClick={() => navigate(`/adminblog/${_id}`)}>
                             Read More
                           </button>
@@ -93,10 +92,25 @@ function AllBlogs() {
                 );
               })
             ) : (
-              <h1 className="text-2xl text-center font-semibold mt-10"
-                style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-                Create your first Blog
-              </h1>
+              <div className="text-center">
+                <h1 className="text-2xl font-semibold mt-10"
+                  style={{ color: mode === 'dark' ? 'white' : 'black' }}>
+                  Create your first Blog
+                </h1>
+                <div className="flex gap-2 mt-2 justify-center">
+                  <Link to={'/createblog'}>
+                    <Button
+                      style={{
+                        background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
+                        color: mode === 'dark' ? 'black' : 'white'
+                      }}
+                      className="px-8 py-2"
+                    >
+                      Create Blog
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
         </div>
