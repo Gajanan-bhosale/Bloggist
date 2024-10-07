@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import myContext from '../../context/data/myContext';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; // Import useNavigate
 import Layout from '../../components/layout/Layout';
 import Comment from '../../components/comment/Comment';
 import toast from 'react-hot-toast';
@@ -10,13 +10,13 @@ function BlogInfo() {
   const context = useContext(myContext);
   const { mode } = context;
   const { id: postId } = useParams();
+  const navigate = useNavigate(); // Initialize useNavigate for navigation
 
   const [getBlogs, setGetBlogs] = useState(null);
   const [fullName, setFullName] = useState('');
   const [commentText, setCommentText] = useState('');
   const [allComment, setAllComment] = useState([]);
 
-  
   useEffect(() => {
     const fetchPostData = async () => {
       try {
@@ -32,7 +32,6 @@ function BlogInfo() {
     }
   }, [postId]);
 
-  
   const addComment = async (e) => {
     e.preventDefault(); 
 
@@ -42,7 +41,6 @@ function BlogInfo() {
     };
 
     try {
-
       await axios.post(`https://bloggist-backend.onrender.com/api/post/add_comment/${postId}`, newComment);
       fetchComments();
       setCommentText('');
@@ -53,7 +51,6 @@ function BlogInfo() {
     }
   };
 
-
   const fetchComments = async () => {
     try {
       const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_comments/${postId}`);
@@ -63,18 +60,23 @@ function BlogInfo() {
     }
   };
 
-
   useEffect(() => {
     if (postId) {
       fetchComments();
     }
   }, [postId]);
 
-
   return (
     <Layout>
       <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4">
         <div className="py-6 lg:py-10">
+          <button 
+            onClick={() => navigate('/')} // Navigate to home page
+            className="text-lg font-bold flex items-center space-x-2 mb-4"
+            style={{ color: mode === 'dark' ? 'white' : 'black' }}
+          >
+            ← Back
+          </button>
           {getBlogs ? (
             <div className="space-y-6">
               <img
