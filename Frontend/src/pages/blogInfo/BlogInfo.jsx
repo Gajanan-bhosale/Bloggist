@@ -74,7 +74,7 @@ function BlogInfo() {
           
           <button 
             onClick={() => navigate('/')} 
-            className="text-lg font-bold flex items-center space-x-2 mb-4 px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-800 transition-colors duration-300 shadow-lg"
+            className="text-lg font-bold flex items-center space-x-2 mb-4 px-4 py-2 bg-black text-white rounded-full hover:bg-gray-600 transition-colors duration-300 shadow-lg"
           >
             <FaArrowLeft className="mr-2" /> 
             <span>Back to Home</span>
