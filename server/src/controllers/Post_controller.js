@@ -13,24 +13,44 @@ const get_all_posts = async (req, res) => {
     }
 };
 
-app.post('/api/post/add_post', async (req, res) => {
-    const { title, category, description, thumbnail } = req.body;
-
+const add_post = async (req, res) => {
     try {
-        const newBlogPost = new BlogPost({
-            title: title || 'Untitled', // Default title if none is provided
-            category: category || 'General', // Default category if none is provided
-            description: description || '', // Default description if none is provided
-            thumbnail: thumbnail || '', // Default to empty string if none is provided
-            // Add any other required fields
-        });
+        // Check if a file was uploaded; if not, set thumbnail to null
+        const thumbnail = req.file ? req.file.path : null;
 
-        await newBlogPost.save();
-        res.status(201).json(newBlogPost);
+        // Use default values if fields are not provided
+        const title = req.body.title || null;
+        const category = req.body.category || null;
+        const content = req.body.content || null;
+
+        // Initialize userId
+        let userId = null;
+
+        // Validate userId if it's provided
+        if (req.body.userId) {
+            try {
+                userId = new mongoose.Types.ObjectId(req.body.userId);
+            } catch (error) {
+                return res.status(400).send({ message: 'Invalid User ID' });
+            }
+        }
+
+        // Create a new product post
+        const product = new Products({ thumbnail, title, category, content, userId });
+
+        // Save the post
+        const savedPost = await product.save();
+
+        res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Error saving post:', error);
+        // Return a 400 error if the request is malformed
+        if (error.name === 'ValidationError') {
+            return res.status(400).send({ message: 'Bad Request', error: error.message });
+        }
+        res.status(500).send({ message: 'Server error', error: error.message }); // Include error message
     }
-});
+};
 
 
 
