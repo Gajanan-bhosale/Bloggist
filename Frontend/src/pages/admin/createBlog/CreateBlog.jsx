@@ -69,7 +69,7 @@ function CreateBlog() {
                             <img className="w-full rounded-md mb-3" src={thumbnailPreview} alt="thumbnail" />
                         )}
                         <Typography variant="small" color="blue-gray" className="mb-2 font-semibold">
-                            Upload Thumbnail <span className="text-red-500">*</span>
+                            Upload Thumbnail
                         </Typography>
                         <input
                             type="file"
@@ -79,62 +79,48 @@ function CreateBlog() {
                                 setBlog({ ...blog, thumbnail: file });
                                 setThumbnailPreview(URL.createObjectURL(file)); // Preview thumbnail
                             }}
-                            required // Make thumbnail required
                         />
                     </div>
 
                     {/* Title Input */}
                     <div className="mb-3">
-                        <label className="block mb-1 font-semibold">
-                            Title <span className="text-red-500">*</span>
-                        </label>
                         <input
                             className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5"
                             placeholder="Enter Your Title"
                             value={blog.title}
                             onChange={(e) => setBlog({ ...blog, title: e.target.value })}
-                            required // Make title required
                         />
                     </div>
 
                     {/* Category Input */}
                     <div className="mb-3">
-                        <label className="block mb-1 font-semibold">
-                            Category <span className="text-red-500">*</span>
-                        </label>
                         <input
                             className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5"
                             placeholder="Enter Your Category"
                             value={blog.category}
                             onChange={(e) => setBlog({ ...blog, category: e.target.value })}
-                            required // Make category required
                         />
                     </div>
 
-                    {/* Content Input */}
-                    <div className="mb-3">
-                        <label className="block mb-1 font-semibold">
-                            Content <span className="text-red-500">*</span>
-                        </label>
-                        <Editor
-                            apiKey='wx2tma1e1vl0jghj9qceb1knwuwg4kcjgb0lloggc856oi7t' 
-                            value={blog.content}
-                            onEditorChange={(newValue) => {
-                                setBlog({ ...blog, content: newValue });
-                            }}
-                            init={{
-                                plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-                                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-                            }}
-                            required // Make content required
-                        />
-                    </div>
+                    {/* Text Editor for Content */}
+                    <Editor
+                        apiKey='wx2tma1e1vl0jghj9qceb1knwuwg4kcjgb0lloggc856oi7t' // Replace with your API key
+                        value={blog.content}
+                        onEditorChange={(newValue) => {
+                            setBlog({ ...blog, content: newValue });
+                        }}
+                        init={{
+                            plugins: 'autoresize lists link image preview',
+                        }}
+                    />
 
+                    {/* Submit Button */}
                     <Button type="submit" className="w-full mt-5">
                         Submit
                     </Button>
                 </form>
 
+                {/* Blog Preview */}
                 <div className="mt-8">
                     <h1 className="text-center mb-3 text-2xl">Preview</h1>
                     <div dangerouslySetInnerHTML={createMarkup(blog.content)}></div>
