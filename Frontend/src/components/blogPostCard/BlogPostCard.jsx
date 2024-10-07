@@ -6,21 +6,13 @@ import { useNavigate } from 'react-router-dom';
 function BlogPostCard() {
   const { mode, getAllBlog } = useContext(myContext);
   const navigate = useNavigate();
-  const [visibleBlogs, setVisibleBlogs] = useState(10);
   const [loading, setLoading] = useState(true);
-
-  const loadMoreBlogs = () => {
-    setVisibleBlogs(prevVisibleBlogs => Math.min(prevVisibleBlogs + 10, getAllBlog.length));
-  };
 
   useEffect(() => {
     if (getAllBlog.length > 0) {
-      setLoading(false);
+      setLoading(false); 
     }
   }, [getAllBlog]);
-
-  // Use the blogs in their original order without sorting
-  const sortedBlogs = getAllBlog; 
 
   return (
     <div>
@@ -28,62 +20,45 @@ function BlogPostCard() {
         <div className="container px-5 py-10 mx-auto max-w-7xl">
           {loading ? (
             <div className="flex justify-center py-10">
-              <div className="loader">Loading...</div>
+              <div className="loader">Loading...</div> 
             </div>
           ) : (
-            <>
-              <div className="flex flex-wrap justify-center -m-4 mb-5">
-                {sortedBlogs.length > 0
-                  ? sortedBlogs.slice(0, visibleBlogs).map((item) => {
-                      const { thumbnail, createdAt, _id, title } = item;
-                      return (
-                        <div className="p-4 md:w-1/3" key={_id}>
-                          <div
-                            style={{
-                              background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white',
-                              borderBottom: mode === 'dark' ? '4px solid rgb(226, 232, 240)' : '4px solid rgb(30, 41, 59)',
-                            }}
-                            className="h-full shadow-lg transition-transform transform hover:-translate-y-1 cursor-pointer hover:shadow-2xl rounded-xl overflow-hidden duration-300"
-                            onClick={() => navigate(`/bloginfo/${_id}`)}
-                          >
-                            <img
-                              className="w-full h-48 object-cover"
-                              src={`https://bloggist-backend.onrender.com/${thumbnail}`}
-                              alt="blog"
-                            />
-                            <div className="p-6">
-                              <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
-                                style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}>
-                                {new Date(createdAt).toLocaleString()} {/* Display date & time */}
-                              </h2>
-                              <h1 className="title-font text-lg font-bold text-gray-900 mb-3"
-                                style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}>
-                                {title}
-                              </h1>
-                            </div>
+            <div className="flex flex-wrap justify-center -m-4 mb-5">
+              {getAllBlog.length > 0
+                ? getAllBlog.map((item) => {
+                    const { thumbnail, date, _id, title } = item;
+                    return (
+                      <div className="p-4 md:w-1/3" key={_id}>
+                        <div
+                          style={{
+                            background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white',
+                            borderBottom: mode === 'dark' ? '4px solid rgb(226, 232, 240)' : '4px solid rgb(30, 41, 59)',
+                          }}
+                          className="h-full shadow-lg transition-transform transform hover:-translate-y-1 cursor-pointer hover:shadow-2xl rounded-xl overflow-hidden duration-300"
+                          onClick={() => navigate(`/bloginfo/${_id}`)}
+                        >
+                          <img
+                            className="w-full h-48 object-cover"
+                            src={`https://bloggist-backend.onrender.com/${thumbnail}`}
+                            alt="blog"
+                          />
+                          <div className="p-6">
+                            <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
+                              style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}>
+                              {new Date(date).toLocaleDateString()}
+                            </h2>
+                            <h1 className="title-font text-lg font-bold text-gray-900 mb-3"
+                              style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}>
+                              {title}
+                            </h1>
                           </div>
                         </div>
-                      );
-                    })
-                  : <h1 className="text-xl text-center text-gray-500">No Blogs Found</h1>
-                }
-              </div>
-
-              {visibleBlogs < sortedBlogs.length && (
-                <div className="flex justify-center my-5">
-                  <Button
-                    onClick={loadMoreBlogs}
-                    className="transition duration-300 ease-in-out transform hover:scale-105"
-                    style={{
-                      background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
-                      color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'rgb(226, 232, 240)',
-                    }}
-                  >
-                    See More
-                  </Button>
-                </div>
-              )}
-            </>
+                      </div>
+                    );
+                  })
+                : <h1 className="text-xl text-center text-gray-500">No Blogs Found</h1>
+              }
+            </div>
           )}
         </div>
       </section>
