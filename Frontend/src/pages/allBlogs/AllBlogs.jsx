@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link for the button
 import myContext from '../../context/data/myContext';
 import Layout from '../../components/layout/Layout';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../../store/auth';
 import axios from 'axios';
-import Button from '../../components/Button'; // Import your Button component
 
 function AllBlogs() {
   const context = useContext(myContext);
@@ -92,25 +90,10 @@ function AllBlogs() {
                 );
               })
             ) : (
-              <div className="text-center">
-                <h1 className="text-2xl font-semibold mt-10"
-                  style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-                  Create your first Blog
-                </h1>
-                <div className="flex gap-2 mt-2 justify-center">
-                  <Link to={'/createblog'}>
-                    <Button
-                      style={{
-                        background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
-                        color: mode === 'dark' ? 'black' : 'white'
-                      }}
-                      className="px-8 py-2"
-                    >
-                      Create Blog
-                    </Button>
-                  </Link>
-                </div>
-              </div>
+              <h1 className="text-2xl text-center font-semibold mt-10"
+                style={{ color: mode === 'dark' ? 'white' : 'black' }}>
+                Create your first Blog
+              </h1>
             )}
           </div>
         </div>
