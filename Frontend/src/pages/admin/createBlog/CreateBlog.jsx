@@ -22,12 +22,13 @@ function CreateBlog() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+        console.log(user);
+
         const formData = new FormData();
-        if (blog.thumbnail) formData.append('thumbnail', blog.thumbnail);
-        if (blog.title) formData.append('title', blog.title);
-        if (blog.category) formData.append('category', blog.category);
-        if (blog.content) formData.append('content', blog.content);
+        formData.append('thumbnail', blog.thumbnail);
+        formData.append('title', blog.title);
+        formData.append('category', blog.category);
+        formData.append('content', blog.content);
         formData.append('userId', user._id); // Send the logged-in user's ID
 
         axios.post('https://bloggist-backend.onrender.com/api/post/add_post', formData)
@@ -68,7 +69,7 @@ function CreateBlog() {
                             <img className="w-full rounded-md mb-3" src={thumbnailPreview} alt="thumbnail" />
                         )}
                         <Typography variant="small" color="blue-gray" className="mb-2 font-semibold">
-                            Upload Thumbnail (optional)
+                            Upload Thumbnail
                         </Typography>
                         <input
                             type="file"
@@ -85,7 +86,7 @@ function CreateBlog() {
                     <div className="mb-3">
                         <input
                             className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5"
-                            placeholder="Enter Your Title (optional)"
+                            placeholder="Enter Your Title"
                             value={blog.title}
                             onChange={(e) => setBlog({ ...blog, title: e.target.value })}
                         />
@@ -95,7 +96,7 @@ function CreateBlog() {
                     <div className="mb-3">
                         <input
                             className="shadow-[inset_0_0_4px_rgba(0,0,0,0.6)] w-full rounded-md p-1.5"
-                            placeholder="Enter Your Category (optional)"
+                            placeholder="Enter Your Category"
                             value={blog.category}
                             onChange={(e) => setBlog({ ...blog, category: e.target.value })}
                         />
