@@ -37,7 +37,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-      const { name, email, password, position, organization } = req.body;
+      const { name, email, password} = req.body;
   
       
       const userExists = await EmployeeModel.findOne({ email });
@@ -47,7 +47,7 @@ const register = async (req, res) => {
       }
   
     
-      const userCreated = await EmployeeModel.create({ name, email, password, position, organization});
+      const userCreated = await EmployeeModel.create({ name, email, password});
   
       const token = await userCreated.generateToken();
       res.status(201).json({

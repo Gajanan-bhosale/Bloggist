@@ -41,7 +41,7 @@ const SignUp = () => {
       if (response.ok) {
         const res_data = await response.json();
         storeTokenInLS(res_data.token);
-        setUser({ name: "", email: "", password: "", organization: "", position: ""});
+        setUser({ name: "", email: "", password: "",});
         navigate("/SignIn");
       } else {
         const errorData = await response.json();
@@ -83,30 +83,6 @@ const SignUp = () => {
               type="email"
               name="email"
               value={user.email}
-              onChange={handleInput}
-              required
-              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
-          <div>
-            <label htmlFor='organization' className="block text-sm font-medium text-gray-700">Organization:</label>
-            <input
-              id="organization"
-              type="organization"
-              name="organization"
-              value={user.organization}
-              onChange={handleInput}
-              required
-              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-            />
-          </div>
-          <div>
-            <label htmlFor='position' className="block text-sm font-medium text-gray-700">Position:</label>
-            <input
-              id="position"
-              type="position"
-              name="position"
-              value={user.position}
               onChange={handleInput}
               required
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
