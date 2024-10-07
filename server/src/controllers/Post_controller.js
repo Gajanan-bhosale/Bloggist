@@ -15,14 +15,13 @@ const get_all_posts = async (req, res) => {
 
 const add_post = async (req, res) => {
     try {
-        // Handle optional fields
-        const thumbnail = req.file ? req.file.path : null; // Assuming file upload is handled
-        const title = req.body.title || null; // Default to null if not provided
-        const category = req.body.category || null; // Default to null if not provided
-        const content = req.body.content || null; // Default to null if not provided
+        const thumbnail = req.file ? req.file.path : null;
+        const title = req.body.title || null;
+        const category = req.body.category || null;
+        const content = req.body.content || null;
 
-        // Ensure userId is optional, check if it's provided and valid
         let userId = null;
+
         if (req.body.userId) {
             try {
                 userId = new mongoose.Types.ObjectId(req.body.userId);
@@ -31,15 +30,7 @@ const add_post = async (req, res) => {
             }
         }  
 
-        // Create a new product without requiring all fields
-        const product = new Products({ 
-            thumbnail, 
-            title, 
-            category, 
-            content, 
-            userId 
-        });
-        
+        const product = new Products({ thumbnail, title, category, content, userId });
         const savedPost = await product.save();
 
         res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
@@ -52,7 +43,6 @@ const add_post = async (req, res) => {
         }
     }
 };
-
 
 
 

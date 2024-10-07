@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-    thumbnail: { type: String, required: false }, // Make sure this is not required
-    title: { type: String, required: false },     // Make sure this is not required
-    category: { type: String, required: false },  // Make sure this is not required
+    thumbnail: { type: String, required: false },
+    title: { type: String, required: false },
+    category: { type: String, required: false },
     content: { type: String, required: false },
     userId: { type: mongoose.Schema.Types.ObjectId, required: false }, 
     date: { type: Date, default: Date.now },
@@ -14,7 +14,6 @@ const PostSchema = new mongoose.Schema({
             date: { type: Date, default: Date.now }
         }
     ]
-    
 });
 
 const Products = mongoose.model("Products", PostSchema);
