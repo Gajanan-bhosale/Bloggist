@@ -14,24 +14,27 @@ const get_all_posts = async (req, res) => {
 };
 
 const add_post = function (req, res) {
-    const thumbnail = req.file.path;
-    const title = req.body.title;
-    const category = req.body.category;
-    const content = req.body.content;
+    // Check if file is uploaded
+    const thumbnail = req.file ? req.file.path : null; // Set to null if no file is uploaded
+    const title = req.body.title || null; // Set to null if title is not provided
+    const category = req.body.category || null; // Set to null if category is not provided
+    const content = req.body.content || null; // Set to null if content is not provided
 
-    // Ensure userId is a valid ObjectId
+    // Ensure userId is a valid ObjectId if provided
     let userId;
-    try {
-        userId = new mongoose.Types.ObjectId(req.body.userId); // Use 'new' keyword here
-    } catch (error) {
-        return res.status(400).send({ message: 'Invalid User ID' }); // Handle invalid userId format
+    if (req.body.userId) {
+        try {
+            userId = new mongoose.Types.ObjectId(req.body.userId);
+        } catch (error) {
+            return res.status(400).send({ message: 'Invalid User ID' });
+        }
     }
 
     const product = new Products({ thumbnail, title, category, content, userId });
 
     product.save()
         .then((savedPost) => {
-            console.log('Post saved with ID:', savedPost._id); // Debugging log to confirm save
+            console.log('Post saved with ID:', savedPost._id);
             res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
         })
         .catch((error) => {
@@ -39,7 +42,6 @@ const add_post = function (req, res) {
             res.status(500).send({ message: 'Server error' });
         });
 };
-
 
 // Add a new post
 // const add_post = async (req, res) => {
