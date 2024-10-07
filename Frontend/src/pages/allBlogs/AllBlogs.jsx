@@ -93,10 +93,25 @@ function AllBlogs() {
                 );
               })
             ) : (
-              <h1 className="text-2xl text-center font-semibold mt-10"
-                style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-                Create your first Blog
-              </h1>
+              <div className="text-center">
+                <h1 className="text-2xl font-semibold mt-10"
+                  style={{ color: mode === 'dark' ? 'white' : 'black' }}>
+                  Create your first Blog
+                </h1>
+                <div className="flex gap-2 mt-2 justify-center">
+                  <Link to={'/createblog'}>
+                    <Button
+                      style={{
+                        background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
+                        color: mode === 'dark' ? 'black' : 'white'
+                      }}
+                      className="px-8 py-2"
+                    >
+                      Create Blog
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
         </div>
