@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const PostSchema = new mongoose.Schema({
-    thumbnail: { type: String, required: "*" },
-    title: { type: String, required: "*" },
-    category: { type: String, required: "*" },
-    content: { type: String, required: "*" },
-    userId: { type: mongoose.Schema.Types.ObjectId, required: "*" }, 
+    thumbnail: { type: String, required: false },
+    title: { type: String, required: false },
+    category: { type: String, required: false },
+    content: { type: String, required: false },
+    userId: { type: mongoose.Schema.Types.ObjectId, required: false }, 
     date: { type: Date, default: Date.now },
     comments: [
         {
