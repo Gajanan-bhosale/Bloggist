@@ -1,159 +1,92 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Layout from '../../../components/layout/Layout';
-import myContext from '../../../context/data/myContext';
 import { Button } from '@material-tailwind/react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../../store/auth';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import myContext from '../../context/data/myContext';
+import { useNavigate } from 'react-router-dom';
 
-function Dashboard() {
-    const context = useContext(myContext);
-    const { mode } = context;
-    const [userBlogs, setUserBlogs] = useState([]);
-    const navigate = useNavigate();
-    const { user } = useAuth();
+function BlogPostCard() {
+  const { mode, getAllBlog } = useContext(myContext);
+  const navigate = useNavigate();
+  const [visibleBlogs, setVisibleBlogs] = useState(10);
+  const [loading, setLoading] = useState(true);
 
-    const fetchPosts = async () => {
-        try {
-            const response = await axios.get(`https://bloggist-backend.onrender.com/api/post/get_posts/${user._id}`);
-            setUserBlogs(response.data);
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        }
-    };
 
-    const logout = () => {
-        localStorage.clear();
-        navigate('/');
-    };
+  const loadMoreBlogs = () => {
+    setVisibleBlogs(prevVisibleBlogs => Math.min(prevVisibleBlogs + 10, getAllBlog.length)); 
+  };
 
-    useEffect(() => {
-        if (user) {
-            fetchPosts();
-        }
-        window.scrollTo(0, 0);
-    }, [user]);
-
-    // If the user data is not available, show nothing (you can add a spinner or skeleton loader if needed).
-    if (!user) {
-        return null;
+  useEffect(() => {
+    if (getAllBlog.length > 0) {
+      setLoading(false); 
     }
+  }, [getAllBlog]);
 
-    return (
-        <Layout>
-            <div className="py-10">
-                {/* User Profile Section */}
-                <div className="flex flex-wrap justify-start items-center lg:justify-center gap-2 lg:gap-10 px-4 lg:px-0 mb-8">
-                    <div className="left">
-                        <img
-                            className="w-40 h-40 object-cover rounded-full border-2 border-pink-600 p-1"
-                            src={'https://cdn-icons-png.flaticon.com/128/3135/3135715.png'}
-                            alt="profile"
-                        />
-                    </div>
-                    <div className="right">
-                        <h1 className="text-center font-bold text-2xl mb-2" style={{ color: mode === 'dark' ? 'white' : 'black' }}>
-                            {user.name}
-                        </h1>
-                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            {user.position}
-                        </h2>
-                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            {user.email}
-                        </h2>
-                        <h2 style={{ color: mode === 'dark' ? 'white' : 'black' }} className="font-semibold">
-                            <span>Total Blogs: </span> {userBlogs.length}
-                        </h2>
-                        <div className="flex gap-2 mt-2">
-                            <Link to={'/createblog'}>
-                                <Button
-                                    style={{
-                                        background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
-                                        color: mode === 'dark' ? 'black' : 'white'
-                                    }}
-                                    className="px-8 py-2"
-                                >
-                                    Create Blog
-                                </Button>
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-
-                <hr className={`border-2 ${mode === 'dark' ? 'border-gray-300' : 'border-gray-400'}`} />
-
-                <div className="container mx-auto px-4 max-w-7xl my-5">
-                    <div className="relative overflow-x-auto shadow-md sm:rounded-xl">
-                        <table className="w-full border-2 border-white shadow-md text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead
-                                style={{
-                                    background: mode === 'dark' ? 'white' : 'rgb(30, 41, 59)'
-                                }}
-                                className="text-xs"
-                            >
-                                <tr>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        S.No
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Thumbnail
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Title
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Category
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Date
-                                    </th>
-                                    <th style={{ color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }} className="px-6 py-3">
-                                        Action
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {userBlogs.length > 0 ? (
-                                    userBlogs.map((item, index) => {
-                                        const { thumbnail, title, category, date, _id } = item; // Ensure id is part of item
-                                        return (
-                                            <tr key={index} className="border-b-2" style={{ background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white' }}>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {index + 1}.
-                                                </td>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    <img className='w-16 rounded-lg' src={'https://bloggist-backend.onrender.com/' + thumbnail} alt="thumbnail" />
-                                                </td>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {title}
-                                                </td>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {category}
-                                                </td>
-                                                <td style={{ color: mode === 'dark' ? 'white' : 'black' }} className="px-6 py-4">
-                                                    {new Date(date).toLocaleDateString()}
-                                                </td>
-                                                <td className="px-6 py-4 flex gap-2">
-                                                    <button
-                                                        className="px-4 py-1 rounded-lg text-white font-bold bg-blue-500"
-                                                        onClick={() => navigate(`/adminblog/${_id}`)} // Use _id here
-                                                    >
-                                                        View
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
-                                ) : (
-                                    <tr><td colSpan="6">No blogs found.</td></tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+  return (
+    <div>
+      <section className="text-gray-600 body-font">
+        <div className="container px-5 py-10 mx-auto max-w-7xl">
+          {loading ? (
+            <div className="flex justify-center py-10">
+              <div className="loader">Loading...</div> 
             </div>
-        </Layout>
-    );
+          ) : (
+            <>
+              <div className="flex flex-wrap justify-center -m-4 mb-5">
+                {getAllBlog.length > 0
+                  ? getAllBlog.slice(0, visibleBlogs).map((item) => {
+                      const { thumbnail, date, _id, title } = item;
+                      return (
+                        <div className="p-4 md:w-1/3" key={_id}>
+                          <div
+                            style={{
+                              background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white',
+                              borderBottom: mode === 'dark' ? '4px solid rgb(226, 232, 240)' : '4px solid rgb(30, 41, 59)',
+                            }}
+                            className={`h-full shadow-lg transition-transform transform hover:-translate-y-1 cursor-pointer hover:shadow-2xl rounded-xl overflow-hidden duration-300`}
+                            onClick={() => navigate(`/bloginfo/${_id}`)}
+                          >
+                            <img
+                              className="w-full h-48 object-cover"
+                              src={`https://bloggist-backend.onrender.com/${thumbnail}`}
+                              alt="blog"
+                            />
+                            <div className="p-6">
+                              <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
+                                style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}>
+                                {new Date(date).toLocaleDateString()}
+                              </h2>
+                              <h1 className="title-font text-lg font-bold text-gray-900 mb-3"
+                                style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}>
+                                {title}
+                              </h1>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : <h1 className="text-xl text-center text-gray-500">No Blogs Found</h1>
+                }
+              </div>
+
+              {visibleBlogs < getAllBlog.length && (
+                <div className="flex justify-center my-5">
+                  <Button
+                    onClick={loadMoreBlogs} 
+                    className="transition duration-300 ease-in-out transform hover:scale-105"
+                    style={{
+                      background: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)',
+                      color: mode === 'dark' ? 'rgb(30, 41, 59)' : 'rgb(226, 232, 240)',
+                    }}
+                  >
+                    See More
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </section>
+    </div>
+  );
 }
 
-export default Dashboard;
+export default BlogPostCard;
