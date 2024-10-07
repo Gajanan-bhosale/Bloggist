@@ -19,10 +19,8 @@ function BlogPostCard() {
     }
   }, [getAllBlog]);
 
-  // Sort blogs by the exact time (createdAt field)
-  const sortedBlogs = [...getAllBlog].sort((a, b) => {
-    return new Date(b.createdAt) - new Date(a.createdAt); // Sort by creation time (newest first)
-  });
+  // Use the blogs in their original order without sorting
+  const sortedBlogs = getAllBlog; 
 
   return (
     <div>
@@ -45,7 +43,7 @@ function BlogPostCard() {
                               background: mode === 'dark' ? 'rgb(30, 41, 59)' : 'white',
                               borderBottom: mode === 'dark' ? '4px solid rgb(226, 232, 240)' : '4px solid rgb(30, 41, 59)',
                             }}
-                            className={`h-full shadow-lg transition-transform transform hover:-translate-y-1 cursor-pointer hover:shadow-2xl rounded-xl overflow-hidden duration-300`}
+                            className="h-full shadow-lg transition-transform transform hover:-translate-y-1 cursor-pointer hover:shadow-2xl rounded-xl overflow-hidden duration-300"
                             onClick={() => navigate(`/bloginfo/${_id}`)}
                           >
                             <img
