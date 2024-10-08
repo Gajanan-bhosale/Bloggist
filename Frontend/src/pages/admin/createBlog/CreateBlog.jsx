@@ -61,9 +61,9 @@ function CreateBlog() {
                     </div>
                 </div>
 
-                {/* Blog Creation Form */}
+                
                 <form onSubmit={handleSubmit}>
-                    {/* Thumbnail Input */}
+                   
                     <div className="mb-3">
                         {thumbnailPreview && (
                             <img className="w-full rounded-md mb-3" src={thumbnailPreview} alt="thumbnail" />
