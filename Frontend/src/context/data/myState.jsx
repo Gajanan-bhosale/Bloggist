@@ -15,11 +15,16 @@ function MyState(props) {
     const getAllBlogs = async () => {
         try {
             const response = await axios.get('https://bloggist-backend.onrender.com/api/post/get_all_posts');
-            setGetAllBlog(response.data);
+            
+            // Sort the blogs by their time in descending order (latest first)
+            const sortedBlogs = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            setGetAllBlog(sortedBlogs);
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
     };
+    
 
     const getPostById = async (postId) => {
         try {
