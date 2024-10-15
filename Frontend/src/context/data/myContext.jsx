@@ -1,31 +1,16 @@
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useState } from 'react';
 
 const MyContext = createContext();
 
-const initialState = {
-    blogs: [], // Ensure this is initialized as an empty array
-};
-
-const blogReducer = (state, action) => {
-    switch (action.type) {
-        case 'SET_BLOGS':
-            return { ...state, blogs: action.payload };
-        case 'ADD_BLOG':
-            return { ...state, blogs: [action.payload, ...state.blogs] };
-        default:
-            return state;
-    }
-};
-
 export const MyProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(blogReducer, initialState);
+    const [getAllBlog, setBlogs] = useState([]);
 
-    const addBlog = (blog) => {
-        dispatch({ type: 'ADD_BLOG', payload: blog });
+    const addBlog = (newBlog) => {
+        setBlogs((prevBlogs) => [...prevBlogs, newBlog]); // Add the new blog
     };
 
     return (
-        <MyContext.Provider value={{ ...state, addBlog }}>
+        <MyContext.Provider value={{ getAllBlog, addBlog }}>
             {children}
         </MyContext.Provider>
     );
