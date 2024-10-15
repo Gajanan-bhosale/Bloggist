@@ -4,12 +4,12 @@ import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Typography } from "@material-tailwind/react";
 import MyContext from '../../../context/data/myContext';
-import { useAuth } from '../../../../store/auth'; // import useAuth to get the user
+import { useAuth } from '../../../../store/auth'; 
 import axios from 'axios';
 
 function CreateBlog() {
     const { addBlog } = useContext(MyContext);
-    const { user } = useAuth(); // Get the user from the auth context
+    const { user } = useAuth();
     const [blog, setBlog] = useState({
         thumbnail: "",
         title: "",
@@ -22,18 +22,18 @@ function CreateBlog() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(user);
 
         const formData = new FormData();
         formData.append('thumbnail', blog.thumbnail);
         formData.append('title', blog.title);
         formData.append('category', blog.category);
         formData.append('content', blog.content);
-        formData.append('userId', user._id); // Send the logged-in user's ID
+        formData.append('userId', user._id);
 
         axios.post('https://bloggist-backend.onrender.com/api/post/add_post', formData)
             .then((res) => {
-                console.log(res);
+                const newBlog = res.data; // Assuming the response contains the new blog object
+                addBlog(newBlog); // Add the new blog to the context
                 navigate("/dashboard");
             })
             .catch((err) => {
@@ -61,9 +61,7 @@ function CreateBlog() {
                     </div>
                 </div>
 
-                
                 <form onSubmit={handleSubmit}>
-                   
                     <div className="mb-3">
                         {thumbnailPreview && (
                             <img className="w-full rounded-md mb-3" src={thumbnailPreview} alt="thumbnail" />
@@ -77,13 +75,12 @@ function CreateBlog() {
                             onChange={(e) => {
                                 const file = e.target.files[0];
                                 setBlog({ ...blog, thumbnail: file });
-                                setThumbnailPreview(URL.createObjectURL(file)); // Preview thumbnail
+                                setThumbnailPreview(URL.createObjectURL(file));
                             }}
-                            required // Make thumbnail required
+                            required
                         />
                     </div>
 
-                    {/* Title Input */}
                     <div className="mb-3">
                         <label className="block mb-1 font-semibold">
                             Title <span className="text-red-500">*</span>
@@ -93,11 +90,10 @@ function CreateBlog() {
                             placeholder="Enter Your Title"
                             value={blog.title}
                             onChange={(e) => setBlog({ ...blog, title: e.target.value })}
-                            required // Make title required
+                            required
                         />
                     </div>
 
-                    {/* Category Input */}
                     <div className="mb-3">
                         <label className="block mb-1 font-semibold">
                             Category <span className="text-red-500">*</span>
@@ -107,11 +103,10 @@ function CreateBlog() {
                             placeholder="Enter Your Category"
                             value={blog.category}
                             onChange={(e) => setBlog({ ...blog, category: e.target.value })}
-                            required // Make category required
+                            required
                         />
                     </div>
 
-                    {/* Content Input */}
                     <div className="mb-3">
                         <label className="block mb-1 font-semibold">
                             Content <span className="text-red-500">*</span>
@@ -124,21 +119,21 @@ function CreateBlog() {
                             }}
                             init={{
                                 plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-                                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                                toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
                             }}
-                            required // Make content required
                         />
                     </div>
 
-                    <Button type="submit" className="w-full mt-5">
-                        Submit
-                    </Button>
+                    <div className="mt-4 flex justify-end">
+                        <Button
+                            type="submit"
+                            variant="gradient"
+                            className="flex items-center"
+                        >
+                            Create Blog
+                        </Button>
+                    </div>
                 </form>
-
-                <div className="mt-8">
-                    <h1 className="text-center mb-3 text-2xl">Preview</h1>
-                    <div dangerouslySetInnerHTML={createMarkup(blog.content)}></div>
-                </div>
             </div>
         </div>
     );
