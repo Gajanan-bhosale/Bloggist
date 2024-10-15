@@ -13,8 +13,8 @@ function BlogPostCard() {
     }
   }, [getAllBlog]);
 
-  // Sort the blogs in descending order based on date
-  const sortedBlogs = getAllBlog.sort((a, b) => new Date(b.date) - new Date(a.date));
+  // Sort blogs by postedAt (time) in descending order
+  const sortedBlogs = [...getAllBlog].sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt));
 
   return (
     <div>
@@ -22,14 +22,14 @@ function BlogPostCard() {
         <div className="container px-5 py-10 mx-auto max-w-7xl">
           {loading ? (
             <div className="flex justify-center py-10">
-              <div className="loader">Loading...</div> 
+              <div className="loader">Loading...</div>
             </div>
           ) : (
             <>
               <div className="flex flex-wrap justify-center -m-4 mb-5">
                 {sortedBlogs.length > 0
                   ? sortedBlogs.map((item) => {
-                      const { thumbnail, date, _id, title } = item;
+                      const { thumbnail, postedAt, _id, title } = item;
                       return (
                         <div className="p-4 md:w-1/3" key={_id}>
                           <div
@@ -48,7 +48,7 @@ function BlogPostCard() {
                             <div className="p-6">
                               <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1"
                                 style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}>
-                                {new Date(date).toLocaleDateString()}
+                                {new Date(postedAt).toLocaleString()} {/* Display the time the post was made */}
                               </h2>
                               <h1 className="title-font text-lg font-bold text-gray-900 mb-3"
                                 style={{ color: mode === 'dark' ? 'rgb(226, 232, 240)' : 'rgb(30, 41, 59)' }}>

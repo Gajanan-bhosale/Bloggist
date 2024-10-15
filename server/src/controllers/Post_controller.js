@@ -18,17 +18,24 @@ const add_post = function (req, res) {
     const title = req.body.title;
     const category = req.body.category;
     const content = req.body.content;
+    const postedAt = new Date(); // Add the current date and time
 
+    // Ensure userId is a valid ObjectId
     let userId;
     try {
         userId = new mongoose.Types.ObjectId(req.body.userId); 
     } catch (error) {
-        return res.status(400).send({ message: 'Invalid User ID' }); 
+        return res.status(400).send({ message: 'Invalid User ID' });
     }
 
-    const date = new Date();
-
-    const product = new Products({ thumbnail, title, category, content, userId, date });
+    const product = new Products({ 
+        thumbnail, 
+        title, 
+        category, 
+        content, 
+        userId,
+        postedAt // Store the time of posting
+    });
 
     product.save()
         .then((savedPost) => {

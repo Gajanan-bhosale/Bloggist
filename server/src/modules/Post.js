@@ -1,20 +1,15 @@
 const mongoose = require('mongoose');
 
-const PostSchema = new mongoose.Schema({
-    thumbnail: { type: String, required: true },
-    title: { type: String, required: true },
-    category: { type: String, required: true },
-    content: { type: String, required: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, required: true }, // User reference
-    date: { type: Date, default: Date.now }, // Assuming there's a User model
-    comments: [
-        {
-            fullName: String,
-            commentText: String,
-            date: { type: Date, default: Date.now }
-        }
-    ]
+const postSchema = new mongoose.Schema({
+    thumbnail: String,
+    title: String,
+    category: String,
+    content: String,
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    postedAt: { type: Date, default: Date.now }, // Store time of posting
+    comments: [{ fullName: String, commentText: String, date: Date }]
 });
+
 
 const Products = mongoose.model("Products", PostSchema);
 module.exports = Products;
