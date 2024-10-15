@@ -19,19 +19,20 @@ const add_post = function (req, res) {
     const category = req.body.category;
     const content = req.body.content;
 
-    // Ensure userId is a valid ObjectId
     let userId;
     try {
-        userId = new mongoose.Types.ObjectId(req.body.userId); // Use 'new' keyword here
+        userId = new mongoose.Types.ObjectId(req.body.userId); 
     } catch (error) {
-        return res.status(400).send({ message: 'Invalid User ID' }); // Handle invalid userId format
+        return res.status(400).send({ message: 'Invalid User ID' }); 
     }
 
-    const product = new Products({ thumbnail, title, category, content, userId });
+    const date = new Date();
+
+    const product = new Products({ thumbnail, title, category, content, userId, date });
 
     product.save()
         .then((savedPost) => {
-            console.log('Post saved with ID:', savedPost._id); // Debugging log to confirm save
+            console.log('Post saved with ID:', savedPost._id); 
             res.status(201).send({ message: 'Post saved successfully.', postId: savedPost._id });
         })
         .catch((error) => {
@@ -39,6 +40,7 @@ const add_post = function (req, res) {
             res.status(500).send({ message: 'Server error' });
         });
 };
+
 
 
 // Add a new post

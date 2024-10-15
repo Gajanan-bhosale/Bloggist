@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import myContext from '../../context/data/myContext';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +13,9 @@ function BlogPostCard() {
     }
   }, [getAllBlog]);
 
+  // Sort the blogs in descending order based on date
+  const sortedBlogs = getAllBlog.sort((a, b) => new Date(b.date) - new Date(a.date));
+
   return (
     <div>
       <section className="text-gray-600 body-font">
@@ -25,8 +27,8 @@ function BlogPostCard() {
           ) : (
             <>
               <div className="flex flex-wrap justify-center -m-4 mb-5">
-                {getAllBlog.length > 0
-                  ? getAllBlog.map((item) => {
+                {sortedBlogs.length > 0
+                  ? sortedBlogs.map((item) => {
                       const { thumbnail, date, _id, title } = item;
                       return (
                         <div className="p-4 md:w-1/3" key={_id}>
