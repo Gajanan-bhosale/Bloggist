@@ -6,8 +6,8 @@ function BlogPostCard() {
     const { mode, blogs } = useContext(myContext);
     const navigate = useNavigate();
 
-    // Sort blogs by time (descending)
-    const sortedBlogs = blogs.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Check if blogs is defined and an array before sorting
+    const sortedBlogs = Array.isArray(blogs) ? blogs.sort((a, b) => new Date(b.date) - new Date(a.date)) : [];
 
     return (
         <div>

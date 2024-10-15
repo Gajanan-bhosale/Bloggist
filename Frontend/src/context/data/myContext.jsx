@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from 'react';
 const MyContext = createContext();
 
 const initialState = {
-    blogs: [],
+    blogs: [], // Ensure this is initialized as an empty array
 };
 
 const blogReducer = (state, action) => {
